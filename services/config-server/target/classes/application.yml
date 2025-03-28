@@ -1,0 +1,7 @@
+server:
+  profiles:
+    active: dev,prod
+
+spring:
+  application:
+    name: config-server
