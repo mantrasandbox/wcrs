@@ -1,7 +1,5 @@
-server:
-  profiles:
-    active: dev,prod
-
 spring:
+  profiles:
+    active: prod, dev
   application:
     name: config-server

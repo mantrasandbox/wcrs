@@ -1,19 +1,16 @@
 spring:
-  application:
-    name: config-server
+
   cloud:
     config:
       server:
-        bootstrap: true
-        composite:
-          -
-            type: git
+#        bootstrap: true
+#        composite:
+          git:
             uri: https://github.com/mantrasandbox/wcrs-config.git
             clone-on-start: true # Ensures Configs are ready immediately after startup. Clones git repo at startup
             force-pull: true # Ensures latest updates are always fetched
             default-label: dev # Uses specified branch by default
             order: 1 # First Priority
-          -  
-            type: native
+          native:
             search-locations: classpath:/configurations
             order: 2 # Second Priority
