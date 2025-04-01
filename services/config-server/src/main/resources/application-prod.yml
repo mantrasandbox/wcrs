@@ -9,5 +9,5 @@ spring:
             default-label: main # Uses specified branch by default
             order: 1 # First Priority
           native:
-            search-locations: classpath:/configurations/prod
+            search-locations: classpath:/configurations
             order: 2 # Second Priority
