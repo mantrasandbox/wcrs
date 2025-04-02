@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev, prod
+    active: prod,dev
   application:
     name: config-server
 
