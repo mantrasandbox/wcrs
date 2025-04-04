@@ -1,4 +1,4 @@
-package model;
+package com.wcrs.employee.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

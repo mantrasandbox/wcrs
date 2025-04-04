@@ -7,7 +7,7 @@ services:
       POSTGRES_PASSWORD: wcrs
       PGDATA: /var/lib/postgresql/data
     volumes:
-      - postgres:/var/lib/postgresql/data
+      - postgres:/data/postgres
     ports:
       - 5433:5432
     networks:
@@ -37,4 +37,5 @@ networks:
 
 volumes:
   postgres:
+    driver: local
   pgadmin:
