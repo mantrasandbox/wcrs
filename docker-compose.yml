@@ -24,7 +24,7 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - 5050:80
+      - 5060:80
     networks:
       - wcrs-net
     restart: unless-stopped
