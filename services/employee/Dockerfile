@@ -5,7 +5,7 @@ WORKDIR /app
 
 # Metadata labels for builder (optional)
 LABEL org.opencontainers.image.source="https://github.com/mantrasandbox/wcrs" \
-      org.opencontainers.image.description="Config-server microservice" \
+      org.opencontainers.image.description="Employee microservice" \
       org.opencontainers.image.licenses="Apache-2.0"
 
 COPY pom.xml .
@@ -20,8 +20,8 @@ FROM openjdk:21-jdk-slim as runner
 WORKDIR /app
 
 # Metadata labels for runtime image
-LABEL org.opencontainers.image.title="Config-server microservice" \
-      org.opencontainers.image.description="Config-server microservice" \
+LABEL org.opencontainers.image.title="Employee microservice" \
+      org.opencontainers.image.description="Employee microservice" \
       org.opencontainers.image.version="1.0.0" \
       org.opencontainers.image.licenses="Apache-2.0" \
       org.opencontainers.image.source="https://github.com/mantrasandbox/wcrs"
@@ -29,16 +29,10 @@ LABEL org.opencontainers.image.title="Config-server microservice" \
 # Add non-root user for security
 RUN addgroup --system spring && adduser --system --ingroup spring springuser
 
-# Create a dedicated directory for JGit config
-RUN mkdir -p /app/.jgit && \
-    chown -R springuser:spring /app
-
-ENV HOME=/app
-
-COPY --from=builder ./app/target/config-server-0.0.1-SNAPSHOT.jar ./config-server.jar
+COPY --from=builder ./app/target/employee-0.0.1-SNAPSHOT.jar ./employee.jar
 
 USER springuser
 
-EXPOSE 8888
+EXPOSE 4000
 
-ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0","-Duser.home=/app", "-jar", "config-server.jar"]
+ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "employee.jar"]

@@ -27,12 +27,12 @@ LABEL org.opencontainers.image.title="Discovery microservice" \
       org.opencontainers.image.source="https://github.com/mantrasandbox/wcrs"
 
 # Add non-root user for security
-RUN addgroup --system spring && adduser --system --ingroup spring springuser
+#RUN addgroup --system spring && adduser --system --ingroup spring springuser
 
 COPY --from=builder ./app/target/discovery-0.0.1-SNAPSHOT.jar ./discovery.jar
 
-USER springuser
+#USER springuser
 
-EXPOSE 8888
+EXPOSE 8761
 
 ENTRYPOINT ["java", "-XX:+UseContainerSupport", "-XX:MaxRAMPercentage=75.0", "-jar", "discovery.jar"]
