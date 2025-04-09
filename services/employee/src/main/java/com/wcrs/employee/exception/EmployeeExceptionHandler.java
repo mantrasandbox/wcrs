@@ -31,5 +31,5 @@ public class EmployeeExceptionHandler {
             errors.put(error.getField(), error.getDefaultMessage());
         });
         return new ResponseEntity<>(errors, HttpStatus.BAD_REQUEST);
-
-}}
+    }
+}
