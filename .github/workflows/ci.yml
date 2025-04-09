@@ -9,8 +9,8 @@ on:
             #- services/**
 
 env:
-    DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-    DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
     DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
 
 jobs:
