@@ -20,3 +20,6 @@ jobs:
                     --health-interval 10s
                     --health-timeout 5s
                     --health-retries 5
+        steps:
+            - name: Cloning our repo into the runner
+            - uses: actions/checkout@v3
