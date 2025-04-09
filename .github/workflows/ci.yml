@@ -1,7 +1,7 @@
 name: CI - Build Backend Services
 
 on:
-    commit:
+    push:
         branches:
             - dev
         paths:
