@@ -36,5 +36,10 @@ jobs:
                   java-version: '21'
                   cache: 'maven'
 
-            - name: Build with Maven
-              run: mvn -B package --file services/employee/pom.xml
+            - name: Find and build all Maven projects
+              run: |
+                 echo "Discovering all pom.xml files in services/..."
+                 find services/ -name pom.xml | while read pom; do
+                 echo "Building project in $(dirname $pom)..."
+                 mvn -B package --file "$pom"
+                 done
