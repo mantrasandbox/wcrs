@@ -1,0 +1,22 @@
+name: CI - Build Backend Services
+
+on:
+    commit:
+        branches:
+            - dev
+        paths:
+            - wcrs/services/**
+            
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        services:
+            postgres:
+                image: postgres:14.5
+                env:
+                    POSTGRES_PASSWORD: postgres
+                options:
+                    --health-cmd pg_isready
+                    --health-interval 10s
+                    --health-timeout 5s
+                    --health-retries 5
