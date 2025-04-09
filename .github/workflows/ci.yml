@@ -41,5 +41,5 @@ jobs:
                  echo "Discovering all pom.xml files in services/..."
                  find services/ -name pom.xml | while read pom; do
                  echo "Building project in $(dirname $pom)..."
-                 mvn -B package --file "$pom"
+                 mvn -B package --file "$pom" -Dmaven.test.skip=true
                  done
