@@ -6,7 +6,7 @@ on:
             - dev
             - main
         paths:
-            - wcrs/services/**
+            - services/**
 
 jobs:
     build:
