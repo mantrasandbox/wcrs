@@ -24,4 +24,5 @@ public record EmployeeRequestDTO(
         @Pattern(regexp = "^[A-Za-z0-9]{14}$", message = "Nin must be alpha numeric and 14 characters long")
         String NIN
 ) {
+
 }
