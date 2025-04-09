@@ -8,6 +8,11 @@ on:
         #paths:
             #- services/**
 
+env:
+    DOCKER_HUB_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+    DOCKER_HUB_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+    DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
+
 jobs:
     build:
         runs-on: ubuntu-latest
