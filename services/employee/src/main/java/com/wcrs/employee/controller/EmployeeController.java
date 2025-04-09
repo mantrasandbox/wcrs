@@ -22,4 +22,5 @@ public class EmployeeController {
     public ResponseEntity<EmployeeResponseDTO> createEmployee(@RequestBody @Valid EmployeeRequestDTO employeeRequestDTO){
         return ResponseEntity.ok(employeeService.createEmployee(employeeRequestDTO));
     }
+
 }
