@@ -2,9 +2,6 @@ spring:
   config:
     import: optional:configserver:http://config-server:8888
   application:
-    name: discovery
+    name: employee
 
 
-logging:
-  level:
-    root: debug

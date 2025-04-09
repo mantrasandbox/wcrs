@@ -7,7 +7,4 @@ spring:
             clone-on-start: true # Ensures Configs are ready immediately after startup. Clones git repo at startup
             force-pull: true # Ensures latest updates are always fetched
             default-label: dev # Uses specified branch by default
-            order: 1 # First Priority
-          native:
-            search-locations: classpath:/configurations/dev
-            order: 2 # Second Priority
+
