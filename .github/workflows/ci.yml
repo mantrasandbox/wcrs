@@ -4,9 +4,9 @@ on:
     push:
         branches:
             - dev
-            - main
+            #- main
         paths:
-            - wcrs/services/**
+            - services/**
 
 jobs:
     build:
