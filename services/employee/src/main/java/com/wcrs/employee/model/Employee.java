@@ -41,5 +41,4 @@ public class Employee {
     public int getAge(){
         return Period.between(dateOfBirth,LocalDate.now()).getYears();
     }
-
 }
