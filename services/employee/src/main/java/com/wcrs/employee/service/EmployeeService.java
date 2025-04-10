@@ -59,7 +59,7 @@ public class EmployeeService {
     public EmployeeResponseDTO viewEmployee(String NIN) {
 
         // check if queried employee exists
-       if(employeeRepository.existsByNIN(NIN)) {
+       if(!employeeRepository.existsByNIN(NIN)) {
            throw new NonExistentNINException("This Employee is not Found");
        }
         return employeeMapper.toEmployeeResponseDTO(employeeRepository.getEmployeeByNIN(NIN));
