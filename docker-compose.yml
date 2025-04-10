@@ -1,6 +1,6 @@
 services:
   postgres:
-    container_name: wcrs
+    container_name: wcrs-db
     image: postgres
     environment:
       POSTGRES_USER: wcrs
@@ -18,18 +18,43 @@ services:
     container_name: ms_pgadmin
     image: dpage/pgadmin4
     environment:
-      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin@pgadmin.org}
-      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-admin}
+      PGADMIN_DEFAULT_EMAIL: pgadmin@pgadmin.org
+      PGADMIN_DEFAULT_PASSWORD: admin
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - 5060:80
+      - 5050:80
     networks:
       - wcrs-net
     restart: unless-stopped
 
+  configserver:
+    container_name: config-server
+    image: mantrasandbox/config-server
+    ports:
+      - 8888:8080
+    networks:
+      - wcrs-net
+    restart: unless-stopped
 
+  discovery:
+    container_name: discovery
+    image: mantrasandbox/discovery
+    ports:
+      - 8761:8761
+    networks:
+      - wcrs-net
+    restart: unless-stopped
+
+  employee:
+    container_name: employee
+    image: mantrasandbox/employee
+    ports:
+      - 4000:4000
+    networks:
+      - wcrs-net
+    restart: unless-stopped
 
 networks:
   wcrs-net:
