@@ -1,10 +1,11 @@
 name: CI - Build Backend Services
 
 on:
+    workflow_dispatch:
     push:
         branches:
             - dev
-            #- main
+            - main
         #paths:
             #- services/**
 
