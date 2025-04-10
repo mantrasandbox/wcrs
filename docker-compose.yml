@@ -57,6 +57,16 @@ services:
       - wcrs-net
     restart: unless-stopped
 
+  admin:
+    container_name: admin
+    image: mantrasandbox/admin
+    ports:
+      - 9090:9090
+    networks:
+      - wcrs-net
+    restart: unless-stopped
+
+
 networks:
   wcrs-net:
     driver: bridge

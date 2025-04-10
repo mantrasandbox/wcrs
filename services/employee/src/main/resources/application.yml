@@ -4,4 +4,12 @@ spring:
   application:
     name: employee
 
+  boot:
+    admin:
+      client:
+        url: http://admin:9090
+        enabled: true
+        auto-registration: true
+        instance:
+          name: ${spring.application.name:JSS}
 
