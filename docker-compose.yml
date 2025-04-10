@@ -59,7 +59,7 @@ services:
 
   admin:
     container_name: admin
-    image: mantrasandbox/admin
+    image: mantrasandbox/wcrs-admin
     ports:
       - 9090:9090
     networks:
