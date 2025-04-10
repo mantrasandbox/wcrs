@@ -6,10 +6,9 @@ import com.wcrs.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/employees")
@@ -21,6 +20,16 @@ public class EmployeeController {
     @PostMapping("/create")
     public ResponseEntity<EmployeeResponseDTO> createEmployee(@RequestBody @Valid EmployeeRequestDTO employeeRequestDTO){
         return ResponseEntity.ok(employeeService.createEmployee(employeeRequestDTO));
+    }
+
+    @GetMapping("/viewAll")
+    public ResponseEntity<List<EmployeeResponseDTO>> allEmployees(){
+        return ResponseEntity.ok(employeeService.viewAllEmployees());
+    }
+
+    @GetMapping("/view/{nin}")
+    public ResponseEntity<EmployeeResponseDTO> createEmployee(@PathVariable("nin") String employeeId){
+        return ResponseEntity.ok(employeeService.viewEmployee(employeeId));
     }
 
 }

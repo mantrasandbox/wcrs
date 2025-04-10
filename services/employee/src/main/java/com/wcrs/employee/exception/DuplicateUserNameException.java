@@ -5,3 +5,5 @@ public class DuplicateUserNameException extends RuntimeException {
         super(message);
     }
 }
+
+

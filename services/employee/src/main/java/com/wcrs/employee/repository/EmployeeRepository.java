@@ -9,4 +9,6 @@ public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     boolean existsByUserName(String userName);
 
     boolean existsByNIN(String nin);
+
+    Employee getEmployeeByNIN(String nin);
 }

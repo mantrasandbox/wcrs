@@ -23,6 +23,12 @@ public class EmployeeExceptionHandler {
                 .body(new EmployeeExceptionResponse(ex.getMessage()));
     }
 
+    @ExceptionHandler(NonExistentNINException.class)
+    ResponseEntity<EmployeeExceptionResponse> handleNonExistentNINException(NonExistentNINException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(new EmployeeExceptionResponse(ex.getMessage()));
+    }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String,String>> handleValidationException(MethodArgumentNotValidException ex) {
         Map<String, String> errors = new HashMap<>();

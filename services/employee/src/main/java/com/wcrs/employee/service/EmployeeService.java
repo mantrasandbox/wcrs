@@ -4,6 +4,7 @@ import com.wcrs.employee.dto.EmployeeRequestDTO;
 import com.wcrs.employee.dto.EmployeeResponseDTO;
 import com.wcrs.employee.exception.DuplicateNinException;
 import com.wcrs.employee.exception.DuplicateUserNameException;
+import com.wcrs.employee.exception.NonExistentNINException;
 import com.wcrs.employee.mapper.EmployeeMapper;
 import com.wcrs.employee.model.Employee;
 import com.wcrs.employee.repository.EmployeeRepository;
@@ -11,6 +12,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 
 @Slf4j
@@ -46,4 +49,19 @@ public class EmployeeService {
         return employeeMapper.toEmployeeResponseDTO(savedEmployee);
     }
 
+
+
+    public List<EmployeeResponseDTO>  viewAllEmployees() {
+
+        return null;//employeeMapper.toEmployeeResponseDTO();
+    }
+
+    public EmployeeResponseDTO viewEmployee(String NIN) {
+
+        // check if queried employee exists
+       if(employeeRepository.existsByNIN(NIN)) {
+           throw new NonExistentNINException("This Employee is not Found");
+       }
+        return employeeMapper.toEmployeeResponseDTO(employeeRepository.getEmployeeByNIN(NIN));
+    }
 }
