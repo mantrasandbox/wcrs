@@ -29,6 +29,8 @@ services:
     networks:
       - wcrs-net
     restart: unless-stopped
+    depends_on:
+      - postgres
 
   configserver:
     container_name: config-server
@@ -47,6 +49,8 @@ services:
     networks:
       - wcrs-net
     restart: unless-stopped
+    depends_on:
+      - configserver
 
   employee:
     container_name: employee
@@ -56,6 +60,8 @@ services:
     networks:
       - wcrs-net
     restart: unless-stopped
+    depends_on:
+      - configserver
 
   admin:
     container_name: admin
@@ -69,6 +75,8 @@ services:
   logstash:
     container_name: logstash
     image: docker.elastic.co/logstash/logstash:8.12.2
+    volumes:
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
       - 5000:5000
       - 9600:9600
@@ -76,10 +84,14 @@ services:
       - wcrs-net
       - wcrs-logging
     restart: unless-stopped
+    depends_on:
+      - elasticsearch
 
   elasticsearch:
     container_name: elasticsearch
     image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
     environment:
@@ -100,6 +112,8 @@ services:
     networks:
       - wcrs-logging
     restart: unless-stopped
+    depends_on:
+      - elasticsearch
 
 networks:
   wcrs-net:
