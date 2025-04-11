@@ -61,7 +61,7 @@ services:
     container_name: admin
     image: mantrasandbox/wcrs-admin
     ports:
-      - 9090:9090
+      - 9080:9090
     networks:
       - wcrs-net
     restart: unless-stopped
