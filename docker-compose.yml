@@ -66,9 +66,45 @@ services:
       - wcrs-net
     restart: unless-stopped
 
+  logstash:
+    container_name: logstash
+    image: docker.elastic.co/logstash/logstash:8.12.2
+    ports:
+      - 5000:5000
+      - 9600:9600
+    networks:
+      - wcrs-net
+      - wcrs-logging
+    restart: unless-stopped
+
+  elasticsearch:
+    container_name: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.12.2
+    ports:
+      - 9200:9200
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+      - xpack.security.enabled=false
+    networks:
+      - wcrs-logging
+    restart: unless-stopped
+
+  kibana:
+    container_name: kibana
+    image: docker.elastic.co/kibana/kibana:8.12.2
+    ports:
+      - 5601:5601
+    environment:
+      - ELASTICSEARCH_HOSTS = http://elasticsearch:9200
+    networks:
+      - wcrs-logging
+    restart: unless-stopped
 
 networks:
   wcrs-net:
+    driver: bridge
+  wcrs-logging:
     driver: bridge
 
 volumes:
