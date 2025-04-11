@@ -8,9 +8,9 @@
 
 <!-- Logstash TCP Logging -->
 <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
-<destination>http://logstash:5000</destination>
+<destination>logstash:5000</destination>
 <encoder class="net.logstash.logback.encoder.LogstashEncoder" >
-    <customFields>{"service": ${spring.application.name}}</customFields>
+    <customFields>{"service": "employee"}</customFields>
 </encoder>
 </appender>
 
