@@ -10,7 +10,7 @@ services:
     volumes:
       - postgres:/data/postgres
     ports:
-      - 5433:5432
+      - 5432
     networks:
       - wcrs-net
     restart: unless-stopped
@@ -25,7 +25,7 @@ services:
     volumes:
       - pgadmin:/var/lib/pgadmin
     ports:
-      - 5050:80
+      - 80
     networks:
       - wcrs-net
     restart: unless-stopped
@@ -36,7 +36,7 @@ services:
     container_name: config-server
     image: mantrasandbox/config-server
     ports:
-      - 8888:8080
+      - 8080
     networks:
       - wcrs-net
     restart: unless-stopped
@@ -45,18 +45,31 @@ services:
     container_name: discovery
     image: mantrasandbox/discovery
     ports:
-      - 8761:8761
+      - 8761
     networks:
       - wcrs-net
     restart: unless-stopped
     depends_on:
       - configserver
 
+  api-gateway:
+    container_name: api-gateway
+    image: mantrasandbox/api-gateway
+    ports:
+      - 4040:4040
+    networks:
+      - wcrs-net
+      - wcrs-logging
+    restart: unless-stopped
+    depends_on:
+      - configserver
+
+
   employee:
     container_name: employee
     image: mantrasandbox/employee
     ports:
-      - 4000:4000
+      - 4000
     networks:
       - wcrs-net
     restart: unless-stopped
@@ -67,7 +80,7 @@ services:
     container_name: admin
     image: mantrasandbox/wcrs-admin
     ports:
-      - 9080:9090
+      - 9090
     networks:
       - wcrs-net
     restart: unless-stopped
@@ -78,8 +91,8 @@ services:
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
-      - 5000:5000
-      - 9600:9600
+      - 5000
+      - 9600
     networks:
       - wcrs-net
       - wcrs-logging
@@ -93,7 +106,7 @@ services:
     volumes:
       - es_data:/usr/share/elasticsearch/data
     ports:
-      - 9200:9200
+      - 9200
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms1g -Xmx1g
@@ -106,7 +119,7 @@ services:
     container_name: kibana
     image: docker.elastic.co/kibana/kibana:8.12.2
     ports:
-      - 5601:5601
+      - 5601
     environment:
       - ELASTICSEARCH_HOSTS = http://elasticsearch:9200
     networks:
@@ -114,6 +127,7 @@ services:
     restart: unless-stopped
     depends_on:
       - elasticsearch
+
 
 networks:
   wcrs-net:
