@@ -1,12 +1,12 @@
 ### create Employee Request
-POST http://localhost:4000/api/v1/employees/create
+POST http://localhost:4040/api/v1/employees/create
 Content-Type: application/json
 
 {
   "firstName": "Allan",
   "lastName": "Victor",
   "userName": "viking",
-  "NIN": "CM12SD4567YU89",
+  "NIN": "CM12SD4567YU80",
   "dateOfBirth": "1997-01-01"
 }
 

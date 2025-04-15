@@ -2,6 +2,7 @@ package com.wcrs.employee.controller;
 
 import com.wcrs.employee.dto.EmployeeRequestDTO;
 import com.wcrs.employee.dto.EmployeeResponseDTO;
+import com.wcrs.employee.dto.EmployeeUpdateDTO;
 import com.wcrs.employee.service.EmployeeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -28,8 +29,20 @@ public class EmployeeController {
     }
 
     @GetMapping("/view/{nin}")
-    public ResponseEntity<EmployeeResponseDTO> createEmployee(@PathVariable("nin") String employeeId){
-        return ResponseEntity.ok(employeeService.viewEmployee(employeeId));
+    public ResponseEntity<EmployeeResponseDTO> createEmployee(@PathVariable("nin") String nin){
+        return ResponseEntity.ok(employeeService.viewEmployee(nin));
     }
+
+    @PutMapping("/update/{nin}")
+    public ResponseEntity<Integer> updateEmployee(@Valid @RequestBody EmployeeUpdateDTO employeeUpdateDTO, @PathVariable("nin") String nin){
+        return ResponseEntity.ok(employeeService.updateEmployee(employeeUpdateDTO, nin));
+
+    }
+
+    @DeleteMapping("/delete/{nin}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable("nin") String nin){
+        return ResponseEntity.ok(employeeService.removeEmployee(nin));
+    }
+
 
 }
