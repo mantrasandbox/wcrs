@@ -5,6 +5,7 @@ import com.wcrs.employee.dto.EmployeeResponseDTO;
 import com.wcrs.employee.model.Employee;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.data.domain.Page;
 
 @Mapper(componentModel = "spring")
 public interface EmployeeMapper {
@@ -13,5 +14,6 @@ public interface EmployeeMapper {
     @Mapping(target = "fullName", expression = "java(employee.getFullName())")
     @Mapping(target = "age", expression = "java(employee.getAge())")
     EmployeeResponseDTO toEmployeeResponseDTO(Employee employee);
+    EmployeeResponseDTO toEmployeeResponseDTO(Page employee);
 
 }

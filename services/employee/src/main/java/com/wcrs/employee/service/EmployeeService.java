@@ -13,6 +13,10 @@ import com.wcrs.employee.repository.EmployeeRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -52,9 +56,15 @@ public class EmployeeService {
     }
 
 
-    public List<EmployeeResponseDTO>  viewAllEmployees() {
+    public List<EmployeeResponseDTO>  viewAllEmployees(int page, int size) {
 
-        return null;//employeeMapper.toEmployeeResponseDTO();
+        Pageable pageable= PageRequest.of(page, size, Sort.by("createdAt").descending());
+
+        Page<Employee> employees = employeeRepository.findAll(pageable);
+
+        return employees.stream()
+                .map(employeeMapper::toEmployeeResponseDTO)
+                .toList();
     }
 
     public EmployeeResponseDTO viewEmployee(String NIN) {

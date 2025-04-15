@@ -3,8 +3,11 @@ package com.wcrs.employee.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.Period;
 
 @Entity
@@ -31,6 +34,18 @@ public class Employee {
 
     @Column(nullable = false, unique = true)
     private String NIN;
+
+    @CreatedDate
+    @Column(nullable = false, unique = true,updatable = false)
+    private LocalDateTime createdAt;
+
+    @LastModifiedDate
+    @Column(nullable = false, unique = true,insertable = false)
+    private LocalDateTime modifiedAt;
+
+
+    //Implement for createdBy
+
     //Implement a minio object store for storage in future improvements
     //private blob passportPhoto;
 

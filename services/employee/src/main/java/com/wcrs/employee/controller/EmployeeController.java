@@ -24,12 +24,15 @@ public class EmployeeController {
     }
 
     @GetMapping("/viewAll")
-    public ResponseEntity<List<EmployeeResponseDTO>> allEmployees(){
-        return ResponseEntity.ok(employeeService.viewAllEmployees());
+    public ResponseEntity<List<EmployeeResponseDTO>> viewAllEmployees(
+            @RequestParam(name="page",defaultValue="0",required = false ) int page,
+            @RequestParam(name="size",defaultValue="10",required = false ) int size
+    ){
+        return ResponseEntity.ok(employeeService.viewAllEmployees(page,size));
     }
 
     @GetMapping("/view/{nin}")
-    public ResponseEntity<EmployeeResponseDTO> createEmployee(@PathVariable("nin") String nin){
+    public ResponseEntity<EmployeeResponseDTO> viewEmployee(@PathVariable("nin") String nin){
         return ResponseEntity.ok(employeeService.viewEmployee(nin));
     }
 
