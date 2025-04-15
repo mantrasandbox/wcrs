@@ -42,7 +42,7 @@ public class Employee {
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false,insertable = false)
+    @Column(insertable = false)
     private LocalDateTime modifiedAt;
 
 
