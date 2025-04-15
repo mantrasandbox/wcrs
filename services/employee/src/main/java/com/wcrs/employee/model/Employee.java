@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,6 +14,7 @@ import java.time.Period;
 @Entity
 @Data
 @NoArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 public class Employee {
 
     @Id
@@ -36,11 +38,11 @@ public class Employee {
     private String NIN;
 
     @CreatedDate
-    @Column(nullable = false, unique = true,updatable = false)
+    @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;
 
     @LastModifiedDate
-    @Column(nullable = false, unique = true,insertable = false)
+    @Column(nullable = false,insertable = false)
     private LocalDateTime modifiedAt;
 
 
