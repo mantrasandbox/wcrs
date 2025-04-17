@@ -86,8 +86,12 @@ jobs:
                 username: ${{ env.DOCKER_USERNAME }}
                 password: ${{ env.DOCKER_TOKEN }}
             
-            - name: Build and push Docker images with cache
+            - name: Build and push Docker images with full caching
               run: |
+                # First prepare Maven cache
+                mkdir -p .m2-cache
+                cp -r ~/.m2/repository .m2-cache/
+                
                 find services/ -name pom.xml | while read pom; do
                   service_dir=$(dirname "$pom")
                   service_name=$(basename "$service_dir")
@@ -101,6 +105,7 @@ jobs:
                       --cache-to type=local,dest=/tmp/.buildx-cache \
                       --cache-from type=local,src=/tmp/.buildx-cache \
                       --build-arg JAR_FILE=$(basename "$jar_file") \
+                      --build-context maven-cache=./.m2-cache \
                       -f "$service_dir/Dockerfile" \
                       "$service_dir"
                   else
