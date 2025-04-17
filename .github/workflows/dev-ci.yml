@@ -41,13 +41,23 @@ jobs:
                   distribution: 'temurin'
                   java-version: '21'
                   cache: 'maven'
+            
+            - name: Cache Maven dependencies
+              uses: actions/cache@v3
+              with:
+                path: |
+                  ~/.m2/repository
+                  */target/**
+                key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+                restore-keys: |
+                  ${{ runner.os }}-maven-
 
             - name: Find and build all Maven projects
               run: |
                  echo "Discovering all pom.xml files in services/..."
                  find services/ -name pom.xml | while read pom; do
                  echo "Building project in $(dirname $pom)..."
-                 mvn -B package --file "$pom" -Dmaven.test.skip=true
+                 mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
                  done
 
             - name: Login to Docker Hub
