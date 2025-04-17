@@ -46,7 +46,7 @@ public class Employee {
     private LocalDateTime modifiedAt;
 
 
-    //Implement for createdBy
+    //Implement for createdBy after user-management implementation
 
     //Implement a minio object store for storage in future improvements
     //private blob passportPhoto;
