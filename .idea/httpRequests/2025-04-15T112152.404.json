@@ -1,0 +1,7 @@
+{
+  "timestamp": "2025-04-15T08:21:52.613+00:00",
+  "path": "/api/v1/employees/create",
+  "status": 404,
+  "error": "Not Found",
+  "requestId": "27de4740-4"
+}

@@ -1,11 +1,15 @@
 package com.wcrs.employee.repository;
 
+import com.wcrs.employee.AbstractTestContainersUnitTest;
 import com.wcrs.employee.model.Employee;
 import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import static org.junit.jupiter.api.Assertions.*;
 
-class EmployeeRepositoryTest {
+@DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+class EmployeeRepositoryTest extends AbstractTestContainersUnitTest {
 
     private EmployeeRepository underTest;
 

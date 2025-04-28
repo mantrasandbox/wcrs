@@ -1,0 +1,6 @@
+{
+  "message": {
+    "duplicate_user_name": "This username exists",
+    "non_existent_nin": "This employee does not exist"
+  }
+}

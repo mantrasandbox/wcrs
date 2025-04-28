@@ -1,3 +1,134 @@
+GET http://localhost:4040/api/v1/employees/viewAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-04-15T175948.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 133
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Crude",
+  "lastName": "Victor",
+  "userName": "vikings",
+  "NIN": "CM12SD4567YU81",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-04-15T175942.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 132
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Crude",
+  "lastName": "Victor",
+  "userName": "viking",
+  "NIN": "CM12SD4567YU81",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-04-15T175934.409.json
+
+###
+
+GET http://localhost:4040/api/v1/employees/viewAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-04-15T175904.200.json
+
+###
+
+GET http://localhost:4040/api/v1/employees/view/CM12SD4567YU80
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-04-15T175712.200.json
+
+###
+
+GET http://localhost:4040/api/v1/employees/view/CM12SD4567YU89
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-04-15T175636.404.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 132
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Allan",
+  "lastName": "Victor",
+  "userName": "viking",
+  "NIN": "CM12SD4567YU80",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-04-15T175607.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 132
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Allan",
+  "lastName": "Victor",
+  "userName": "viking",
+  "NIN": "CM12SD4567YU80",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-04-15T175251.500.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 132
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Allan",
+  "lastName": "Victor",
+  "userName": "viking",
+  "NIN": "CM12SD4567YU80",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-04-15T174046.500.json
+
+###
+
 POST http://localhost:4040/api/v1/employees/create
 Content-Type: application/json
 Content-Length: 132

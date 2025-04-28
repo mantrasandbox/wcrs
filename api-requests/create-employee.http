@@ -3,10 +3,10 @@ POST http://localhost:4040/api/v1/employees/create
 Content-Type: application/json
 
 {
-  "firstName": "Allan",
+  "firstName": "Crude",
   "lastName": "Victor",
-  "userName": "viking",
-  "NIN": "CM12SD4567YU80",
+  "userName": "vikings",
+  "NIN": "CM12SD4567YU81",
   "dateOfBirth": "1997-01-01"
 }
 

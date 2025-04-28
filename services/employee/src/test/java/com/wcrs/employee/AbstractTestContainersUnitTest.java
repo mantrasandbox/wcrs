@@ -1,7 +1,6 @@
 package com.wcrs.employee;
 
 import com.github.javafaker.Faker;
-import org.junit.jupiter.api.Test;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
