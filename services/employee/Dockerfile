@@ -15,7 +15,7 @@ COPY pom.xml .
 RUN mvn dependency:go-offline -B -Dmaven.repo.local=/root/.m2/repository
 
 COPY src ./src
-RUN mvn clean install -DskipTests -Dmaven.repo.local=/root/.m2/repository
+RUN mvn clean install -Dmaven.repo.local=/root/.m2/repository
 
 # --- Stage 2: Run the application ---
 FROM openjdk:21-jdk-slim as runner
