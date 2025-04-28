@@ -1,4 +1,5 @@
-### GET employee request
-GET http://localhost:4000/api/v1/employees/view/CM12SD4567YU89
+### GET employees request
+GET http://localhost:4040/api/v1/employees/viewAll
+
 
 ###

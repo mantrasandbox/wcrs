@@ -1,0 +1,5 @@
+### GET employee request
+GET http://localhost:4040/api/v1/employees/view/CM12SD4567YU80
+
+
+###
