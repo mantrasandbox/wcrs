@@ -16,14 +16,10 @@ import {
   rem,
 } from "@mantine/core";
 
-import {
-  IconChefHat,
-  IconCalendar,
-  IconMessage,
-} from "@tabler/icons-react";
+import { IconChefHat, IconCalendar, IconMessage } from "@tabler/icons-react";
 import Testimonials from "../components/Testimonials.jsx";
 import Footer from "../components/Footer.jsx";
-
+import NavButton from "../components/NavButton.jsx";
 
 const features = [
   {
@@ -62,9 +58,10 @@ function HomePage() {
           </Group>
 
           <Group spacing="xl" visibleFrom="sm">
-            <Button variant="subtle" size="sm">
+            <NavButton to="/menu" variant="subtle" size="sm">
               Menu
-            </Button>
+            </NavButton>
+
             <Button>Register</Button>
             <Button variant="subtle" size="sm">
               Campaign
@@ -72,10 +69,12 @@ function HomePage() {
           </Group>
 
           <Group>
-            <Button variant="outline" radius="xl">
+            <NavButton to="/login" variant="outline">
               Login
-            </Button>
-            <Button radius="xl">Get Started</Button>
+            </NavButton>
+            <NavButton to="/signup" radius="xl" variant="filled">
+              Sign Up
+            </NavButton>
           </Group>
         </Flex>
       </AppShell.Header>
@@ -134,7 +133,7 @@ function HomePage() {
                   style={{ borderTop: `3px solid ${theme.colors.red[6]}` }}
                 >
                   <Group mb="sm">
-                    <ThemeIcon bg="rustic.0" c="rustic.8" withBorder>
+                    <ThemeIcon bg="rustic.0" c="rustic.8" withborder>
                       {feature.icon}
                     </ThemeIcon>
                     <Text weight={600}>{feature.title}</Text>
