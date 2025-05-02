@@ -76,6 +76,17 @@ services:
     depends_on:
       - configserver
 
+  employee-ui:
+    container_name: employee-ui
+    image: mantrasandbox/employee-ui
+    ports:
+      - 3000
+    networks:
+      - wcrs-net
+    restart: unless-stopped
+    depends_on:
+      - employee
+
   admin:
     container_name: admin
     image: mantrasandbox/wcrs-admin
