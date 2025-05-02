@@ -5,9 +5,9 @@ import {
   IconGauge,
   IconPresentationAnalytics,
 } from "@tabler/icons-react";
-import { Code, Group, ScrollArea, rem, Stack } from "@mantine/core";
+import {  ScrollArea, rem, Stack } from "@mantine/core";
 import { LinksGroup } from "./NavbarLinksGroup";
-import { UserButton } from "./Userbutton";
+import { UserButton } from "./UserButton.jsx"
 
 import { FaUserFriends } from "react-icons/fa";
 

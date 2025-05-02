@@ -22,7 +22,7 @@ FROM node:18-alpine
 WORKDIR /app
 
 # Copy built assets from builder
-COPY --from=builder /app/build ./build
+COPY --from=builder /app/dist ./build
 
 # Install serve to run the production build
 RUN npm install -g serve
