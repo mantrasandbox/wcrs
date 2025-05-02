@@ -25,7 +25,7 @@ jobs:
         with:
           ref: dev
           sparse-checkout: |
-             services
+             services/*
              
       - name: Verify checkout
         run: |
