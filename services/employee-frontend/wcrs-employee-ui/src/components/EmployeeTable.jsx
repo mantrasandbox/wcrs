@@ -4,9 +4,11 @@ import {
   Anchor,
   Avatar,
   Badge,
+  Card,
   Group,
   Table,
   Text,
+  rem,
 } from "@mantine/core";
 
 const data = [
@@ -97,19 +99,45 @@ export function EmployeeTable() {
   ));
 
   return (
-    <Table.ScrollContainer minWidth={800}>
-      <Table verticalSpacing="sm">
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th>Employee</Table.Th>
-            <Table.Th>Job title</Table.Th>
-            <Table.Th>Email</Table.Th>
-            <Table.Th>Phone</Table.Th>
-            <Table.Th />
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
-    </Table.ScrollContainer>
+    <Card
+      withBorder
+      padding={0}
+      style={{
+        borderRadius: rem(12),
+        overflow: "hidden", // Ensures child table corners are rounded
+        boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
+      }}
+    >
+      <Table.ScrollContainer minWidth={800}>
+        <Table
+          verticalSpacing="sm"
+          striped
+          highlightOnHover
+          styles={{
+            thead: {
+              backgroundColor: "#f1f3f5", // Light header background
+            },
+            th: {
+              padding: `${rem(12)} ${rem(16)}`,
+              fontWeight: 600,
+            },
+            td: {
+              padding: `${rem(12)} ${rem(16)}`,
+            },
+          }}
+        >
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th>Employee</Table.Th>
+              <Table.Th>Job title</Table.Th>
+              <Table.Th>Email</Table.Th>
+              <Table.Th>Phone</Table.Th>
+              <Table.Th />
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>{rows}</Table.Tbody>
+        </Table>
+      </Table.ScrollContainer>
+    </Card>
   );
 }

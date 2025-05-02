@@ -1,5 +1,5 @@
 import { Button } from "@mantine/core";
-import { NavLink } from "react-router";
+import { NavLink } from "react-router-dom";
 
 function NavButton({ to, children, ...props }) {
   return (
