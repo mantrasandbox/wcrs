@@ -16,7 +16,7 @@ env:
 
 jobs:
   build-frontend:
-    #needs: build-backend # Optional dependency - remove if you want parallel builds
+    needs: discover # First Discover all the services before proceeding to build
     runs-on: ubuntu-latest
     strategy:
       matrix:
