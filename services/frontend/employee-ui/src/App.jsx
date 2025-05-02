@@ -3,17 +3,17 @@ import { Route, Routes } from "react-router-dom";
 import Login from "./pages/Login.jsx";
 import Menu from "./pages/Menu.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
-import SignUp from "./pages/SignUp.jsx";
 
 import AppLayout from "./pages/AppLayout.jsx";
 import { EmployeeTable } from "./components/EmployeeTable.jsx";
+import SignupForm from "./components/SignupForm.jsx";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="login" element={<Login />} />
-      <Route path="signup" element={<SignUp />} />
+      <Route path="signup" element={<SignupForm />} />
       <Route path="menu" element={<Menu />} />
       <Route path="*" element={<PageNotFound />} />
 
