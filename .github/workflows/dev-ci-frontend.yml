@@ -42,8 +42,8 @@ jobs:
       - name: Find frontend services
         id: find-services
         run: |
-          # Find all directories in ${{ env.REPO_LOCATION }} containing package.json
-          if [ -d ${{ env.REPO_LOCATION }} ]; then
+          # Find all directories in services containing package.json
+          if [ -d "services" ]; then
             SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
             if [ -z "$SERVICES" ]; then
               echo "No frontend services found"
