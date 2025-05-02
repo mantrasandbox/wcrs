@@ -27,7 +27,7 @@ jobs:
         with:
           cache-dependency-path: package-lock.json
           node-version: '18'
-          cache: 'yarn' # or 'npm' depending on your package manager
+          cache: npm  # or 'npm' 'yarn' depending on your package manager
 
       - name: Install dependencies
         run: |
