@@ -35,7 +35,7 @@ jobs:
         run: |
           # Find all directories in services containing package.json
           if [ -d "${{ env.REPO_LOCATION }}" ]; then
-            SERVICES=$(find ${{ env.REPO_LOCATION }}d -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
+            SERVICES=$(find ${{ env.REPO_LOCATION }} -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
             if [ -z "$SERVICES" ]; then
               echo "No frontend services found"
               echo "services=[]" >> $GITHUB_OUTPUT
