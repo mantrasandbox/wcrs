@@ -79,13 +79,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          cache-dependency-path: frontend/${{ matrix.service }}/package-lock.json
+          cache-dependency-path: ${{ env.REPO_LOCATION }} ${{ matrix.service }}/package-lock.json
           node-version: '18'
           cache: npm  # or 'npm' 'yarn' depending on your package manager
 
       - name: Install dependencies
         run: |
-          cd frontend/${{ matrix.service }}
+          cd ${{ env.REPO_LOCATION }} ${{ matrix.service }}
           npm ci # or yarn install --frozen-lockfile
 
       - name: Run tests
