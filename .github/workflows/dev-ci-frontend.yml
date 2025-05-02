@@ -43,7 +43,7 @@ jobs:
         id: find-services
         run: |
           # Find all directories in services containing package.json
-            SERVICES=$(find /services/frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
+            SERVICES=$(find services/frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
           
   build-frontend:
     needs: discover # First Discover all the services before proceeding to build
