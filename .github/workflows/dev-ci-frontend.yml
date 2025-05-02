@@ -17,6 +17,7 @@ env:
 jobs:
   build-frontend:
     needs: discover # First Discover all the services before proceeding to build
+    if: ${{ fromJSON(needs.discover.outputs.services) != [] }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -83,6 +84,19 @@ jobs:
         id: find-services
         run: |
           # Find all directories in frontend/ containing package.json
-          SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json | xargs dirname | xargs -n1 basename | jq -R -s -c 'split("\n")[:-1]')
-          echo "Found services: $SERVICES"
-          echo "services=$SERVICES" >> $GITHUB_OUTPUT
+          if [ -d "frontend" ]; then
+            SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
+            if [ -z "$SERVICES" ]; then
+              echo "No frontend services found"
+              echo "services=[]" >> $GITHUB_OUTPUT
+            else
+              echo "Found services:"
+              echo "$SERVICES"
+              # Convert to JSON array format
+              JSON_SERVICES=$(echo "$SERVICES" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+              echo "services=$JSON_SERVICES" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "frontend directory not found"
+            echo "services=[]" >> $GITHUB_OUTPUT
+          fi
