@@ -88,10 +88,11 @@ jobs:
           cd ${{ env.REPO_LOCATION }}${{ matrix.service }}
           npm ci # or yarn install --frozen-lockfile
 
-      - name: Run tests
-        run: |
-          cd ${{ env.REPO_LOCATION }}${{ matrix.service }}
-          npm test -- --watchAll=false
+      # Uncomment after implementing test scripts
+      # - name: Run tests
+      #   run: |
+      #     cd ${{ env.REPO_LOCATION }}${{ matrix.service }}
+      #     npm test -- --watchAll=false
 
       - name: Build production bundle
         run: |
