@@ -43,22 +43,7 @@ jobs:
         id: find-services
         run: |
           # Find all directories in services containing package.json
-          if [ -d "/services/frontend" ]; then
             SERVICES=$(find /services/frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
-            if [ -z "$SERVICES" ]; then
-              echo "No frontend services found"
-              echo "services=[]" >> $GITHUB_OUTPUT
-            else
-              echo "Found services:"
-              echo "$SERVICES"
-              # Convert to JSON array format
-              JSON_SERVICES=$(echo "$SERVICES" | jq -R -s -c 'split("\n") | map(select(. != ""))')
-              echo "services=$JSON_SERVICES" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "frontend directory not found"
-            echo "services=[]" >> $GITHUB_OUTPUT
-          fi
           
   build-frontend:
     needs: discover # First Discover all the services before proceeding to build
