@@ -1,0 +1,61 @@
+name: CI - Build Frontend Services
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - dev
+      #- main
+      #paths:
+      #- services/**
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
+
+jobs:
+  build-frontend:
+    #needs: build-backend # Optional dependency - remove if you want parallel builds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          cache-dependency-path: package-lock.json
+          node-version: '18'
+          cache: 'yarn' # or 'npm' depending on your package manager
+
+      - name: Install dependencies
+        run: |
+          cd frontend # Change this if your React app is in a different directory
+          npm ci # or yarn install --frozen-lockfile
+
+      - name: Run tests
+        run: |
+          cd frontend
+          npm test -- --watchAll=false
+
+      - name: Build production bundle
+        run: |
+          cd frontend
+          npm run build
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ env.DOCKER_USERNAME }}
+          password: ${{ env.DOCKER_TOKEN }}
+
+      - name: Build and push frontend Docker image
+        run: |
+          cd frontend
+          SERVICE_NAME=$(basename $(pwd))
+          docker build \
+            -t "${{ env.DOCKER_HUB_REPO_PREFIX }}${SERVICE_NAME}:latest" \
+            --build-arg SERVICE_NAME=${SERVICE_NAME} \
+            .
+          docker push "${{ env.DOCKER_HUB_REPO_PREFIX }}${SERVICE_NAME}:latest"
