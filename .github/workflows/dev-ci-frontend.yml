@@ -30,15 +30,6 @@ jobs:
           sparse-checkout-cone-mode: false
           skip-checks: true
           
-      - name: Verify checkout
-        run: |
-          pwd
-          ls -la          # Debug: list checked out files
-          cd services
-          ls -la
-        #with:
-          #fetch-depth: 0  # Need full history for finding files
-
       - name: Find frontend services
         id: find-services
         run: |
@@ -71,12 +62,20 @@ jobs:
         service: ${{ fromJSON(needs.discover.outputs.services) }}
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            frontend/${{ matrix.service }}/*
-            !*/
-
+            ${{ env.REPO_LOCATION }}  
+          sparse-checkout-cone-mode: false
+          skip-checks: true
+          
+      - name: Verify checkout
+        run: |
+          pwd
+          ls -la          # Debug: list checked out files
+          cd services
+          ls -la
+          
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
