@@ -15,6 +15,41 @@ env:
   DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
 
 jobs:
+  discover:
+    runs-on: ubuntu-latest
+    outputs:
+      services: ${{ steps.find-services.outputs.services }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            frontend/${{ matrix.service }}/*
+            !*/
+        #with:
+          #fetch-depth: 0  # Need full history for finding files
+
+      - name: Find frontend services
+        id: find-services
+        run: |
+          # Find all directories in frontend/ containing package.json
+          if [ -d "frontend" ]; then
+            SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
+            if [ -z "$SERVICES" ]; then
+              echo "No frontend services found"
+              echo "services=[]" >> $GITHUB_OUTPUT
+            else
+              echo "Found services:"
+              echo "$SERVICES"
+              # Convert to JSON array format
+              JSON_SERVICES=$(echo "$SERVICES" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+              echo "services=$JSON_SERVICES" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "frontend directory not found"
+            echo "services=[]" >> $GITHUB_OUTPUT
+          fi
+          
   build-frontend:
     needs: discover # First Discover all the services before proceeding to build
     #if: ${{ fromJSON(needs.discover.outputs.services) != [] }}
@@ -70,33 +105,4 @@ jobs:
             --build-arg SERVICE_NAME=${{ matrix.service }} \
             .
 
-  discover:
-    runs-on: ubuntu-latest
-    outputs:
-      services: ${{ steps.find-services.outputs.services }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          fetch-depth: 0  # Need full history for finding files
 
-      - name: Find frontend services
-        id: find-services
-        run: |
-          # Find all directories in frontend/ containing package.json
-          if [ -d "frontend" ]; then
-            SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
-            if [ -z "$SERVICES" ]; then
-              echo "No frontend services found"
-              echo "services=[]" >> $GITHUB_OUTPUT
-            else
-              echo "Found services:"
-              echo "$SERVICES"
-              # Convert to JSON array format
-              JSON_SERVICES=$(echo "$SERVICES" | jq -R -s -c 'split("\n") | map(select(. != ""))')
-              echo "services=$JSON_SERVICES" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "frontend directory not found"
-            echo "services=[]" >> $GITHUB_OUTPUT
-          fi
