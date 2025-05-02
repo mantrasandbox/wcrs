@@ -43,8 +43,8 @@ jobs:
         id: find-services
         run: |
           # Find all directories in services containing package.json
-          if [ -d "/services/" ]; then
-            SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
+          if [ -d "/services/frontend" ]; then
+            SERVICES=$(find /services/frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
             if [ -z "$SERVICES" ]; then
               echo "No frontend services found"
               echo "services=[]" >> $GITHUB_OUTPUT
