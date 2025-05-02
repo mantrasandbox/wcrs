@@ -15,7 +15,7 @@ env:
     DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
 
 jobs:
-    build:
+    build-backend:
         runs-on: ubuntu-latest
         services:
             postgres:
