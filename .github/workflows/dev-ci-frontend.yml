@@ -13,6 +13,7 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
+  REPO_LOCATION: /services/frontend/
 
 jobs:
   discover:
@@ -25,8 +26,7 @@ jobs:
         with:
           ref: dev
           sparse-checkout: |
-             /services/frontend/
-             
+             ${{ env.REPO_LOCATION }}             
           sparse-checkout-cone-mode: false
           skip-checks: true
           
@@ -42,8 +42,8 @@ jobs:
       - name: Find frontend services
         id: find-services
         run: |
-          # Find all directories in frontend/ containing package.json
-          if [ -d "frontend" ]; then
+          # Find all directories in ${{ env.REPO_LOCATION }} containing package.json
+          if [ -d ${{ env.REPO_LOCATION }} ]; then
             SERVICES=$(find frontend -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
             if [ -z "$SERVICES" ]; then
               echo "No frontend services found"
