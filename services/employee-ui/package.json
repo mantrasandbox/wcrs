@@ -23,6 +23,7 @@
     "@tabler/icons-react": "^3.31.0",
     "@tailwindcss/vite": "^4.1.4",
     "dayjs": "^1.11.10",
+    "employee-ui": "file:",
     "formik": "^2.4.6",
     "react": "18.2.0",
     "react-dom": "18.2.0",
