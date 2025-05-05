@@ -12,28 +12,35 @@ on:
 env:
     DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
     DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-    DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
+    DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Private Docker Hub repository
+    REPO_LOCATION: services/backend/
 
 jobs:
     build-backend:
         runs-on: ubuntu-latest
-        services:
-            postgres:
-                image: postgres:14.5
-                env:
-                    POSTGRES_USER: wcrs
-                    POSTGRES_PASSWORD: wcrs
-                    POSTGRES_DB: employee
-                ports:
-                    - 5433:5432
-                options: >-
-                    --health-cmd pg_isready
-                    --health-interval 10s
-                    --health-timeout 5s
-                    --health-retries 5
+        #Will be enabled after tests are included in the backend
+#        services:
+#            postgres:
+#                image: postgres:14.5
+#                env:
+#                    POSTGRES_USER: wcrs
+#                    POSTGRES_PASSWORD: wcrs
+#                    POSTGRES_DB: employee
+#                ports:
+#                    - 5433:5432
+#                options: >-
+#                    --health-cmd pg_isready
+#                    --health-interval 10s
+#                    --health-timeout 5s
+#                    --health-retries 5
         steps:
             - name: Checkout code
-              uses: actions/checkout@v3
+              uses: actions/checkout@v4
+              with:
+                sparse-checkout: |
+                  /${{ env.REPO_LOCATION }}
+                sparse-checkout-cone-mode: false
+                skip-checks: true
 
             - name: Set up JDK 21
               uses: actions/setup-java@v3
@@ -52,10 +59,19 @@ jobs:
                 restore-keys: |
                   ${{ runner.os }}-maven-
 
+            - name: Verify checkout
+              run: |
+                pwd
+                ls -la          # Debug: list checked out files
+                cd services
+                ls -la
+                cd backend
+                ls -la
+
             - name: Find and build all Maven projects
               run: |
-                 echo "Discovering all pom.xml files in services/..."
-                 find services/ -name pom.xml | while read pom; do
+                 echo "Discovering all pom.xml files in backend/..."
+                 find backend/ -name pom.xml | while read pom; do
                  echo "Building project in $(dirname $pom)..."
                  mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
                  done
@@ -92,7 +108,7 @@ jobs:
                 mkdir -p .m2-cache
                 cp -r ~/.m2/repository .m2-cache/
                 
-                find services/ -name pom.xml | while read pom; do
+                find backend/ -name pom.xml | while read pom; do
                   service_dir=$(dirname "$pom")
                   service_name=$(basename "$service_dir")
                   jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
