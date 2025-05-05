@@ -18,7 +18,10 @@ function App() {
     getEmployees()
       .then((res) => {
         console.log(res.data.content);
-        setEmployees(res.data.content || []);
+        const employeesList = res?.data?.content;
+        if (Array.isArray(employeesList)) {
+          setEmployees(res.data.content || []);
+        }
       })
       .catch((err) => {
         setError(err.message);

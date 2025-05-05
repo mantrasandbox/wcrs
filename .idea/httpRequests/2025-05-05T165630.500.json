@@ -1,0 +1,7 @@
+{
+  "timestamp": "2025-05-05T13:56:30.031+00:00",
+  "path": "/api/v1/employees/create",
+  "status": 500,
+  "error": "Internal Server Error",
+  "requestId": "35c90f2c-2"
+}

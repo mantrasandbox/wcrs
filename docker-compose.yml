@@ -80,7 +80,7 @@ services:
     container_name: employee-ui
     image: mantrasandbox/employee-ui
     ports:
-      - 3000
+      - 3000:3000
     networks:
       - wcrs-net
     restart: unless-stopped

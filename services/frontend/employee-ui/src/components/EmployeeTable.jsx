@@ -61,40 +61,43 @@ const jobColors = {
 };
 
 export function EmployeeTable({ employees, fetchEmployees }) {
-  const rows = employees.map((employee) => (
-    <Table.Tr key={employee.fullName}>
-      <Table.Td>
-        <Group gap="sm">
-          <Avatar size={30} src={item.avatar} radius={30} />
-          <Text fz="sm" fw={500}>
-            {employee.fullName}
-          </Text>
-        </Group>
-      </Table.Td>
+  {
+    Array.isArray(employees) &&
+      employees.map((employee) => (
+        <Table.Tr key={employee.fullName}>
+          <Table.Td>
+            <Group gap="sm">
+              <Avatar size={30} src={item.avatar} radius={30} />
+              <Text fz="sm" fw={500}>
+                {employee.fullName}
+              </Text>
+            </Group>
+          </Table.Td>
 
-      {/* <Table.Td>
+          {/* <Table.Td>
         <Badge color={jobColors[item.job.toLowerCase()]} variant="light">
           {item.job}
         </Badge>
       </Table.Td> */}
-      <Table.Td>
-        <Text fz="sm">{employee.NIN}</Text>
-      </Table.Td>
-      {/* <Table.Td>
+          <Table.Td>
+            <Text fz="sm">{employee.NIN}</Text>
+          </Table.Td>
+          {/* <Table.Td>
         <Text fz="sm">{item.phone}</Text>
       </Table.Td> */}
-      <Table.Td>
-        <Group gap={0} justify="flex-end">
-          <ActionIcon variant="subtle" color="gray">
-            <IconPencil size={16} stroke={1.5} />
-          </ActionIcon>
-          <ActionIcon variant="subtle" color="red">
-            <IconTrash size={16} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-      </Table.Td>
-    </Table.Tr>
-  ));
+          <Table.Td>
+            <Group gap={0} justify="flex-end">
+              <ActionIcon variant="subtle" color="gray">
+                <IconPencil size={16} stroke={1.5} />
+              </ActionIcon>
+              <ActionIcon variant="subtle" color="red">
+                <IconTrash size={16} stroke={1.5} />
+              </ActionIcon>
+            </Group>
+          </Table.Td>
+        </Table.Tr>
+      ));
+  }
 
   return (
     <Card
