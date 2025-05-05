@@ -42,7 +42,7 @@ function App() {
           path="employees"
           element={
             <EmployeeTable
-              employee={employees}
+              employees={employees}
               fetchEmployees={fetchEmployees}
             />
           }

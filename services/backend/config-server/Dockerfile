@@ -2,7 +2,7 @@
 FROM maven:3.9.9-eclipse-temurin-21 AS builder
 
 # Get pre-cached dependencies from build context
-COPY --from=maven-cache /repository /root/.m2/repository
+#COPY --from=maven-cache /repository /root/.m2/repository
 
 WORKDIR /app
 

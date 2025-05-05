@@ -1,0 +1,8 @@
+spring:
+  profiles:
+    active: prod,dev
+  application:
+    name: config-server
+
+server:
+  port: 8888
