@@ -7,8 +7,27 @@ import PageNotFound from "./pages/PageNotFound.jsx";
 import AppLayout from "./pages/AppLayout.jsx";
 import { EmployeeTable } from "./components/EmployeeTable.jsx";
 import SignupForm from "./components/SignupForm.jsx";
+import { useEffect, useState } from "react";
+import { getEmployees } from "./services/client.js";
 
 function App() {
+  const [employees, setEmployees] = useState([]);
+  const [error, setError] = useState("");
+
+  function fetchEmployees() {
+    getEmployees()
+      .then((res) => {
+        console.log(res.data.content);
+        setEmployees(res.data.content || []);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
+  }
+
+  useEffect(() => {
+    fetchEmployees();
+  }, []);
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
@@ -19,7 +38,15 @@ function App() {
 
       <Route path="app" element={<AppLayout />}>
         <Route index element={<h1>In progress...</h1>} />
-        <Route path="employees" element={<EmployeeTable />} />
+        <Route
+          path="employees"
+          element={
+            <EmployeeTable
+              employee={employees}
+              fetchEmployees={fetchEmployees}
+            />
+          }
+        />
       </Route>
     </Routes>
   );

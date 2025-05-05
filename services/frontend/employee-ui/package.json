@@ -22,6 +22,7 @@
     "@mantine/nprogress": "^7.7.0",
     "@tabler/icons-react": "^3.31.0",
     "@tailwindcss/vite": "^4.1.4",
+    "axios": "^1.9.0",
     "dayjs": "^1.11.10",
     "employee-ui": "file:",
     "formik": "^2.4.6",
