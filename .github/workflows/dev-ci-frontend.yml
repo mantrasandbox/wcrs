@@ -113,6 +113,6 @@ jobs:
             --push \
             -t "${{ env.DOCKER_HUB_REPO_PREFIX }}${{ matrix.service }}:latest" \
             --build-arg SERVICE_NAME=${{ matrix.service }} \
-            .
+            . 
 
 
