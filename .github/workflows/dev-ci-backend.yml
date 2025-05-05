@@ -69,8 +69,8 @@ jobs:
                 cd backend
                 pwd
                 ls -la
-                cd ${{ env.REPO_LOCATION }}
-                pwd
+#                cd ${{ env.REPO_LOCATION }}
+#                pwd
 
             - name: Find and build all Maven projects
               run: |
