@@ -20,7 +20,7 @@ function App() {
         console.log(res.data.content);
         const employeesList = res?.data?.content;
         if (Array.isArray(employeesList)) {
-          setEmployees(res.data.content || []);
+          setEmployees(employeesList || []);
         }
       })
       .catch((err) => {

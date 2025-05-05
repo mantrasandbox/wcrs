@@ -1,3 +1,12 @@
+GET http://localhost:4040/api/v1/employees/viewAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-05-05T175024.200.json
+
+###
+
 POST http://localhost:4040/api/v1/employees/create
 Content-Type: application/json
 Content-Length: 133
