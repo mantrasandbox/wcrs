@@ -15,6 +15,7 @@ function App() {
   const [error, setError] = useState("");
 
   function fetchEmployees() {
+    console.log("fetching employees");
     getEmployees()
       .then((res) => {
         console.log(res.data.content);
