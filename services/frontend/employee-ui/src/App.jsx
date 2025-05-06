@@ -18,14 +18,15 @@ function App() {
     console.log("fetching employees");
     getEmployees()
       .then((res) => {
-        console.log(res.data.content);
-        const employeesList = res?.data?.content;
+        console.log(res.data);
+        const employeesList = res?.data;
         if (Array.isArray(employeesList)) {
           setEmployees(employeesList || []);
         }
       })
       .catch((err) => {
         setError(err.message);
+        console.log(err.message);
       });
   }
 
