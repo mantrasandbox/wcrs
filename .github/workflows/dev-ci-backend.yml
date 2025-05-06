@@ -5,26 +5,35 @@ on:
   push:
     branches:
       - dev
+      #- main
+      #paths:
+      #- services/**
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  DOCKER_HUB_REPO_PREFIX: mantrasandbox/
-  REPO_LOCATION: services/backend/
-  # Set concurrency level (adjust based on your runner capacity)
-  CONCURRENCY: 4
+  DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
 
 jobs:
   build-backend:
     runs-on: ubuntu-latest
+#    services:
+#      postgres:
+#        image: postgres:14.5
+#        env:
+#          POSTGRES_USER: wcrs
+#          POSTGRES_PASSWORD: wcrs
+#          POSTGRES_DB: employee
+#        ports:
+#          - 5433:5432
+#        options: >-
+#          --health-cmd pg_isready
+#          --health-interval 10s
+#          --health-timeout 5s
+#          --health-retries 5
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          sparse-checkout: |
-            /${{ env.REPO_LOCATION }}
-          sparse-checkout-cone-mode: false
-          skip-checks: true
+        uses: actions/checkout@v3
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -43,38 +52,33 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Verify checkout
-        run: |
-          ls -la
-          cd services/backend
-          ls -la
-
       - name: Find and build all Maven projects
         run: |
-          find ${{ env.REPO_LOCATION }} -name pom.xml | while read pom; do
+          echo "Discovering all pom.xml files in services/..."
+          find services/ -name pom.xml | while read pom; do
           echo "Building project in $(dirname $pom)..."
           mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
           done
 
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v2
-#        with:
-#          driver-opts: |
-#            image=moby/buildkit:master
-#          buildkitd-config: |
-#            [worker.oci]
-#              enabled = true
-#              max-parallelism = ${{ env.CONCURRENCY }}
-#            [worker.containerd]
-#              enabled = false
-#
-#      - name: Cache Docker layers
-#        uses: actions/cache@v3
-#        with:
-#          path: /tmp/.buildx-cache
-#          key: ${{ runner.os }}-buildx-${{ github.sha }}
-#          restore-keys: |
-#            ${{ runner.os }}-buildx-
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          driver-opts: |
+            image=moby/buildkit:master
+          buildkitd-config: |
+            [worker.oci]
+              enabled = true
+              max-parallelism = 4
+            [worker.containerd]
+              enabled = false
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+          restore-keys: |
+            ${{ runner.os }}-buildx-
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -82,40 +86,29 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_TOKEN }}
 
-      - name: Build and push Docker images concurrently
+      - name: Build and push Docker images with full caching
         run: |
-          # Create list of services to build
-          SERVICES=$(find ${{ env.REPO_LOCATION }} -name pom.xml -exec dirname {} \; | xargs -n1 basename)
-          echo "Services to build: $SERVICES"
+          # First prepare Maven cache
+          mkdir -p .m2-cache
+          cp -r ~/.m2/repository .m2-cache/
           
-          # Function to build a single service
-          build_service() {
-            local service_name=$1
-            local service_dir="${{ env.REPO_LOCATION }}$service_name"
-            local jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
+          find services/ -name pom.xml | while read pom; do
+            service_dir=$(dirname "$pom")
+            service_name=$(basename "$service_dir")
+            jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           
             if [ -f "$jar_file" ]; then
               echo "Building Docker image for $service_name..."
               docker buildx build \
                 --push \
                 --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
+                --cache-to type=local,dest=/tmp/.buildx-cache \
+                --cache-from type=local,src=/tmp/.buildx-cache \
                 --build-arg JAR_FILE=$(basename "$jar_file") \
+                --build-context maven-cache=./.m2-cache \
                 -f "$service_dir/Dockerfile" \
                 "$service_dir"
             else
               echo "No jar file found for $service_name in $service_dir/target/"
-              return 1
             fi
-          }
-          
-          # Export function for parallel to use
-          export -f build_service
-          
-          # Run builds in parallel
-          echo "$SERVICES" | xargs -P ${{ env.CONCURRENCY }} -I {} bash -c 'build_service "$@"' _ {}
-          
-          # Verify all builds succeeded
-          if [ $? -ne 0 ]; then
-            echo "One or more builds failed"
-            exit 1
-          fi
+          done
