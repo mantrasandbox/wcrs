@@ -26,6 +26,7 @@ function App() {
       })
       .catch((err) => {
         setError(err.message);
+        console.log(err.message);
       });
   }
 
