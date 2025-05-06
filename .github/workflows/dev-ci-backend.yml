@@ -56,25 +56,15 @@ jobs:
           mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
           done
 
-#      - name: Set up Docker Buildx
-#        uses: docker/setup-buildx-action@v2
-#        with:
-#          driver-opts: |
-#            image=moby/buildkit:master
-#          buildkitd-config: |
-#            [worker.oci]
-#              enabled = true
-#              max-parallelism = ${{ env.CONCURRENCY }}
-#            [worker.containerd]
-#              enabled = false
-#
-#      - name: Cache Docker layers
-#        uses: actions/cache@v3
-#        with:
-#          path: /tmp/.buildx-cache
-#          key: ${{ runner.os }}-buildx-${{ github.sha }}
-#          restore-keys: |
-#            ${{ runner.os }}-buildx-
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        with:
+          driver-opts: |
+            image=moby/buildkit:master
+          buildkitd-config: |
+            [worker.oci]
+              enabled = true
+              max-parallelism = ${{ env.CONCURRENCY }}
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -82,11 +72,18 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_TOKEN }}
 
-      - name: Build and push Docker images concurrently
+      - name: Build and push Docker images
         run: |
-          # Create list of services to build
+          set -euo pipefail
+          
+          # Get list of services with both pom.xml and Dockerfile
           SERVICES=$(find ${{ env.REPO_LOCATION }} -name pom.xml -exec dirname {} \; | xargs -n1 basename)
           echo "Services to build: $SERVICES"
+          
+          if [ -z "$SERVICES" ]; then
+            echo "::error::No services found to build"
+            exit 1
+          fi
           
           # Function to build a single service
           build_service() {
@@ -94,28 +91,34 @@ jobs:
             local service_dir="${{ env.REPO_LOCATION }}$service_name"
             local jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           
-            if [ -f "$jar_file" ]; then
-              echo "Building Docker image for $service_name..."
-              docker buildx build \
-                --push \
-                --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
-                --build-arg JAR_FILE=$(basename "$jar_file") \
-                -f "$service_dir/Dockerfile" \
-                "$service_dir"
-            else
-              echo "No jar file found for $service_name in $service_dir/target/"
+            if [ ! -f "$jar_file" ]; then
+              echo "::error::No jar file found for $service_name in $service_dir/target/"
               return 1
             fi
+          
+            if [ ! -f "$service_dir/Dockerfile" ]; then
+              echo "::error::No Dockerfile found for $service_name in $service_dir/"
+              return 1
+            fi
+          
+            echo "::group::Building Docker image for $service_name"
+            docker buildx build \
+              --push \
+              --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
+              --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:$GIT_SHA" \
+              --build-arg JAR_FILE=$(basename "$jar_file") \
+              --file "$service_dir/Dockerfile" \
+              "$service_dir"
+            echo "::endgroup::"
           }
           
-          # Export function for parallel to use
           export -f build_service
           
-          # Run builds in parallel
-          echo "$SERVICES" | xargs -P ${{ env.CONCURRENCY }} -I {} bash -c 'build_service "$@"' _ {}
+          # Run builds in parallel with error collection
+          echo "$SERVICES" | xargs -P ${{ env.CONCURRENCY }} -I {} bash -c 'build_service "$@" || exit 255' _ {}
           
-          # Verify all builds succeeded
-          if [ $? -ne 0 ]; then
-            echo "One or more builds failed"
+          # Check for failures (exit code 255 from above)
+          if [ $? -eq 255 ]; then
+            echo "::error::One or more builds failed"
             exit 1
           fi
