@@ -7,7 +7,7 @@ on:
       - dev
       #- main
     paths:
-      - backend/** # Trigger only when backend files change
+      - services/backend/** # Trigger only when backend files change
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
