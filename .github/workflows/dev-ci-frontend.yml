@@ -7,7 +7,7 @@ on:
       - dev
       #- main
     paths:
-      - 'frontend/**' # Trigger only when frontend files change
+      - frontend/** # Trigger only when frontend files change
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
