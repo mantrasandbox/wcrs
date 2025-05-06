@@ -1,6 +1,8 @@
 package com.wcrs.employee.dto;
 
 
+import com.wcrs.employee.enums.Gender;
+import com.wcrs.employee.validator.ValidEnum;
 import jakarta.validation.constraints.*;
 
 
@@ -22,6 +24,17 @@ public record EmployeeRequestDTO(
 
         @Size(max = 14,message = "Valid nin is required")
         @Pattern(regexp = "^[A-Za-z0-9]{14}$", message = "Nin must be alpha numeric and 14 characters long")
-        String NIN
+        String NIN,
+
+        @NotBlank(message = "Last name is required")
+        String jobTitle,
+
+        @Email(message = "Email must be valid")
+        String email,
+
+
+        String phone,
+        @ValidEnum(enumClass = Gender.class, message = "Gender is not valid")
+        String gender
 ) {
 }

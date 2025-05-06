@@ -1,5 +1,6 @@
 package com.wcrs.employee.model;
 
+import com.wcrs.employee.enums.Gender;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -36,6 +37,15 @@ public class Employee {
 
     @Column(nullable = false, unique = true)
     private String NIN;
+
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false, unique = true)
+    private String phone;
 
     @CreatedDate
     @Column(nullable = false,updatable = false)
