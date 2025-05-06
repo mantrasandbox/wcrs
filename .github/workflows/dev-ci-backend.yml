@@ -99,8 +99,6 @@ jobs:
               docker buildx build \
                 --push \
                 --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
-                --cache-to type=local,dest=/tmp/.buildx-cache \
-                --cache-from type=local,src=/tmp/.buildx-cache \
                 --build-arg JAR_FILE=$(basename "$jar_file") \
                 -f "$service_dir/Dockerfile" \
                 "$service_dir"
