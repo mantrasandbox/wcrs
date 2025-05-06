@@ -3,6 +3,43 @@ User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
 Accept-Encoding: br, deflate, gzip, x-gzip
 Accept: */*
 
+<> 2025-05-06T121822.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 133
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Crude",
+  "lastName": "Victor",
+  "userName": "vikings",
+  "NIN": "CM12SD4567YU81",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-05-06T121818.200.json
+
+###
+
+GET http://localhost:4040/api/v1/employees/viewAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2025-05-06T121807.200.json
+
+###
+
+GET http://localhost:4040/api/v1/employees/viewAll
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
 <> 2025-05-05T175024.200.json
 
 ###

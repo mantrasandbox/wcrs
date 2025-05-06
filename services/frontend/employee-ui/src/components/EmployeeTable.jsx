@@ -67,7 +67,7 @@ export function EmployeeTable({ employees, fetchEmployees }) {
       <Table.Tr key={employee.fullName}>
         <Table.Td>
           <Group gap="sm">
-            <Avatar size={30} src={item.avatar} radius={30} />
+            {/* <Avatar size={30} src={item.avatar} radius={30} /> */}
             <Text fz="sm" fw={500}>
               {employee.fullName}
             </Text>
