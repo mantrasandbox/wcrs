@@ -1,0 +1,1037 @@
+[33mcommit af987fee41549e03e44d6333d8f6f59984154d10[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mdev[m[33m, [m[1;31morigin/dev[m[33m)[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue May 6 10:49:28 2025 +0300
+
+    backend CI correction
+
+[33mcommit 73860802627733aa22d1d6b0e5c0a7b7dc14eb45[m
+Merge: 1b755d5 b9b9b4c
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue May 6 10:43:19 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 1b755d55fa1f2c3799c017d3f82f417e9ad3ad26[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue May 6 10:42:56 2025 +0300
+
+    Revised backend CI
+
+[33mcommit b9b9b4cdb27ac3e84e9b87749430cc4bba99684e[m
+Merge: 5541cff c47d5e3
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue May 6 10:40:34 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 5541cffe78039928d76c6d12f7eda38063a15d99[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue May 6 10:40:19 2025 +0300
+
+    Added cors in backend
+
+[33mcommit c47d5e3fad3ad191168dce2d3deb1ef74fa4162d[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue May 6 10:03:39 2025 +0300
+
+    docker cache disabled
+
+[33mcommit a29c89304f149719cae8236fee8161b4608b001e[m
+Merge: 75883f1 eac0c40
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue May 6 09:50:49 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 75883f1dca67c3f36810ddc08f48d89b568ed641[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue May 6 09:50:34 2025 +0300
+
+    Docker cache commented out
+
+[33mcommit eac0c40d4f9dfd07e98114217b23db145ec56a87[m
+Merge: 38029fe ae2a344
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon May 5 17:52:26 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 38029fe1604961a9f3f2aa951be8790574914555[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon May 5 17:52:05 2025 +0300
+
+    Added fix in empltable
+
+[33mcommit ae2a34480e46cf0c379998b1b4c17fef45f6cc7a[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon May 5 17:49:16 2025 +0300
+
+    Introduced concurrency on backend build
+
+[33mcommit 10a1899c99e88a9330dfd6bf447bd9ace2c566ee[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon May 5 17:45:07 2025 +0300
+
+    Added fix in empltable
+
+[33mcommit cad259cf96a33da6f0c16f4a886e9496caa00c19[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon May 5 17:32:23 2025 +0300
+
+    Added fix in fetch
+
+[33mcommit 1b4504e6fc80af50ad9ef739ccc7eb0607e72016[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon May 5 16:51:20 2025 +0300
+
+    Rectified backend url
+
+[33mcommit fe4e1179fac96234cd85971f5789d0cd5b82a016[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon May 5 15:41:11 2025 +0300
+
+    Target folders for employee and discovery services deleted
+
+[33mcommit bc1b06d0876d7130434c315dfc87d016e4358304[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon May 5 15:36:49 2025 +0300
+
+    Added get method
+
+[33mcommit c96bef65f7c79bcf96d1b7bd2bed42a3f7a8f0ab[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon May 5 11:43:21 2025 +0300
+
+    environment corrections
+
+[33mcommit dd58671d6fcd67a50533d7dda089de8f810f37a5[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon May 5 11:41:34 2025 +0300
+
+    Location corrections
+
+[33mcommit 4d82cf682b5cfd5f279c1abf8b55eb6fbdaef7d3[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon May 5 11:27:20 2025 +0300
+
+    Added backend directory
+
+[33mcommit 3d394518e7caffdf4be8239c8f8d12602a869bde[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 18:17:52 2025 +0300
+
+    Added login and signup pages
+
+[33mcommit 45ec5266b0ddb6838aa8e4198231891eec43e9a8[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 18:00:19 2025 +0300
+
+    Removed testing step
+
+[33mcommit 97ef134e7ce0f422266ffaf59e7382b7d8bc3ced[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:57:36 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 7448ed57fa57e8fb908b8ff3c1c0f92fface57b8[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:56:42 2025 +0300
+
+    Corrected all relative locations of the repo location
+
+[33mcommit a3d8110fe4d3fe40b41913b21cfd1317cadf0d46[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:53:37 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 438c5baccf54653d67634f6d4dd57bd8164e0ad9[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:52:21 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit fd93186f732c5d5f9a95e45ec7968ca3aeba4b4a[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:49:32 2025 +0300
+
+    Verifying clone for build job
+
+[33mcommit 1cd15a093ab2cf6c875160eebc23cc3d087cc5c5[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:46:33 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 2df5bc162cf3b098aae332d3308f3e90e0386d60[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:45:14 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 6253810ce902ddcef4aeca850eca2145af4ac929[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:43:31 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit c1d65f20de69a4ae29a9833bcfb0c60d387b2940[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:40:18 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit bae9b5d6bfe39249bb35331d45f2ff49758f0d6f[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:36:53 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 37e65931ded113cadbd6b211d046fbb98e737396[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:35:18 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 6b22e65dcefcbad3cafb1a74cdef7ec1a6f136d4[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:32:15 2025 +0300
+
+    included ${{ env.REPO_LOCATION }}
+
+[33mcommit 6e069fc752fb77fdec0a57e95652a0ec1d703a61[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:29:01 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 3b3517a262c6dd2c8ce938013fdcfc38e044a677[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:27:44 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 9782316fcc3b45a3fa672af8d6448a1de36aae38[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:26:19 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 5dc35a560c94a23716aebd83f77c29c1ca25c0ff[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:25:04 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 5a1ae0249ee1c1c32675d481133843b3290cf52c[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:21:16 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 08526ab427bcd41573205eee04d998b793dcdec8[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:19:18 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 29ff486335b281b6d8a1e86b314e65d7ecf65877[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:18:17 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 605345bdb1a371a740e590f696f1f4b4319f9f41[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:15:50 2025 +0300
+
+    Include cloned repo verification
+
+[33mcommit c88f098462f6c8ecaebdf629dd481a267b75c592[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:12:12 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit bf80e0e8d23be04ac62d0316da7bcfc34d1cade7[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:07:03 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit a388ce9569cfdac2eb208cd0691685bf56cebca3[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:05:35 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 5ea310b00fbe61309cfd419da4176d89d93c3fea[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 17:03:19 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit a481dda5a24d581409855338263393caf039d5de[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:51:05 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 76794554a401e3e6f448ae8f3100995cff55f165[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:49:43 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 563d7d18cc9652be9b1afa0eb628cf2d857427e4[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:46:51 2025 +0300
+
+    Limited the checkout to only frontend directory
+
+[33mcommit c5901f0e25acd6ee829a95a7df9023930e7882ab[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:39:13 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 40ea27107cab172daed98488fc655d7bd5232949[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:37:38 2025 +0300
+
+    Error handling for no service found
+
+[33mcommit cdfc3d6859f41f7b9a721b6f498cf742cf544159[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:25:53 2025 +0300
+
+    Added discover dependency
+
+[33mcommit 1d65aa3efa22f48a6c12d23a6cee0cc6734763b0[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:20:04 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit 39870ead591b16c86f1051087db82c878f418782[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 16:16:22 2025 +0300
+
+    Search for all existing React Services in Frontend Directory
+
+[33mcommit 042bc8ea3ebfd4d01b06b09154d74a22290fa6ed[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 15:41:40 2025 +0300
+
+    Disabled cache
+
+[33mcommit d8777d403000572556d144545a9529f36bb90e78[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 15:35:41 2025 +0300
+
+    Change in ui structure
+
+[33mcommit 2243c3ae75641d24b9c92502dde22976ffba7cee[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 15:28:27 2025 +0300
+
+    Refactored employee-ui docker file
+
+[33mcommit 49ac39748f8253743f30854be34f961715ffee8b[m
+Merge: 159a6f1 8ce7198
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 14:22:08 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 159a6f1278427c817d25df3cd519e1dcabcfa82c[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 14:21:35 2025 +0300
+
+    restructured employee-ui
+
+[33mcommit 8ce71987a8918e43e43790dc7291fd95c425ffa2[m
+Merge: e603950 a1ed7b6
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri May 2 14:14:35 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit e603950d846f58166c099f0fd339dc4ae8303495[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri May 2 14:14:13 2025 +0300
+
+    frontend CI - cache changed from yarn to npm
+
+[33mcommit a1ed7b61218a854cfb0a376b49a7f60972fc061c[m
+Merge: 031ed9a 6460df4
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 14:13:36 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 031ed9a2ec027d5bf2575197fde91309e0d6452f[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri May 2 14:13:15 2025 +0300
+
+    Added signup form
+
+[33mcommit 3c79448c448d080b78508fe814221a4e11ff78c3[m
+Merge: d4d456f 6460df4
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri May 2 14:12:01 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit d4d456ff9827d8627d06bb4f03e8c3c4572f829c[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri May 2 14:11:39 2025 +0300
+
+    Added Docker-compose
+
+[33mcommit 6460df46ce26ed9386475c04178f8ab734f71b14[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 13:21:39 2025 +0300
+
+    Update dev-ci-frontend.yml
+
+[33mcommit e4ecd67e6887b1f13756045282d39c46e1e8dacf[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 13:11:07 2025 +0300
+
+    Create dev-ci-frontend.yml
+    
+    Added frontend workflow
+
+[33mcommit 4f740cd2f1ddc443f95dc7f45c9a7b4e9ea08d88[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Fri May 2 13:08:43 2025 +0300
+
+    Update and rename dev-ci.yml to dev-ci-backend.yml
+    
+    Renamed job to build-backend
+
+[33mcommit 8d5ef231b770ca2b5c2183c2b7dd303b2c269799[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri May 2 12:17:18 2025 +0300
+
+    Disabled tests on employee service temporarily
+
+[33mcommit 5a9914f5e8c4c89354534dbdd43b06eb5e3d4de5[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri May 2 12:04:24 2025 +0300
+
+    Added Employee UI Docker File
+
+[33mcommit 6f736db8692c0d7584c1cda991ca5abb21d7b516[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Wed Apr 30 12:47:22 2025 +0300
+
+    Added Routes
+
+[33mcommit 5d14a3ad3f8beb43edb7518b550c9ecfba52ea15[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Wed Apr 30 10:24:18 2025 +0300
+
+    Added HomePage
+
+[33mcommit 9188b5ec46c55c3dc2662942242ad1d42527f677[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Apr 28 15:51:53 2025 +0300
+
+    Added Mantine ui depedencies and updated react to stable v18
+
+[33mcommit 2bdecf5c34cc1677fd603386a502d0141536000a[m
+Merge: c65254c f5e81fb
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Apr 28 14:55:14 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit c65254caba7d8ed42950c6f5ad2d3d8d4c6daabc[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Apr 28 14:54:42 2025 +0300
+
+    Added employee react frontend using vite
+
+[33mcommit e3569881e2760f589db0421748cfe2334e0dbf1c[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Apr 28 14:47:58 2025 +0300
+
+    Added frontend react module using vite
+
+[33mcommit f5e81fb9d77d05b894d053bedd3c37a3c35b7bd8[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 14:56:27 2025 +0300
+
+    Default Employee Application Tests class commented out
+
+[33mcommit 5423a7ea13295926c774a24a5feaf71ca9de0a00[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 14:16:34 2025 +0300
+
+    First test setup
+
+[33mcommit 2bc914c5fea58f91f081a0224d42d3728c8654fe[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Thu Apr 17 13:47:40 2025 +0300
+
+    Added TestContainers test classes in employee module
+
+[33mcommit 8c9969667497168a41fde71b148d2d44efed6ae7[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Thu Apr 17 12:58:43 2025 +0300
+
+    Added testcontainers and faker dependency in employee pom
+
+[33mcommit c8bfbc248e0258cff7b2fa5e1d67a653277af4e0[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 12:31:55 2025 +0300
+
+    Testing docker maven caching
+
+[33mcommit 18d8036ccacd6eae43b35335e1004fe49e27d029[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 12:24:32 2025 +0300
+
+    updated to absolute path in docker file
+
+[33mcommit 359137acf90e9b8c703cc56fc1aa2e3477e49927[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 12:08:21 2025 +0300
+
+    added -Dmaven.repo.local=/c/Users/TJ/.m2/repository to docker files for maven cache
+
+[33mcommit c8d91dd0317576909be6df35ab0141e20a7ae6f2[m
+Merge: 2e44a59 0613dba
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 11:51:38 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 2e44a59c1a13ff578a0a050fe3ed3bdd83312159[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 11:51:30 2025 +0300
+
+    included maven caching in docker files # Get pre-cached dependencies from build context
+    COPY --from=maven-cache /repository /root/.m2/repository
+
+[33mcommit 0613dba59e023fe76c4c682058a0e028b862617a[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Thu Apr 17 11:44:16 2025 +0300
+
+    Update dev-ci.yml - maven dependencies cache during docker build
+
+[33mcommit c5ea949fe60723060152b854fe639b81049d5877[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 11:24:46 2025 +0300
+
+    Testing docker caching in CI/CD
+
+[33mcommit faefcec6e907cd96b340a75430b4992f7aeb8271[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Thu Apr 17 11:16:35 2025 +0300
+
+    Update dev-ci.yml - docker caching
+    
+    Included docker caching
+
+[33mcommit 6dd2d9cdae146615b5ad5619210f60f1b22e8556[m
+Merge: 62a0d77 d2538d0
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 10:51:16 2025 +0300
+
+    B
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 62a0d7748ab56c0adc1b828c11149258ae3b17b8[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 17 10:50:19 2025 +0300
+
+    Testing effect of maven caching in CI/CD
+
+[33mcommit d2538d05159a98c5eb3e3bef98355bb9877e3db2[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Thu Apr 17 10:41:20 2025 +0300
+
+    Update dev-ci.yml
+    
+    Included caching for maven dependencies
+
+[33mcommit 2a1bec88f2dfcb49e0e4a89dd4a45b15a65f0d7f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 15 17:54:54 2025 +0300
+
+    nullable = false for modifiedat column
+
+[33mcommit 0e7fc66e6acfdc2ff00f07d1c58501cc912d363a[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 15 17:51:06 2025 +0300
+
+    Included JPA Auditing
+
+[33mcommit f954d74d913eaeb7953e614e8f3d6e47986aaedd[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 15 17:22:09 2025 +0300
+
+    Added view all employees
+
+[33mcommit 183ff78ae687db4327a6947f0b73f1b8bfe821b3[m
+Merge: 3c7e12d 09bc2e3
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 15 16:39:26 2025 +0300
+
+    API-Gateway Application.yml merged
+
+[33mcommit 3c7e12d38b7737c31ff9d2147f8847c7d364458a[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 15 16:37:03 2025 +0300
+
+    Documentation added
+
+[33mcommit 09bc2e347acea58333c4c01f5a89c7f8e878b432[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue Apr 15 16:34:45 2025 +0300
+
+    updates to api request endpoints
+
+[33mcommit c70b703cec7f2c374c62f7315f9311ef4b449e93[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue Apr 15 16:33:56 2025 +0300
+
+    Modified response parameter to hashMap
+
+[33mcommit f77ec51ce8db2174a9f8ea7a35de910190312e38[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue Apr 15 16:32:37 2025 +0300
+
+    Added update and delete logic plus exception handling
+
+[33mcommit e2ff8a4c977fab97eed8c251b82b449e764e4324[m
+Merge: 7ed33a8 23b75a4
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue Apr 15 16:30:52 2025 +0300
+
+    Merge remote-tracking branch 'origin/dev' into dev
+
+[33mcommit 7ed33a84024204b90ffe531223bd645f88719403[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Tue Apr 15 16:30:09 2025 +0300
+
+    Added update and delete endpoints and also made changes to view nin endpoint
+
+[33mcommit 23b75a4562419145789f2f8cd8c9686e0de03241[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon Apr 14 17:43:14 2025 +0300
+
+    included discovery and api gateway to admin service
+
+[33mcommit 860eebf317066ec12dbfee5b7f0215cf2d965b50[m
+Merge: 75f87e6 87a3bb6
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Apr 14 17:04:45 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 87a3bb6f95c140ee53bec52f06306d875cde52bf[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon Apr 14 16:47:36 2025 +0300
+
+    Added api-gateway
+
+[33mcommit 75f87e6e1dcc659cd8c21252f28bad333c098ab1[m
+Merge: 64d8c9d 82b254a
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 11 13:59:48 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 82b254a6a35c06ca770532c85f474921981d5be8[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 11 13:59:25 2025 +0300
+
+    corrected logstash destination in employee service
+
+[33mcommit 97af96d2b82461aaa03349c1423c053b22f44d0f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 11 13:38:20 2025 +0300
+
+    eliminated logstash.conf custom filter
+
+[33mcommit 64d8c9d463eca5376d5f705e02e7119cfd110ae5[m
+Merge: b5ff092 db91e4c
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 11 13:15:48 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+    new commit
+
+[33mcommit db91e4cb0cb8c1cf93c0301eff32f896a0d83834[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 11 13:15:31 2025 +0300
+
+    added the logstash.conf
+
+[33mcommit b5ff09250290a863c34903a047cec3934a916d3c[m
+Merge: 6d9e463 80df8ae
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 11 12:43:35 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 80df8ae35391158c7e8d3161f701a371be679d9c[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 11 12:43:14 2025 +0300
+
+    updated ELK bundle in docker-compose.yml and logback-spring.yml
+
+[33mcommit 6d9e46340880062a0a3d7103ed1b8eceb827c3c8[m
+Merge: 0b1481d d1c5435
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 11 12:32:37 2025 +0300
+
+    Merge branch 'dev' of https://github.com/mantrasandbox/wcrs into dev
+
+[33mcommit 0b1481d47d7c8e63af8defd1c8bfc9f7538a8845[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 11 12:32:06 2025 +0300
+
+    added optional back to app.yml for employee
+
+[33mcommit d1c5435c32ec581a24a603618d022a294025baa7[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 11 12:26:00 2025 +0300
+
+    ELK bundle added to docker-compose.yml and logback-spring.yml added to employee microservice
+
+[33mcommit 135605025f644a70bb315ffa0d9b62eeaea3e22f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 11 10:17:48 2025 +0300
+
+    Removed the optional:config-server setting in the microservices application.yml
+
+[33mcommit eaf32474c1c92c278960d089334e2fc32b0c7bb2[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 18:46:17 2025 +0300
+
+    Added admin docker file
+
+[33mcommit 8cf202b7f064080dff906bdf3f0af0cad1032e89[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 17:59:18 2025 +0300
+
+    Updated spring-boot-admin-starter-client version from 3.0.0-M5 to 3.4.5
+
+[33mcommit 2e9c3976470fac528be1153ff765edd868414f0f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 17:44:51 2025 +0300
+
+    Added spring-boot-starter dependency to employee service and relocated the admin config to github config repo
+
+[33mcommit 72bcce84903f22d4fb18aa18ddf6fbd627823f6e[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 17:29:24 2025 +0300
+
+    Spring Boot Admin added
+
+[33mcommit beeebdc4c3c0851690cb325f5aa994853347f384[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 15:55:12 2025 +0300
+
+    updated viewEmployee
+
+[33mcommit 25e9d8e7b2875c1e1d6e84b9ac4e94342b308d4c[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 15:39:54 2025 +0300
+
+    Updated discovery microservice to logging level: info
+
+[33mcommit 8f62bd4851e39b9e5cef59d0f36444c457817951[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 15:14:26 2025 +0300
+
+    View Employee mapping added
+
+[33mcommit 2575a45f6f3c5c4a96b732470294689e97ef604d[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 11:21:52 2025 +0300
+
+    Removed main from the push branches in dev workflow
+
+[33mcommit 537f7355d028920c0e0746a1594c3918237283bf[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 11:20:11 2025 +0300
+
+    Readded .github workflows
+
+[33mcommit d9ebbaba1f722e53689db17789a3ddb7dc791200[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 10:57:15 2025 +0300
+
+    Docker compose updated
+
+[33mcommit 3d0f46fd2a7506d310784ede614154e9985f1938[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 10:48:24 2025 +0300
+
+    Testing trigger again
+
+[33mcommit 9cfa2fbfdd5420bbd310aaa6ebf1a3ec8e8f6b7f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 10:43:07 2025 +0300
+
+    Testing dev trigger
+
+[33mcommit a259969ab849e7a8cb229106e281310a4d048b89[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 10 10:24:05 2025 +0300
+
+    Deleted .github dir and updated docker-compose.yml to reflect changes in the main branch
+
+[33mcommit 7b4a14705f8f5aad12593b72cddb2e847c448a8b[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 17:26:52 2025 +0300
+
+    testing workflow with out specifying paths
+
+[33mcommit fa435a73312137e5c517e3c8eb4ba2763bdf1b8a[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 17:08:44 2025 +0300
+
+    Testing Again
+
+[33mcommit ada99aed2ad52c642e746990856af2a24ee39582[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 17:02:02 2025 +0300
+
+    Testing Again
+
+[33mcommit 71161729860a7c1bd84b860fe46455d385b908c4[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:55:59 2025 +0300
+
+    Testing Again
+
+[33mcommit 613572b8a0ba688488acd67a3c90f90fb5468d39[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:49:08 2025 +0300
+
+    Testing
+
+[33mcommit e719ce0f9790e0c78931f45b5682c219af167683[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:46:42 2025 +0300
+
+    Testing again
+
+[33mcommit cd918fd74e3eb5392e53897f6178b821c1d15da4[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:38:05 2025 +0300
+
+    Testing new workflow changes
+
+[33mcommit d54b039197df9f1112159057c04cc9764132e502[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:33:44 2025 +0300
+
+    on updated to both dev and main
+
+[33mcommit 48a093d4e308aff410d92db596dea36fe44bcd3f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:27:16 2025 +0300
+
+    Included a maven build step to the workflow
+
+[33mcommit 7a996ba5cf3e343a6b1c92fcadb62edc761e53d8[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:18:59 2025 +0300
+
+    changed the on from push to pull_request
+
+[33mcommit fa43252319e8e05ee66af3f510378225ab5eb1d2[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:12:49 2025 +0300
+
+    Testing pushing to dev branch
+
+[33mcommit 80bca154271ef8ab6444c671f6a02b329c83c17d[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:11:16 2025 +0300
+
+    Step to setup java added
+
+[33mcommit 98199a704f53b79e625e7e472a3e7b32918fbe0e[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 16:04:32 2025 +0300
+
+    First step added to workflow
+
+[33mcommit d65856fde2f577206bf97c843fb1a88ce163f368[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Wed Apr 9 15:58:37 2025 +0300
+
+    Update ci.yml
+    
+    changed commit to push
+
+[33mcommit c4290fdc741b9d06b6b563fab445d3f13534f98c[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 15:56:27 2025 +0300
+
+    Testing the Backend CI workflow
+
+[33mcommit cd6512093f30fa599bb28c09abe79a1f0a88fc22[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 9 15:50:17 2025 +0300
+
+    Added github workflow for Backend CI
+
+[33mcommit 7fc4bf69d181d45745e5a684f55a0a1810c8527e[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 8 12:19:00 2025 +0300
+
+    Added employee Dockerfile and updated bind points in application.yml files
+
+[33mcommit ea0643889c3042d60f1a85c94ed6308750c88a3d[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon Apr 7 17:57:28 2025 +0300
+
+    Config-server and Discovery microservice docker files created
+
+[33mcommit 8a3db46fbc581351b91a90819591ee5f0291b20f[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 4 17:49:37 2025 +0300
+
+    Updated ExceptionHandler with super(message)
+
+[33mcommit bc40ddc02a87ccd95b4fe1f1788441a37dd75efe[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 4 17:33:57 2025 +0300
+
+    Exception method for handling validation errors
+
+[33mcommit 3cfd461ff84c398cf69fd610f9edd19f93b9f9bb[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 4 16:56:46 2025 +0300
+
+    Removed max annotation and replaced with size annotation
+
+[33mcommit 22927baf75856e0129b1c88b495a39e379b4c1cb[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 4 16:34:06 2025 +0300
+
+    Added request mapping
+
+[33mcommit cbe50a5c6fb0d948a3be4fef733a66e6e46f0c02[m
+Merge: 73fb27e e2c929a
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 4 16:26:42 2025 +0300
+
+    Merge remote-tracking branch 'origin/dev' into dev
+    
+    # Conflicts:
+    #       services/employee/src/main/java/com/wcrs/employee/dto/EmployeeResponseDTO.java
+    #       services/employee/src/main/java/com/wcrs/employee/service/EmployeeService.java
+
+[33mcommit 73fb27e0964e1904a61000be32a8ad695e39fd12[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 4 13:55:10 2025 +0300
+
+    Employee create method
+
+[33mcommit e2c929a2c1306c7a757f32eaa67da9e8a99dd6ce[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Fri Apr 4 13:55:10 2025 +0300
+
+    Employee create method
+
+[33mcommit 4a0785bc3052afa574d72ee58c6adf8ac0af44b9[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 4 12:56:43 2025 +0300
+
+    Added Controller, Service and Repository packages
+
+[33mcommit a43255dc23698039d33272b92171875191a61645[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Apr 4 12:25:14 2025 +0300
+
+    Added spring cloud dependencies to employee microservice
+
+[33mcommit b5a4a7ccc96e0e1f5411be2289c24ac66a7c1fe0[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 3 18:03:12 2025 +0300
+
+    application.properties file included
+
+[33mcommit 7da1032770e76205db28fe5e266a0eee1f66d5a9[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 3 18:01:04 2025 +0300
+
+    Employee Microservice updated with JPA
+
+[33mcommit 84455ba3e5b2248fd9271e61fffee683d203bf02[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Thu Apr 3 16:16:32 2025 +0300
+
+    Employee Microservice Added
+
+[33mcommit 6dfef62f2248b96d0e7de6eff2ed30aa00a3ca69[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Wed Apr 2 17:20:12 2025 +0300
+
+    Docker compose file
+
+[33mcommit b51d4b758f93969d7bce6b40b68eacecf6940cef[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Wed Apr 2 14:50:29 2025 +0300
+
+    Update application.yml
+
+[33mcommit 934eb3f263ac8a781de4891eea3ec6194ea2210c[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Wed Apr 2 14:39:33 2025 +0300
+
+    Last changes to config server ...For now!
+
+[33mcommit 26f5c6ab0f90497de47906f039f921ebb32cfdef[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Tue Apr 1 15:02:44 2025 +0300
+
+    Changes to configuration files after discovery-dev.yml update
+
+[33mcommit dff8a833b1e687166eafc39986a4b6cc15bfa877[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Mar 31 15:41:12 2025 +0300
+
+    Eureka server delete
+
+[33mcommit bbfdac117243cb401396b5a381b721d2bee68578[m
+Author: Kibuuka Allan Victor <akibuuka50@gmail.com>
+Date:   Mon Mar 31 15:29:10 2025 +0300
+
+    Eureka server setup
+
+[33mcommit aaec170f4ad47174eae7a0e93c95ac4cdbffec57[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Mon Mar 31 15:00:33 2025 +0300
+
+    Changes to configuration files
+
+[33mcommit 56ea776d494910fe0ae9df9238fdf3864350c58c[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Mar 28 18:30:05 2025 +0300
+
+    Config server commit- with error
+
+[33mcommit 2629e9b62f6e562651559a172e0c463e09d85640[m
+Author: tendojoshua <tendojoshua@gmail.com>
+Date:   Fri Mar 28 18:26:27 2025 +0300
+
+    Config server commit- with error
+
+[33mcommit 8c026a6057c1bdec1148f0f18703ef1f85649b1a[m
+Author: mantrasandbox <mantrasandbox@gmail.com>
+Date:   Wed Mar 26 14:16:25 2025 +0300
+
+    Initial commit
