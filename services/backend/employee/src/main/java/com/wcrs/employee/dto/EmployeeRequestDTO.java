@@ -34,9 +34,9 @@ public record EmployeeRequestDTO(
         @Email(message = "Email must be valid")
         String email,
 
-
         @Valid
         PhoneDTO phone,
+
         @ValidEnum(enumClass = Gender.class, message = "Gender is not valid")
         String gender
 ) {
