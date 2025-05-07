@@ -1,4 +1,4 @@
-name: CI - Build Changed Backend Services
+name: CI - Build Backend Services
 
 on:
   workflow_dispatch:
@@ -86,7 +86,7 @@ jobs:
           done <<< "${{ steps.changed-files.outputs.all_changed_files }}"
 
           # Convert to JSON array with clean paths
-          json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R -s 'split("\n") | map(select(. != ""))')
+          json_array=$(printf '%s\n'"${!service_roots[@]}" | jq -R -s 'split("\n") | map(select(. != ""))')
           echo "changed_services=$json_array"
           echo "changed_services=$json_array" >> $GITHUB_OUTPUT
 
