@@ -12,7 +12,7 @@ env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
   DOCKER_HUB_REPO_PREFIX: mantrasandbox/
-  REPO_LOCATION: "services/backend"
+  REPO_LOCATION: services/backend
 
 jobs:
   discover-changed-services:
