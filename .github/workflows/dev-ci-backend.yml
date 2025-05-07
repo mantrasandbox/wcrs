@@ -1,4 +1,4 @@
-name: CI - Build Backend Services
+name: CI - Build Changed Backend Services
 
 on:
   workflow_dispatch:
@@ -17,23 +17,38 @@ env:
 jobs:
   build-backend:
     runs-on: ubuntu-latest
-#    services:
-#      postgres:
-#        image: postgres:14.5
-#        env:
-#          POSTGRES_USER: wcrs
-#          POSTGRES_PASSWORD: wcrs
-#          POSTGRES_DB: employee
-#        ports:
-#          - 5433:5432
-#        options: >-
-#          --health-cmd pg_isready
-#          --health-interval 10s
-#          --health-timeout 5s
-#          --health-retries 5
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Needed to get proper git diff
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            services/backend/**
+
+      - name: Identify changed services
+        id: changed-services
+        run: |
+          # Get unique service directories that were changed
+          changed_dirs=()
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            # Extract service directory (assuming structure services/backend/service-name)
+            service_dir=$(dirname "$file" | cut -d'/' -f1-3)
+            if [[ ! " ${changed_dirs[@]} " =~ " ${service_dir} " ]]; then
+              changed_dirs+=("$service_dir")
+            fi
+          done
+          
+          # Convert array to JSON array
+          json_array=$(printf '%s\n' "${changed_dirs[@]}" | jq -R . | jq -s .)
+          echo "Changed service directories: $json_array"
+          
+          # Set output
+          echo "changed_services=$json_array" >> $GITHUB_OUTPUT
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -52,12 +67,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Find and build all Maven projects
+      - name: Build changed Maven projects
         run: |
-          echo "Discovering all pom.xml files in services/..."
-          find services/ -name pom.xml | while read pom; do
-          echo "Building project in $(dirname $pom)..."
-          mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+          echo "Changed services to build: ${{ steps.changed-services.outputs.changed_services }}"
+          echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]' | while read service_dir; do
+            if [ -f "$service_dir/pom.xml" ]; then
+              echo "Building project in $service_dir..."
+              mvn -B package --file "$service_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+            else
+              echo "No pom.xml found in $service_dir"
+            fi
           done
 
       - name: Set up Docker Buildx
@@ -86,29 +105,30 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_TOKEN }}
 
-      - name: Build and push Docker images with full caching
+      - name: Build and push changed Docker images
         run: |
           # First prepare Maven cache
           mkdir -p .m2-cache
           cp -r ~/.m2/repository .m2-cache/
           
-          find services/ -name pom.xml | while read pom; do
-            service_dir=$(dirname "$pom")
-            service_name=$(basename "$service_dir")
-            jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
+          echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]' | while read service_dir; do
+            if [ -f "$service_dir/pom.xml" ]; then
+              service_name=$(basename "$service_dir")
+              jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           
-            if [ -f "$jar_file" ]; then
-              echo "Building Docker image for $service_name..."
-              docker buildx build \
-                --push \
-                --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
-                --cache-to type=local,dest=/tmp/.buildx-cache \
-                --cache-from type=local,src=/tmp/.buildx-cache \
-                --build-arg JAR_FILE=$(basename "$jar_file") \
-                --build-context maven-cache=./.m2-cache \
-                -f "$service_dir/Dockerfile" \
-                "$service_dir"
-            else
-              echo "No jar file found for $service_name in $service_dir/target/"
+              if [ -f "$jar_file" ]; then
+                echo "Building Docker image for $service_name..."
+                docker buildx build \
+                  --push \
+                  --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
+                  --cache-to type=local,dest=/tmp/.buildx-cache \
+                  --cache-from type=local,src=/tmp/.buildx-cache \
+                  --build-arg JAR_FILE=$(basename "$jar_file") \
+                  --build-context maven-cache=./.m2-cache \
+                  -f "$service_dir/Dockerfile" \
+                  "$service_dir"
+              else
+                echo "No jar file found for $service_name in $service_dir/target/"
+              fi
             fi
           done

@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - dev
-      #- main
     paths:
       - services/frontend/** # Trigger only when frontend files change
 
@@ -20,16 +19,18 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       services: ${{ steps.find-services.outputs.services }}
+      changed_services: ${{ steps.find-changed-services.outputs.changed_services }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           ref: dev
+          fetch-depth: 2  # Needed to compare changes
           sparse-checkout: |
-             /${{ env.REPO_LOCATION }}             
+            /${{ env.REPO_LOCATION }}
           sparse-checkout-cone-mode: false
           skip-checks: true
-          
+
       - name: Find frontend services
         id: find-services
         run: |
@@ -50,49 +51,60 @@ jobs:
             echo "frontend directory not found"
             echo "services=[]" >> $GITHUB_OUTPUT
           fi
+
+      - name: Find changed services
+        id: find-changed-services
+        run: |
+          # Get list of changed files
+          CHANGED_FILES=$(git diff --name-only HEAD^ HEAD -- ${{ env.REPO_LOCATION }})
           
+          # Get all services
+          SERVICES=$(find ${{ env.REPO_LOCATION }} -mindepth 2 -maxdepth 2 -name package.json -exec dirname {} \; | xargs -n1 basename)
+          
+          CHANGED_SERVICES=""
+          for service in $SERVICES; do
+            if echo "$CHANGED_FILES" | grep -q "^${{ env.REPO_LOCATION }}$service/"; then
+              CHANGED_SERVICES="$CHANGED_SERVICES$service"$'\n'
+            fi
+          done
+          
+          if [ -z "$CHANGED_SERVICES" ]; then
+            echo "No changed services found"
+            echo "changed_services=[]" >> $GITHUB_OUTPUT
+          else
+            echo "Changed services:"
+            echo "$CHANGED_SERVICES"
+            # Convert to JSON array format
+            JSON_CHANGED_SERVICES=$(echo "$CHANGED_SERVICES" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+            echo "changed_services=$JSON_CHANGED_SERVICES" >> $GITHUB_OUTPUT
+          fi
+
   build-frontend:
     needs: discover # First Discover all the services before proceeding to build
-    #if: ${{ fromJSON(needs.discover.outputs.services) != [] }}
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        # Automatically discover frontend services
-        # This finds all directories in frontend/ containing package.json
-        service: ${{ fromJSON(needs.discover.outputs.services) }}
+        service: ${{ fromJSON(needs.discover.outputs.changed_services) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
           sparse-checkout: |
-            /${{ env.REPO_LOCATION }}  
+            /${{ env.REPO_LOCATION }}
           sparse-checkout-cone-mode: false
           skip-checks: true
-          
-#      - name: Verify checkout
-#        run: |
-#          pwd
-#          ls -la          # Debug: list checked out files
-#          cd services
-#          ls -la
-          
+
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           cache-dependency-path: ${{ env.REPO_LOCATION }}${{ matrix.service }}/package-lock.json
           node-version: '18'
-          cache: npm  # or 'npm' 'yarn' depending on your package manager
+          cache: npm
 
       - name: Install dependencies
         run: |
           cd ${{ env.REPO_LOCATION }}${{ matrix.service }}
-          npm ci # or yarn install --frozen-lockfile
-
-      # Uncomment after implementing test scripts
-      # - name: Run tests
-      #   run: |
-      #     cd ${{ env.REPO_LOCATION }}${{ matrix.service }}
-      #     npm test -- --watchAll=false
+          npm ci
 
       - name: Build production bundle
         run: |
@@ -113,6 +125,4 @@ jobs:
             --push \
             -t "${{ env.DOCKER_HUB_REPO_PREFIX }}${{ matrix.service }}:latest" \
             --build-arg SERVICE_NAME=${{ matrix.service }} \
-            . 
-
-
+            .

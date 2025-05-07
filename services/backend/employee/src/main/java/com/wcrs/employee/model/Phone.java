@@ -29,5 +29,4 @@ public class Phone {
     private PhoneCategory phoneCategory;
 
     private CountryCode countryCode;
-
 }
