@@ -33,18 +33,32 @@ jobs:
       - name: Identify changed services
         id: changed-services
         run: |
-          # Get unique service directories that were changed
-          changed_dirs=()
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            # Extract service directory (assuming structure services/backend/service-name)
-            service_dir=$(dirname "$file" | cut -d'/' -f1-3)
-            if [[ ! " ${changed_dirs[@]} " =~ " ${service_dir} " ]]; then
-              changed_dirs+=("$service_dir")
-            fi
+          # Function to find service root directory (closest parent with pom.xml)
+          find_service_root() {
+          local dir=$(dirname "$1")
+          while [[ "$dir" != "." && "$dir" != "/" ]]; do
+           if [[ -f "$dir/pom.xml" ]]; then
+             echo "$dir"
+             return
+           fi
+           dir=$(dirname "$dir")
           done
+          echo ""
+          }
           
-          # Convert array to JSON array
-          json_array=$(printf '%s\n' "${changed_dirs[@]}" | jq -R . | jq -s .)
+          # Get unique service root directories that were changed
+          declare -A service_roots  # Using associative array for automatic deduplication
+          while IFS= read -r file; do
+          if [[ -f "$file" ]]; then
+           service_root=$(find_service_root "$file")
+           if [[ -n "$service_root" ]]; then
+             service_roots["$service_root"]=1
+           fi
+          fi
+          done <<< "${{ steps.changed-files.outputs.all_changed_files }}"
+          
+          # Convert to JSON array
+          json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R . | jq -s .)
           echo "Changed service directories: $json_array"
           
           # Set output
