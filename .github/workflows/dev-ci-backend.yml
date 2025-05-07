@@ -53,9 +53,14 @@ jobs:
         id: changed-services
         if: steps.check-changes.outputs.has_changes == 'true'
         run: |
+          # Function to clean paths by removing quotes and extra spaces
+          clean_path() {
+            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+          }
+
           # Function to find service root directory
           find_service_root() {
-            local dir=$(dirname "$1")
+            local dir=$(clean_path "$(dirname "$1")")
             while [[ "$dir" != "." && "$dir" != "/" ]]; do
               # Look for any build indicator file/directory
               if [[ -f "$dir/pom.xml" || -f "$dir/build.gradle" || -f "$dir/Dockerfile" || -d "$dir/src" ]]; then
@@ -69,21 +74,28 @@ jobs:
 
           declare -A service_roots
           while IFS= read -r file; do
-            if [[ -f "$file" ]]; then
-              service_root=$(find_service_root "$file")
+            clean_file=$(clean_path "$file")
+            if [[ -f "$clean_file" ]]; then
+              service_root=$(find_service_root "$clean_file")
               if [[ -n "$service_root" ]]; then
                 service_roots["$service_root"]=1
               fi
             fi
           done <<< "${{ steps.changed-files.outputs.all_changed_files }}"
 
-          json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R . | jq -s .)
+          # Convert to JSON array with clean paths
+          json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R -s 'split("\n") | map(select(. != ""))')
           echo "changed_services=$json_array" >> $GITHUB_OUTPUT
 
       - name: Prepare sparse checkout paths
         id: prepare-sparse-checkout
         if: steps.check-changes.outputs.has_changes == 'true'
         run: |
+          # Function to clean paths by removing quotes and extra spaces
+          clean_path() {
+            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+          }
+
           # Get all unique directories that need to be checked out
           declare -A paths_to_checkout
           
@@ -94,12 +106,13 @@ jobs:
           
           # Include all changed service directories and their parents
           while IFS= read -r service_dir; do
-            dir="$service_dir"
+            clean_dir=$(clean_path "$service_dir")
+            dir="$clean_dir"
             while [[ "$dir" != "." ]]; do
               paths_to_checkout["$dir"]=1
               dir=$(dirname "$dir")
             done
-          done <<< $(echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]')
+          done <<< $(echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[] | select(. != null and . != "")')
           
           # Convert to comma-separated list
           paths_csv=$(IFS=,; echo "${!paths_to_checkout[*]}")
@@ -146,16 +159,22 @@ jobs:
 
       - name: Build changed projects
         run: |
+          # Function to clean paths by removing quotes and extra spaces
+          clean_path() {
+            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+          }
+
           echo "Building changed services:"
-          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[]' | while read service_dir; do
-            if [ -f "$service_dir/pom.xml" ]; then
-              echo "🏗️ Building Maven project in $service_dir..."
-              mvn -B package --file "$service_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
-            elif [ -f "$service_dir/build.gradle" ]; then
-              echo "🏗️ Building Gradle project in $service_dir..."
-              (cd "$service_dir" && ./gradlew build -x test)
+          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[] | select(. != null and . != "")' | while read service_dir; do
+            clean_dir=$(clean_path "$service_dir")
+            if [ -f "$clean_dir/pom.xml" ]; then
+              echo "🏗️ Building Maven project in $clean_dir..."
+              mvn -B package --file "$clean_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+            elif [ -f "$clean_dir/build.gradle" ]; then
+              echo "🏗️ Building Gradle project in $clean_dir..."
+              (cd "$clean_dir" && ./gradlew build -x test)
             else
-              echo "⚠️ No build file found in $service_dir (may be due to sparse checkout)"
+              echo "⚠️ No build file found in $clean_dir (may be due to sparse checkout)"
             fi
           done
 
@@ -187,28 +206,34 @@ jobs:
 
       - name: Build and push changed Docker images
         run: |
+          # Function to clean paths by removing quotes and extra spaces
+          clean_path() {
+            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+          }
+
           mkdir -p .m2-cache
           cp -r ~/.m2/repository .m2-cache/
           
-          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[]' | while read service_dir; do
-            if [ -f "$service_dir/Dockerfile" ]; then
-              service_name=$(basename "$service_dir")
+          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[] | select(. != null and . != "")' | while read service_dir; do
+            clean_dir=$(clean_path "$service_dir")
+            if [ -f "$clean_dir/Dockerfile" ]; then
+              service_name=$(basename "$clean_dir")
           
               # Find the appropriate build artifact based on project type
-              if [ -f "$service_dir/pom.xml" ]; then
+              if [ -f "$clean_dir/pom.xml" ]; then
                 # Maven project
-                jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
+                jar_file=$(find "$clean_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
                 build_arg="JAR_FILE=$(basename "$jar_file")"
-                build_context="$service_dir"
-              elif [ -f "$service_dir/build.gradle" ]; then
+                build_context="$clean_dir"
+              elif [ -f "$clean_dir/build.gradle" ]; then
                 # Gradle project
-                jar_file=$(find "$service_dir/build/libs" -name "*.jar" ! -name "*original*" | head -n 1)
+                jar_file=$(find "$clean_dir/build/libs" -name "*.jar" ! -name "*original*" | head -n 1)
                 build_arg="JAR_FILE=$(basename "$jar_file")"
-                build_context="$service_dir"
+                build_context="$clean_dir"
               else
                 # Generic Docker build
                 build_arg=""
-                build_context="$service_dir"
+                build_context="$clean_dir"
               fi
           
               echo "🐳 Building Docker image for $service_name..."
@@ -219,9 +244,9 @@ jobs:
                 --cache-from type=local,src=/tmp/.buildx-cache \
                 ${build_arg:+--build-arg $build_arg} \
                 --build-context maven-cache=./.m2-cache \
-                -f "$service_dir/Dockerfile" \
+                -f "$clean_dir/Dockerfile" \
                 "$build_context"
             else
-              echo "⚠️ No Dockerfile found in $service_dir"
+              echo "⚠️ No Dockerfile found in $clean_dir"
             fi
           done
