@@ -2,7 +2,6 @@ package com.wcrs.employee.dto;
 
 
 import com.wcrs.employee.enums.Gender;
-import com.wcrs.employee.model.Phone;
 import com.wcrs.employee.validator.ValidEnum;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;

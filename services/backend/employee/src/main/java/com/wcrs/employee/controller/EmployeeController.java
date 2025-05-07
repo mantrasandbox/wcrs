@@ -2,11 +2,11 @@ package com.wcrs.employee.controller;
 
 import com.wcrs.employee.dto.EmployeeRequestDTO;
 import com.wcrs.employee.dto.EmployeeResponseDTO;
-import com.wcrs.employee.dto.EmployeeUpdateDTO;
 import com.wcrs.employee.service.EmployeeService;
-import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +19,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping("/create")
-    public ResponseEntity<EmployeeResponseDTO> createEmployee(@RequestBody @Valid EmployeeRequestDTO employeeRequestDTO){
+    public ResponseEntity<EmployeeResponseDTO> createEmployee(@RequestBody @Validated({Default.class}) EmployeeRequestDTO employeeRequestDTO){
         return ResponseEntity.ok(employeeService.createEmployee(employeeRequestDTO));
     }
 
@@ -37,7 +37,7 @@ public class EmployeeController {
     }
 
     @PutMapping("/update/{nin}")
-    public ResponseEntity<Integer> updateEmployee(@Valid @RequestBody EmployeeUpdateDTO employeeUpdateDTO, @PathVariable("nin") String nin){
+    public ResponseEntity<Integer> updateEmployee(@Validated({Default.class}) @RequestBody EmployeeRequestDTO employeeUpdateDTO, @PathVariable("nin") String nin){
         return ResponseEntity.ok(employeeService.updateEmployee(employeeUpdateDTO, nin));
 
     }

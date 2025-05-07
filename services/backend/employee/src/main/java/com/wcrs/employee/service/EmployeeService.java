@@ -2,13 +2,13 @@ package com.wcrs.employee.service;
 
 import com.wcrs.employee.dto.EmployeeRequestDTO;
 import com.wcrs.employee.dto.EmployeeResponseDTO;
-import com.wcrs.employee.dto.EmployeeUpdateDTO;
 import com.wcrs.employee.exception.DuplicateNinException;
 import com.wcrs.employee.exception.DuplicateUserNameException;
 import com.wcrs.employee.exception.NonExistentNINException;
 import com.wcrs.employee.exception.RequestValidationException;
 import com.wcrs.employee.mapper.EmployeeMapper;
 import com.wcrs.employee.model.Employee;
+import com.wcrs.employee.model.Phone;
 import com.wcrs.employee.repository.EmployeeRepository;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +20,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 
 @Slf4j
@@ -76,7 +78,7 @@ public class EmployeeService {
        }
 
 
-    public Integer updateEmployee(@Valid EmployeeUpdateDTO employeeUpdateDTO, String nin) {
+    public Integer updateEmployee(@Valid EmployeeRequestDTO employeeUpdateDTO, String nin) {
         // check if employee for update exists
         Employee existEmployee = employeeRepository.findEmployeeByNIN(nin)
                 .orElseThrow(() -> new NonExistentNINException("This NIN does not exist"));
@@ -109,6 +111,23 @@ public class EmployeeService {
             changesAvailable = true;
         }
 
+        if (employeeUpdateDTO.email() != null && !employeeUpdateDTO.email().equals(existEmployee.getEmail())) {
+            existEmployee.setEmail(employeeUpdateDTO.email());
+            changesAvailable = true;
+        }
+        if (employeeUpdateDTO.phone() != null) {
+            Phone newPhone = employeeMapper.toPhone(employeeUpdateDTO.phone());
+
+            List<Phone> existingPhones = existEmployee.getPhone();
+            Phone existingPhone = (existingPhones != null && !existingPhones.isEmpty()) ? existingPhones.getFirst() : null;
+
+            if (!phonesAreEqual(existingPhone, newPhone)) {
+                existEmployee.setPhone(List.of(newPhone));
+                changesAvailable = true;
+            }
+        }
+
+
         if(!changesAvailable){
             throw new RequestValidationException("No changes found");
         }
@@ -116,6 +135,14 @@ public class EmployeeService {
 
 
     }
+
+    private boolean phonesAreEqual(Phone p1, Phone p2) {
+        if (p1 == null || p2 == null) return false;
+        return p1.getNumber().equals(p2.getNumber()) &&
+                p1.getCountryCode().equals(p2.getCountryCode()) &&
+                p1.getPhoneCategory() == p2.getPhoneCategory();
+    }
+
 
     public Void removeEmployee(String nin) {
         // check whether nin exist
