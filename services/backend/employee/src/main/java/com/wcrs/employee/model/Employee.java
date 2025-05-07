@@ -2,6 +2,7 @@ package com.wcrs.employee.model;
 
 import com.wcrs.employee.enums.Gender;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
@@ -16,12 +17,14 @@ import java.util.List;
 @Entity
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class Employee {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE,generator = "emp_seq")
     @SequenceGenerator(sequenceName = "emp_seq",name = "emp_seq", allocationSize = 1)
+    @Column(name = "emp_id")
     private Integer id;
 
     @Column(nullable = false)

@@ -19,7 +19,7 @@ public class Phone {
     private Integer id;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "emp_id")
     private Employee employee;
 
     @Column(nullable = false, unique = true,length = 9)
