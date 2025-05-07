@@ -1,19 +1,19 @@
 name: CI - Build Changed Backend Services
 
-env:
-  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  DOCKER_HUB_REPO_PREFIX: mantrasandbox/
-  REPO_LOCATION: services/backend
-
 on:
   workflow_dispatch:
   push:
     branches:
       - dev
     paths:
-      - ${{ env.REPO_LOCATION }}/**
-      -
+      - services/backend/**
+
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKER_HUB_REPO_PREFIX: mantrasandbox/
+  REPO_LOCATION: services/backend
+
 jobs:
   discover-changed-services:
     name: Discover Changed Services

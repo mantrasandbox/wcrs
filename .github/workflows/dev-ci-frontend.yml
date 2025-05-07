@@ -1,19 +1,18 @@
 name: CI - Build Frontend Services
 
-env:
-  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Private Docker Hub repository
-  REPO_LOCATION: services/frontend/
-
 on:
   workflow_dispatch:
   push:
     branches:
       - dev
     paths:
-      - ${{ env.REPO_LOCATION }}** # Trigger only when frontend files change
+      - services/frontend/** # Trigger only when frontend files change
 
+env:
+  DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+  DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+  DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Private Docker Hub repository
+  REPO_LOCATION: services/frontend/
 
 jobs:
   discover-changed-services:
