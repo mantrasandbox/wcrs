@@ -10,3 +10,4 @@ class WcrsAdminApplicationTests {
 	void contextLoads() {
 	}
 }
+
