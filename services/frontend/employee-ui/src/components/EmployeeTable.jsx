@@ -64,27 +64,33 @@ export function EmployeeTable({ employees, fetchEmployees }) {
   const rows =
     Array.isArray(employees) &&
     employees.map((employee) => (
-      <Table.Tr key={employee.fullName}>
+      <Table.Tr key={employee.NIN}>
         <Table.Td>
           <Group gap="sm">
             {/* <Avatar size={30} src={item.avatar} radius={30} /> */}
             <Text fz="sm" fw={500}>
-              {employee.fullName}
+              {employee.firstName}
             </Text>
           </Group>
         </Table.Td>
-
-        {/* <Table.Td>
-        <Badge color={jobColors[item.job.toLowerCase()]} variant="light">
-          {item.job}
-        </Badge>
-      </Table.Td> */}
         <Table.Td>
-          <Text fz="sm">{employee.NIN}</Text>
+          <Text fz="sm">{employee.lastName}</Text>
         </Table.Td>
-        {/* <Table.Td>
-        <Text fz="sm">{item.phone}</Text>
-      </Table.Td> */}
+
+        <Table.Td>
+          <Badge
+            color={jobColors[employee.jobTitle.toLowerCase()]}
+            variant="light"
+          >
+            {employee.jobTitle}
+          </Badge>
+        </Table.Td>
+        <Table.Td>
+          <Text fz="sm">{employee.email}</Text>
+        </Table.Td>
+        <Table.Td>
+          <Text fz="sm">{employee.gender}</Text>
+        </Table.Td>
         <Table.Td>
           <Group gap={0} justify="flex-end">
             <ActionIcon variant="subtle" color="gray">
@@ -128,10 +134,11 @@ export function EmployeeTable({ employees, fetchEmployees }) {
         >
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Employee</Table.Th>
+              <Table.Th>First Name</Table.Th>
+              <Table.Th>Last Name</Table.Th>
               <Table.Th>Job title</Table.Th>
               <Table.Th>Email</Table.Th>
-              <Table.Th>Phone</Table.Th>
+              <Table.Th>Gender</Table.Th>
               <Table.Th />
             </Table.Tr>
           </Table.Thead>
