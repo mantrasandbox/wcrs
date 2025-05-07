@@ -44,9 +44,9 @@ jobs:
         id: check-changes
         run: |
           if [ -z "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          else
             echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
           fi
 
       - name: Identify changed services
