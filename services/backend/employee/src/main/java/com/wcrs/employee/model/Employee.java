@@ -45,7 +45,7 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany
+    @OneToMany(mappedBy = "employee")
     private List<Phone> phone;
 
     @CreatedDate

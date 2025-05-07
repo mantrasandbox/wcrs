@@ -18,13 +18,16 @@ public class Phone {
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Integer id;
 
+    @ManyToOne
+    @JoinColumn(name = "id")
+    private Employee employee;
+
     @Column(nullable = false, unique = true,length = 9)
     private String number;
 
     @Column(nullable = false)
     private PhoneCategory phoneCategory;
+
     private CountryCode countryCode;
-
-
 
 }
