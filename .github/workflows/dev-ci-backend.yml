@@ -53,9 +53,11 @@ jobs:
         id: changed-services
         if: steps.check-changes.outputs.has_changes == 'true'
         run: |
-          # Function to clean paths by removing quotes and extra spaces
+          # Function to clean and validate paths
           clean_path() {
-            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+            local path=$(echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            # Replace any invalid characters with underscores
+            echo "$path" | sed 's/[^a-zA-Z0-9./_-]/_/g'
           }
 
           # Function to find service root directory
@@ -84,16 +86,18 @@ jobs:
           done <<< "${{ steps.changed-files.outputs.all_changed_files }}"
 
           # Convert to JSON array with clean paths
-          json_array=$(printf '%s\n'"${!service_roots[@]}" | jq -R -s 'split("\n") | map(select(. != ""))')
+          json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R -s 'split("\n") | map(select(. != ""))')
           echo "changed_services=$json_array" >> $GITHUB_OUTPUT
 
       - name: Prepare sparse checkout paths
         id: prepare-sparse-checkout
         if: steps.check-changes.outputs.has_changes == 'true'
         run: |
-          # Function to clean paths by removing quotes and extra spaces
+          # Function to clean and validate paths
           clean_path() {
-            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
+            local path=$(echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
+            # Replace any invalid characters with underscores
+            echo "$path" | sed 's/[^a-zA-Z0-9./_-]/_/g'
           }
 
           # Get all unique directories that need to be checked out
@@ -109,7 +113,9 @@ jobs:
             clean_dir=$(clean_path "$service_dir")
             dir="$clean_dir"
             while [[ "$dir" != "." ]]; do
-              paths_to_checkout["$dir"]=1
+              # Ensure the path is valid before using as array key
+              safe_dir=$(clean_path "$dir")
+              paths_to_checkout["$safe_dir"]=1
               dir=$(dirname "$dir")
             done
           done <<< $(echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[] | select(. != null and . != "")')
@@ -159,7 +165,7 @@ jobs:
 
       - name: Build changed projects
         run: |
-          # Function to clean paths by removing quotes and extra spaces
+          # Function to clean paths
           clean_path() {
             echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
           }
@@ -206,7 +212,7 @@ jobs:
 
       - name: Build and push changed Docker images
         run: |
-          # Function to clean paths by removing quotes and extra spaces
+          # Function to clean paths
           clean_path() {
             echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
           }
