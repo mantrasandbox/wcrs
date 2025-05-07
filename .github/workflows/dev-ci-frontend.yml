@@ -6,7 +6,7 @@ on:
     branches:
       - dev
     paths:
-      - ${{ env.REPO_LOCATION }}** # Trigger only when frontend files change
+      - services/frontend/** # Trigger only when frontend files change
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}

@@ -9,5 +9,4 @@ class WcrsAdminApplicationTests {
 	@Test
 	void contextLoads() {
 	}
-
 }
