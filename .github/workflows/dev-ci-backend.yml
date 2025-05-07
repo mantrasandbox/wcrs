@@ -5,64 +5,127 @@ on:
   push:
     branches:
       - dev
-      #- main
     paths:
-      - services/backend/** # Trigger only when backend files change
+      - ${{ env.REPO_LOCATION }}/**
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
+  DOCKER_HUB_REPO_PREFIX: mantrasandbox/
+  REPO_LOCATION: "services/backend"
 
 jobs:
-  build-backend:
+  discover-changed-services:
+    name: Discover Changed Services
     runs-on: ubuntu-latest
+    outputs:
+      services_json: ${{ steps.changed-services.outputs.changed_services }}
+      has_changes: ${{ steps.check-changes.outputs.has_changes }}
+      changed_paths: ${{ steps.prepare-sparse-checkout.outputs.changed_paths }}
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
         with:
-          fetch-depth: 0  # Needed to get proper git diff
+          fetch-depth: 0
+          sparse-checkout: |
+            /${{ env.REPO_LOCATION }}
+          sparse-checkout-cone-mode: false
+          skip-checks: true
 
       - name: Get changed files
         id: changed-files
         uses: tj-actions/changed-files@v35
         with:
           files: |
-            services/backend/**
+            ${{ env.REPO_LOCATION }}/**
+
+      - name: Check if any changes exist
+        id: check-changes
+        run: |
+          if [ -z "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
+            echo "has_changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "has_changes=true" >> $GITHUB_OUTPUT
+          fi
 
       - name: Identify changed services
         id: changed-services
+        if: steps.check-changes.outputs.has_changes == 'true'
         run: |
-          # Function to find service root directory (closest parent with pom.xml)
+          # Function to find service root directory
           find_service_root() {
-          local dir=$(dirname "$1")
-          while [[ "$dir" != "." && "$dir" != "/" ]]; do
-           if [[ -f "$dir/pom.xml" ]]; then
-             echo "$dir"
-             return
-           fi
-           dir=$(dirname "$dir")
-          done
-          echo ""
+            local dir=$(dirname "$1")
+            while [[ "$dir" != "." && "$dir" != "/" ]]; do
+              # Look for any build indicator file/directory
+              if [[ -f "$dir/pom.xml" || -f "$dir/build.gradle" || -f "$dir/Dockerfile" || -d "$dir/src" ]]; then
+                echo "$dir"
+                return
+              fi
+              dir=$(dirname "$dir")
+            done
+            echo ""
           }
-          
-          # Get unique service root directories that were changed
-          declare -A service_roots  # Using associative array for automatic deduplication
+
+          declare -A service_roots
           while IFS= read -r file; do
-          if [[ -f "$file" ]]; then
-           service_root=$(find_service_root "$file")
-           if [[ -n "$service_root" ]]; then
-             service_roots["$service_root"]=1
-           fi
-          fi
+            if [[ -f "$file" ]]; then
+              service_root=$(find_service_root "$file")
+              if [[ -n "$service_root" ]]; then
+                service_roots["$service_root"]=1
+              fi
+            fi
           done <<< "${{ steps.changed-files.outputs.all_changed_files }}"
-          
-          # Convert to JSON array
+
           json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R . | jq -s .)
-          echo "Changed service directories: $json_array"
-          
-          # Set output
           echo "changed_services=$json_array" >> $GITHUB_OUTPUT
+
+      - name: Prepare sparse checkout paths
+        id: prepare-sparse-checkout
+        if: steps.check-changes.outputs.has_changes == 'true'
+        run: |
+          # Get all unique directories that need to be checked out
+          declare -A paths_to_checkout
+          
+          # Always include root build files if they exist
+          if [[ -f "pom.xml" || -f "build.gradle" || -f "settings.gradle" ]]; then
+            paths_to_checkout["."]=1
+          fi
+          
+          # Include all changed service directories and their parents
+          while IFS= read -r service_dir; do
+            dir="$service_dir"
+            while [[ "$dir" != "." ]]; do
+              paths_to_checkout["$dir"]=1
+              dir=$(dirname "$dir")
+            done
+          done <<< $(echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]')
+          
+          # Convert to comma-separated list
+          paths_csv=$(IFS=,; echo "${!paths_to_checkout[*]}")
+          echo "Paths to checkout: $paths_csv"
+          echo "changed_paths=$paths_csv" >> $GITHUB_OUTPUT
+
+  build-backend:
+    name: Build Backend Services
+    needs: discover-changed-services
+    if: needs.discover-changed-services.outputs.has_changes == 'true'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Configure sparse checkout
+        uses: actions/checkout@v3
+        with:
+          sparse-checkout: |
+            ${{ needs.discover-changed-services.outputs.changed_paths }}
+            !${{ env.REPO_LOCATION }}/*/*  # Exclude other services
+          sparse-checkout-cone-mode: false
+          fetch-depth: 0
+
+      - name: Verify checked out files
+        run: |
+          echo "Checked out files:"
+          find . -type f | sed 's|^\./||'
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -77,19 +140,22 @@ jobs:
           path: |
             ~/.m2/repository
             */target/**
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: sparse-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            ${{ runner.os }}-maven-
+            sparse-${{ runner.os }}-maven-
 
-      - name: Build changed Maven projects
+      - name: Build changed projects
         run: |
-          echo "Changed services to build: ${{ steps.changed-services.outputs.changed_services }}"
-          echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]' | while read service_dir; do
+          echo "Building changed services:"
+          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[]' | while read service_dir; do
             if [ -f "$service_dir/pom.xml" ]; then
-              echo "Building project in $service_dir..."
+              echo "🏗️ Building Maven project in $service_dir..."
               mvn -B package --file "$service_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+            elif [ -f "$service_dir/build.gradle" ]; then
+              echo "🏗️ Building Gradle project in $service_dir..."
+              (cd "$service_dir" && ./gradlew build -x test)
             else
-              echo "No pom.xml found in $service_dir"
+              echo "⚠️ No build file found in $service_dir (may be due to sparse checkout)"
             fi
           done
 
@@ -121,28 +187,41 @@ jobs:
 
       - name: Build and push changed Docker images
         run: |
-          # First prepare Maven cache
           mkdir -p .m2-cache
           cp -r ~/.m2/repository .m2-cache/
           
-          echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]' | while read service_dir; do
-            if [ -f "$service_dir/pom.xml" ]; then
+          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[]' | while read service_dir; do
+            if [ -f "$service_dir/Dockerfile" ]; then
               service_name=$(basename "$service_dir")
-              jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           
-              if [ -f "$jar_file" ]; then
-                echo "Building Docker image for $service_name..."
-                docker buildx build \
-                  --push \
-                  --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
-                  --cache-to type=local,dest=/tmp/.buildx-cache \
-                  --cache-from type=local,src=/tmp/.buildx-cache \
-                  --build-arg JAR_FILE=$(basename "$jar_file") \
-                  --build-context maven-cache=./.m2-cache \
-                  -f "$service_dir/Dockerfile" \
-                  "$service_dir"
+              # Find the appropriate build artifact based on project type
+              if [ -f "$service_dir/pom.xml" ]; then
+                # Maven project
+                jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
+                build_arg="JAR_FILE=$(basename "$jar_file")"
+                build_context="$service_dir"
+              elif [ -f "$service_dir/build.gradle" ]; then
+                # Gradle project
+                jar_file=$(find "$service_dir/build/libs" -name "*.jar" ! -name "*original*" | head -n 1)
+                build_arg="JAR_FILE=$(basename "$jar_file")"
+                build_context="$service_dir"
               else
-                echo "No jar file found for $service_name in $service_dir/target/"
+                # Generic Docker build
+                build_arg=""
+                build_context="$service_dir"
               fi
+          
+              echo "🐳 Building Docker image for $service_name..."
+              docker buildx build \
+                --push \
+                --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
+                --cache-to type=local,dest=/tmp/.buildx-cache \
+                --cache-from type=local,src=/tmp/.buildx-cache \
+                ${build_arg:+--build-arg $build_arg} \
+                --build-context maven-cache=./.m2-cache \
+                -f "$service_dir/Dockerfile" \
+                "$build_context"
+            else
+              echo "⚠️ No Dockerfile found in $service_dir"
             fi
           done

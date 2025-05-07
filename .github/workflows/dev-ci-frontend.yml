@@ -6,7 +6,7 @@ on:
     branches:
       - dev
     paths:
-      - services/frontend/** # Trigger only when frontend files change
+      - ${{ env.REPO_LOCATION }}** # Trigger only when frontend files change
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
@@ -15,7 +15,8 @@ env:
   REPO_LOCATION: services/frontend/
 
 jobs:
-  discover:
+  discover-changed-services:
+    name: Discover Changed Services
     runs-on: ubuntu-latest
     outputs:
       services: ${{ steps.find-services.outputs.services }}
@@ -80,11 +81,11 @@ jobs:
           fi
 
   build-frontend:
-    needs: discover # First Discover all the services before proceeding to build
+    needs: discover-changed-services # First Discover all the services before proceeding to build
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        service: ${{ fromJSON(needs.discover.outputs.changed_services) }}
+        service: ${{ fromJSON(needs.discover-changed-services.outputs.changed_services) }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
