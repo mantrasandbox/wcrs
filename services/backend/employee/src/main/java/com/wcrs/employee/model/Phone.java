@@ -1,0 +1,30 @@
+package com.wcrs.employee.model;
+
+
+import com.wcrs.employee.enums.CountryCode;
+import com.wcrs.employee.enums.PhoneCategory;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+
+@Entity
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+public class Phone {
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Integer id;
+
+    @Column(nullable = false, unique = true,length = 9)
+    private String number;
+
+    @Column(nullable = false)
+    private PhoneCategory phoneCategory;
+    private CountryCode countryCode;
+
+
+
+}

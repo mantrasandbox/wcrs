@@ -11,6 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Period;
+import java.util.List;
 
 @Entity
 @Data
@@ -44,8 +45,8 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false, unique = true)
-    private String phone;
+    @OneToMany
+    private List<Phone> phone;
 
     @CreatedDate
     @Column(nullable = false,updatable = false)
