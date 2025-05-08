@@ -5,147 +5,22 @@ on:
   push:
     branches:
       - dev
+      #- main
     paths:
-      - services/backend/**
+      - services/backend/** # Trigger only when backend files change
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
   DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
-  DOCKER_HUB_REPO_PREFIX: mantrasandbox/
-  REPO_LOCATION: services/backend
+  DOCKER_HUB_REPO_PREFIX: mantrasandbox/  # Change this
 
 jobs:
-  discover-changed-services:
-    name: Discover Changed Services
+  build-backend:
     runs-on: ubuntu-latest
-    outputs:
-      services_json: ${{ steps.changed-services.outputs.changed_services }}
-      has_changes: ${{ steps.check-changes.outputs.has_changes }}
-      changed_paths: ${{ steps.prepare-sparse-checkout.outputs.changed_paths }}
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          sparse-checkout: |
-            /${{ env.REPO_LOCATION }}
-          sparse-checkout-cone-mode: false
-          skip-checks: true
-
-      - name: Get changed files
-        id: changed-files
-        uses: tj-actions/changed-files@v35
-        with:
-          files: |
-            ${{ env.REPO_LOCATION }}/**
-
-      - name: Check if any changes exist
-        id: check-changes
-        run: |
-          if [ -z "${{ steps.changed-files.outputs.all_changed_files }}" ]; then
-            echo "has_changes=false" >> $GITHUB_OUTPUT
-          else
-            echo "has_changes=true" >> $GITHUB_OUTPUT
-          fi
-
-      - name: Identify changed services
-        id: changed-services
-        if: steps.check-changes.outputs.has_changes == 'true'
-        run: |
-          # Function to clean and validate paths
-          clean_path() {
-            local path=$(echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-            # Replace any invalid characters with underscores
-            echo "$path" | sed 's/[^a-zA-Z0-9./_-]/_/g'
-          }
-
-          # Function to find service root directory
-          find_service_root() {
-            local dir=$(clean_path "$(dirname "$1")")
-            while [[ "$dir" != "." && "$dir" != "/" ]]; do
-              # Look for any build indicator file/directory
-              if [[ -f "$dir/pom.xml" || -f "$dir/build.gradle" || -f "$dir/Dockerfile" || -d "$dir/src" ]]; then
-                echo "$dir"
-                return
-              fi
-              dir=$(dirname "$dir")
-            done
-            echo ""
-          }
-
-          declare -A service_roots
-          while IFS= read -r file; do
-            clean_file=$(clean_path "$file")
-            if [[ -f "$clean_file" ]]; then
-              service_root=$(find_service_root "$clean_file")
-              if [[ -n "$service_root" ]]; then
-                service_roots["$service_root"]=1
-              fi
-            fi
-          done <<< "${{ steps.changed-files.outputs.all_changed_files }}"
-
-          # Convert to JSON array with clean paths
-          json_array=$(printf '%s\n' "${!service_roots[@]}" | jq -R -s 'split("\n") | map(select(. != ""))')
-          echo "changed_services=$json_array"
-          echo "changed_services=$json_array" >> $GITHUB_OUTPUT
-
-      - name: Prepare sparse checkout paths
-        id: prepare-sparse-checkout
-        if: steps.check-changes.outputs.has_changes == 'true'
-        run: |
-          # Function to clean and validate paths
-          clean_path() {
-            local path=$(echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//')
-            # Replace any invalid characters with underscores
-            echo "$path" | sed 's/[^a-zA-Z0-9./_-]/_/g'
-          }
-
-          # Get all unique directories that need to be checked out
-          declare -A paths_to_checkout
-          
-          # Always include root build files if they exist
-          if [[ -f "pom.xml" || -f "build.gradle" || -f "settings.gradle" ]]; then
-            paths_to_checkout["."]=1
-          fi
-          
-          # Include all changed service directories and their parents
-          while IFS= read -r service_dir; do
-            clean_dir=$(clean_path "$service_dir")
-            dir="$clean_dir"
-            while [[ "$dir" != "." ]]; do
-              # Ensure the path is valid before using as array key
-              safe_dir=$(clean_path "$dir")
-              paths_to_checkout["$safe_dir"]=1
-              dir=$(dirname "$dir")
-            done
-          done <<< $(echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[] | select(. != null and . != "")')
-          
-          # Convert to comma-separated list
-          paths_csv=$(IFS=,; echo "${!paths_to_checkout[*]}")
-          echo "Paths to checkout: $paths_csv"
-          echo "changed_paths=$paths_csv" >> $GITHUB_OUTPUT
-
-  build-backend:
-    name: Build Backend Services
-    needs: discover-changed-services
-    if: needs.discover-changed-services.outputs.has_changes == 'true'
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Configure sparse checkout
-        uses: actions/checkout@v3
-        with:
-          sparse-checkout: |
-            ${{ needs.discover-changed-services.outputs.changed_paths }}
-            !${{ env.REPO_LOCATION }}/*/*  # Exclude other services
-          sparse-checkout-cone-mode: false
-          fetch-depth: 0
-
-      - name: Verify checked out files
-        run: |
-          echo "Checked out files:"
-          find . -type f | sed 's|^\./||'
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -160,29 +35,16 @@ jobs:
           path: |
             ~/.m2/repository
             */target/**
-          key: sparse-${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
-            sparse-${{ runner.os }}-maven-
+            ${{ runner.os }}-maven-
 
-      - name: Build changed projects
+      - name: Find and build all Maven projects
         run: |
-          # Function to clean paths
-          clean_path() {
-            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
-          }
-
-          echo "Building changed services:"
-          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[] | select(. != null and . != "")' | while read service_dir; do
-            clean_dir=$(clean_path "$service_dir")
-            if [ -f "$clean_dir/pom.xml" ]; then
-              echo "🏗️ Building Maven project in $clean_dir..."
-              mvn -B package --file "$clean_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
-            elif [ -f "$clean_dir/build.gradle" ]; then
-              echo "🏗️ Building Gradle project in $clean_dir..."
-              (cd "$clean_dir" && ./gradlew build -x test)
-            else
-              echo "⚠️ No build file found in $clean_dir (may be due to sparse checkout)"
-            fi
+          echo "Discovering all pom.xml files in services/..."
+          find services/ -name pom.xml | while read pom; do
+          echo "Building project in $(dirname $pom)..."
+          mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
           done
 
       - name: Set up Docker Buildx
@@ -211,49 +73,29 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_TOKEN }}
 
-      - name: Build and push changed Docker images
+      - name: Build and push Docker images with full caching
         run: |
-          # Function to clean paths
-          clean_path() {
-            echo "$1" | sed -e 's/^[[:space:]]*"//' -e 's/"[[:space:]]*$//' -e 's/^[[:space:]]*//' -e 's/[[:space:]]*$//'
-          }
-
+          # First prepare Maven cache
           mkdir -p .m2-cache
           cp -r ~/.m2/repository .m2-cache/
           
-          echo "${{ needs.discover-changed-services.outputs.services_json }}" | jq -r '.[] | select(. != null and . != "")' | while read service_dir; do
-            clean_dir=$(clean_path "$service_dir")
-            if [ -f "$clean_dir/Dockerfile" ]; then
-              service_name=$(basename "$clean_dir")
+          find services/ -name pom.xml | while read pom; do
+            service_dir=$(dirname "$pom")
+            service_name=$(basename "$service_dir")
+            jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           
-              # Find the appropriate build artifact based on project type
-              if [ -f "$clean_dir/pom.xml" ]; then
-                # Maven project
-                jar_file=$(find "$clean_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
-                build_arg="JAR_FILE=$(basename "$jar_file")"
-                build_context="$clean_dir"
-              elif [ -f "$clean_dir/build.gradle" ]; then
-                # Gradle project
-                jar_file=$(find "$clean_dir/build/libs" -name "*.jar" ! -name "*original*" | head -n 1)
-                build_arg="JAR_FILE=$(basename "$jar_file")"
-                build_context="$clean_dir"
-              else
-                # Generic Docker build
-                build_arg=""
-                build_context="$clean_dir"
-              fi
-          
-              echo "🐳 Building Docker image for $service_name..."
+            if [ -f "$jar_file" ]; then
+              echo "Building Docker image for $service_name..."
               docker buildx build \
                 --push \
                 --tag "${{ env.DOCKER_HUB_REPO_PREFIX }}$service_name:latest" \
                 --cache-to type=local,dest=/tmp/.buildx-cache \
                 --cache-from type=local,src=/tmp/.buildx-cache \
-                ${build_arg:+--build-arg $build_arg} \
+                --build-arg JAR_FILE=$(basename "$jar_file") \
                 --build-context maven-cache=./.m2-cache \
-                -f "$clean_dir/Dockerfile" \
-                "$build_context"
+                -f "$service_dir/Dockerfile" \
+                "$service_dir"
             else
-              echo "⚠️ No Dockerfile found in $clean_dir"
+              echo "No jar file found for $service_name in $service_dir/target/"
             fi
           done
