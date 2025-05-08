@@ -54,9 +54,9 @@ public class EmployeeApplication {
 				List<Phone> phones = new ArrayList<>();
 				for (int j = 0; j < phoneCount; j++) {
 					Phone phone = new Phone();
-					phone.setNumber(faker.phoneNumber().cellPhone());
+					phone.setNumber(faker.phoneNumber().subscriberNumber(9));
 					phone.setPhoneCategory(PhoneCategory.valueOf(faker.options().option("MOBILE",  "WORK")));
-					phone.setEmployee(employee); // Set the owning side of the relationship
+					phone.setEmployee(employee);
 					phones.add(phoneRepository.save(phone));
 				}
 
