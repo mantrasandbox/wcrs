@@ -37,9 +37,9 @@ jobs:
           CHANGED_SERVICES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | \
             grep -o 'services/backend/[^/]*' | \
             sort | uniq)
-          
-          # Convert to JSON array for easier handling
-          JSON_ARRAY=$(echo "$CHANGED_SERVICES" | jq -R -s -c 'split("\n") | map(select(. != ""))')
+
+          # Convert to properly formatted JSON array
+          JSON_ARRAY=$(jq -n --argjson services "$(printf '%s\n' "$CHANGED_SERVICES" | jq -R . | jq -s .)" '$services')
           echo "changed_services=$JSON_ARRAY" >> $GITHUB_OUTPUT
           echo "Changed services: $JSON_ARRAY"
 
