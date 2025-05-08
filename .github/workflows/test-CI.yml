@@ -63,7 +63,7 @@ jobs:
       - name: Build changed Maven projects
         run: |
           echo "Changed services: ${{ steps.changed-services.outputs.changed_services }}"
-          echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]' | while read -r service_dir; do
+          echo '${{ steps.changed-services.outputs.changed_services }}' | jq -r '.[]' | while read -r service_dir; do
             if [ -f "$service_dir/pom.xml" ]; then
               echo "Building project in $service_dir..."
               mvn -B package --file "$service_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
@@ -104,7 +104,7 @@ jobs:
           mkdir -p .m2-cache
           cp -r ~/.m2/repository .m2-cache/
           
-          echo "${{ steps.changed-services.outputs.changed_services }}" | jq -r '.[]' | while read -r service_dir; do
+          echo '${{ steps.changed-services.outputs.changed_services }}' | jq -r '.[]' | while read -r service_dir; do
             service_name=$(basename "$service_dir")
             jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           
