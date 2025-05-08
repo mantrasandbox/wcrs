@@ -51,6 +51,9 @@ public class Employee {
     @OneToMany(mappedBy = "employee")
     private List<Phone> phone;
 
+    @Column(nullable = false)
+    String jobTitle;
+
     @CreatedDate
     @Column(nullable = false,updatable = false)
     private LocalDateTime createdAt;

@@ -46,6 +46,7 @@ public class EmployeeApplication {
 						Gender.valueOf(faker.options().option("MALE", "FEMALE")),
 						faker.internet().emailAddress(),
 						null,
+						faker.job().title(),
 						LocalDateTime.now(),null);
 
 				employee = employeeRepository.save(employee); // Save first to assign ID
