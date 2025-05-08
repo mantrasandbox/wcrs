@@ -1,11 +1,10 @@
-name: CI - Build Backend Services
+name: CI - Build Changed Backend Services
 
 on:
   workflow_dispatch:
   push:
     branches:
       - dev
-      #- main
     paths:
       - services/backend/** # Trigger only when backend files change
 
@@ -21,6 +20,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 2  # Needed to get the previous commit for comparison
+
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v35
+        with:
+          files: |
+            services/backend/**
+
+      - name: Identify changed services
+        id: changed-services
+        run: |
+          # Get unique service directories that contain changes
+          CHANGED_SERVICES=$(echo "${{ steps.changed-files.outputs.all_changed_files }}" | \
+            grep -o 'services/backend/[^/]*' | \
+            sort | uniq)
+          
+          # Convert to compact JSON array
+          JSON_ARRAY=$(printf '%s\n' "$CHANGED_SERVICES" | jq -R . | jq -s -c .)
+          echo "changed_services=${JSON_ARRAY}" >> $GITHUB_OUTPUT
+          echo "Changed services: ${JSON_ARRAY}"
 
       - name: Set up JDK 21
         uses: actions/setup-java@v3
@@ -39,12 +60,16 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
 
-      - name: Find and build all Maven projects
+      - name: Build changed Maven projects
         run: |
-          echo "Discovering all pom.xml files in services/..."
-          find services/ -name pom.xml | while read pom; do
-          echo "Building project in $(dirname $pom)..."
-          mvn -B package --file "$pom" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+          echo "Changed services: ${{ steps.changed-services.outputs.changed_services }}"
+          echo '${{ steps.changed-services.outputs.changed_services }}' | jq -r '.[]' | while read -r service_dir; do
+            if [ -f "$service_dir/pom.xml" ]; then
+              echo "Building project in $service_dir..."
+              mvn -B package --file "$service_dir/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+            else
+              echo "No pom.xml found in $service_dir"
+            fi
           done
 
       - name: Set up Docker Buildx
@@ -73,14 +98,13 @@ jobs:
           username: ${{ env.DOCKER_USERNAME }}
           password: ${{ env.DOCKER_TOKEN }}
 
-      - name: Build and push Docker images with full caching
+      - name: Build and push changed Docker images
         run: |
           # First prepare Maven cache
           mkdir -p .m2-cache
           cp -r ~/.m2/repository .m2-cache/
           
-          find services/ -name pom.xml | while read pom; do
-            service_dir=$(dirname "$pom")
+          echo '${{ steps.changed-services.outputs.changed_services }}' | jq -r '.[]' | while read -r service_dir; do
             service_name=$(basename "$service_dir")
             jar_file=$(find "$service_dir/target" -name "*.jar" ! -name "*original*" | head -n 1)
           

@@ -5,8 +5,8 @@ on:
   push:
     branches:
       - dev
-      #paths:
-      # - services/backend/** # Trigger only when backend files change
+    paths:
+      - services/test/** # Trigger only when backend files change
 
 env:
   DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
