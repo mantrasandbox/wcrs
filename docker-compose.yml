@@ -41,8 +41,6 @@ services:
     networks:
       - kafka-net
       - wcrs-net
-    volumes:
-      - kafka1-data:/var/lib/kafka/data
     environment:
       # Configure listeners for both docker and host communication
       KAFKA_LISTENERS: CONTROLLER://0.0.0.0:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
@@ -70,8 +68,6 @@ services:
     networks:
       - kafka-net
       - wcrs-net
-    volumes:
-      - kafka2-data:/var/lib/kafka/data
     environment:
       # Configure listeners for both docker and host communication
       KAFKA_LISTENERS: CONTROLLER://0.0.0.0:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
@@ -99,8 +95,6 @@ services:
     networks:
       - kafka-net
       - wcrs-net
-    volumes:
-      - kafka3-data:/var/lib/kafka/data
     environment:
       # Configure listeners for both docker and host communication
       KAFKA_LISTENERS: CONTROLLER://0.0.0.0:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
@@ -255,6 +249,3 @@ volumes:
   postgres:
   es_data:
   pgadmin:
-  kafka1-data:
-  kafka2-data:
-  kafka3-data:
