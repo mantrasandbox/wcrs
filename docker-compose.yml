@@ -120,14 +120,21 @@ services:
       - kafka1
       - kafka2
       - kafka3
-    entrypoint: ["/bin/sh", "-c"]
+    environment:
+      - GITHUB_TOKEN=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
+    entrypoint: [ "/bin/sh", "-c" ]
     command: >
       apk add --no-cache curl bash &&
       curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/bin/yq &&
       chmod +x /usr/bin/yq &&
       echo "Waiting for Kafka..." &&
       sleep 10 &&
-      curl -sL https://raw.githubusercontent.com/YOUR_GITHUB_USER/YOUR_REPO/BRANCH_NAME/path/to/topics.yaml -o /tmp/topics.yaml &&
+
+      curl -s -H "Authorization: token $GITHUB_TOKEN" \
+        -H "Accept: application/vnd.github.v3.raw" \
+        https://api.github.com/repos/mantrasandbox/wcrs/init-scripts/topics.yaml?ref=dev \
+        -o /tmp/topics.yaml &&
+
       yq e '.topics[]' /tmp/topics.yaml -o=json |
         jq -c '.' |
         while read -r topic; do
@@ -136,8 +143,11 @@ services:
           replication=$(echo $topic | jq -r '.replication')
           configs=$(echo $topic | jq -r '.config // {} | to_entries | map("--config \(.key)=\(.value)") | join(" ")')
           echo "Creating topic $name..."
-          kafka-topics.sh --create --if-not-exists --bootstrap-server kafka1:9093,kafka2:9093,kafka3:9093 \
-            --topic "$name" --partitions "$partitions" --replication-factor "$replication" $configs
+          kafka-topics.sh --create --if-not-exists \
+            --bootstrap-server kafka1:9093,kafka2:9093,kafka3:9093 \
+            --topic "$name" \
+            --partitions "$partitions" \
+            --replication-factor "$replication" $configs
         done
     networks:
       - kafka-net
