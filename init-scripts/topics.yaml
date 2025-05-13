@@ -1,0 +1,12 @@
+topics:
+  - name: orders.created
+    partitions: 3
+    replication: 3
+    config:
+      cleanup.policy: compact
+
+  - name: users.registered
+    partitions: 2
+    replication: 3
+    config:
+      retention.ms: 604800000

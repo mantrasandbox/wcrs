@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/services/backend/discovery/pom.xml" />
         <option value="$PROJECT_DIR$/services/backend/employee/pom.xml" />
         <option value="$PROJECT_DIR$/services/backend/wcrs-admin/pom.xml" />
+        <option value="$PROJECT_DIR$/services/backend/notification/pom.xml" />
       </list>
     </option>
   </component>
