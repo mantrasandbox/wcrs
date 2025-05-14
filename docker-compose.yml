@@ -114,45 +114,35 @@ services:
       KAFKA_DEFAULT_REPLICATION_FACTOR: 3
       KAFKA_MIN_INSYNC_REPLICAS: 2
 
-  kafka-topic-init:
-    image: confluentinc/cp-kafka:latest
+  kafka-topics-creator:
+    build:
+       context: .
+       dockerfile: Dockerfile.kafka
+    hostname: kafka-topics-creator
+    ports:
+      - "9095:9092"
     depends_on:
       - kafka1
       - kafka2
       - kafka3
-    environment:
-      - GITHUB_TOKEN=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
-    entrypoint: [ "/bin/sh", "-c" ]
-    command: >
-      apk add --no-cache curl bash &&
-      curl -sL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/bin/yq &&
-      chmod +x /usr/bin/yq &&
-      echo "Waiting for Kafka..." &&
-      sleep 10 &&
-
-      curl -s -H "Authorization: token $GITHUB_TOKEN" \
-        -H "Accept: application/vnd.github.v3.raw" \
-        https://api.github.com/repos/mantrasandbox/wcrs/init-scripts/topics.yaml?ref=dev \
-        -o /tmp/topics.yaml &&
-
-      yq e '.topics[]' /tmp/topics.yaml -o=json |
-        jq -c '.' |
-        while read -r topic; do
-          name=$(echo $topic | jq -r '.name')
-          partitions=$(echo $topic | jq -r '.partitions')
-          replication=$(echo $topic | jq -r '.replication')
-          configs=$(echo $topic | jq -r '.config // {} | to_entries | map("--config \(.key)=\(.value)") | join(" ")')
-          echo "Creating topic $name..."
-          kafka-topics.sh --create --if-not-exists \
-            --bootstrap-server kafka1:9093,kafka2:9093,kafka3:9093 \
-            --topic "$name" \
-            --partitions "$partitions" \
-            --replication-factor "$replication" $configs
-        done
     networks:
       - kafka-net
+    environment:
+      - KAFKA_CFG_NODE_ID=0
+      - KAFKA_CFG_PROCESS_ROLES=controller,broker
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092,CONTROLLER://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT
+      - KAFKA_CFG_CONTROLLER_QUORUM_VOTERS=0@kafka-topics-creator:9093
+      - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
 
-
+    volumes:
+    - ./init-scripts/topics.yaml:/topics.yaml
+    - ./init-scripts/create-topics.sh:/create-topics.sh
+    entrypoint: ["/bin/bash", "-c"]
+    command: >
+      "
+          /create-topics.sh; 
+      "
   kafka-ui:
     image: kafbat/kafka-ui:main
     ports:
