@@ -62,6 +62,9 @@ jobs:
 
       - name: Build changed Maven projects
         run: |
+          echo "Installing proto-shared module"
+          mvn -B install --file "services/backend/proto-shared/pom.xml" -Dmaven.test.skip=true -Dmaven.repo.local=$HOME/.m2/repository
+          
           echo "Changed services: ${{ steps.changed-services.outputs.changed_services }}"
           echo '${{ steps.changed-services.outputs.changed_services }}' | jq -r '.[]' | while read -r service_dir; do
             if [ -f "$service_dir/pom.xml" ]; then
