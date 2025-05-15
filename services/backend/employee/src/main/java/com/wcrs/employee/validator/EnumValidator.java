@@ -3,7 +3,9 @@ package com.wcrs.employee.validator;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
 
-public class EnumValidator implements ConstraintValidator<ValidEnum, Enum<?>> {
+import java.util.Arrays;
+
+public class EnumValidator implements ConstraintValidator<ValidEnum, String> {
 
     private Class<? extends Enum<?>> enumClass;
 
@@ -13,16 +15,10 @@ public class EnumValidator implements ConstraintValidator<ValidEnum, Enum<?>> {
     }
 
     @Override
-    public boolean isValid(Enum<?> value, ConstraintValidatorContext context) {
-        // Allow null (use @NotNull if needed separately)
-        if (value == null) return true;
+    public boolean isValid(String value, ConstraintValidatorContext context) {
+        if (value == null) return true; // Let @NotNull handle nulls if needed
 
-        Enum<?>[] constants = enumClass.getEnumConstants();
-        for (Enum<?> constant : constants) {
-            if (constant.equals(value)) {
-                return true;
-            }
-        }
-        return false;
+        return Arrays.stream(enumClass.getEnumConstants())
+                .anyMatch(e -> e.name().equalsIgnoreCase(value));
     }
 }

@@ -1,3 +1,68 @@
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 323
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
+  "userName": "john.doe90",
+  "NIN": "ABC12345678901",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example.com",
+  "phone": {
+    "countryCode": "+1",
+    "number": "1234567890",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
+}
+
+<> 2025-05-15T165833.500.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 133
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Crude",
+  "lastName": "Victor",
+  "userName": "vikings",
+  "NIN": "CM12SD4567YU81",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-05-15T165127.500.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 133
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "firstName": "Crude",
+  "lastName": "Victor",
+  "userName": "vikings",
+  "NIN": "CM12SD4567YU81",
+  "dateOfBirth": "1997-01-01"
+}
+
+<> 2025-05-15T164919.500.json
+
+###
+
 GET http://localhost:4040/api/v1/employees/viewAll
 User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
 Accept-Encoding: br, deflate, gzip, x-gzip

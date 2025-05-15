@@ -3,11 +3,20 @@ POST http://localhost:4040/api/v1/employees/create
 Content-Type: application/json
 
 {
-  "firstName": "Crude",
-  "lastName": "Victor",
-  "userName": "vikings",
-  "NIN": "CM12SD4567YU81",
-  "dateOfBirth": "1997-01-01"
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
+  "userName": "john.doe90",
+  "NIN": "ABC12345678901",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example.com",
+  "phone": {
+    "countryCode": "+1",
+    "number": "1234567890",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
 }
+
 
 ###
