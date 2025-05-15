@@ -144,7 +144,7 @@ services:
           /create-topics.sh; 
       "
   kafka-ui:
-    image: kafbat/kafka-ui:main
+    image: provectuslabs/kafka-ui:latest
     ports:
       - 8080:8080
     networks:
