@@ -1,7 +1,9 @@
 package com.wcrs.employee.service;
 
+import com.wcrs.employee.config.KafkaProducer;
 import com.wcrs.employee.dto.EmployeeRequestDTO;
 import com.wcrs.employee.dto.EmployeeResponseDTO;
+import com.wcrs.employee.enums.EventType;
 import com.wcrs.employee.exception.DuplicateNinException;
 import com.wcrs.employee.exception.DuplicateUserNameException;
 import com.wcrs.employee.exception.NonExistentNINException;
@@ -31,6 +33,7 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
+    private final KafkaProducer kafkaProducer;
 
 
     public EmployeeResponseDTO createEmployee(@Valid EmployeeRequestDTO employeeRequestDTO) {
@@ -51,7 +54,11 @@ public class EmployeeService {
 
         log.info("Employee created: {} " , savedEmployee);
 
+        kafkaProducer.sendEvent(savedEmployee, EventType.CREATED);
+
         // TODO: log postgresql activity
+
+
 
 
         return employeeMapper.toEmployeeResponseDTO(savedEmployee);

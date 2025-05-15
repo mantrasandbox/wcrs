@@ -1,5 +1,5 @@
 topics:
-  - name: "orders-prod"
+  - name: "employee-events"
     partitions: 6
     replication: 3
     config:
@@ -8,17 +8,3 @@ topics:
       cleanup.policy: "compact"
       segment.bytes: 1073741824  # 1GB segments
 
-  - name: "payment-events-prod"
-    partitions: 12
-    replication: 3
-    config:
-      retention.ms: 2592000000  # 30 days
-      min.insync.replicas: 2
-      compression.type: "zstd"
-
-  - name: "analytics-staging"
-    partitions: 3
-    replication: 2
-    config:
-      retention.ms: 86400000  # 1 day
-      delete.retention.ms: 0
