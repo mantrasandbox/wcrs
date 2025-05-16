@@ -5,6 +5,6 @@ topics:
     config:
       retention.ms: 604800000  # 7 days
       min.insync.replicas: 2
-      cleanup.policy: "compact"
+      cleanup.policy: "delete" #"compact" or "compact,delete"
       segment.bytes: 1073741824  # 1GB segments
 

@@ -27,7 +27,7 @@ public record EmployeeRequestDTO(
         @Pattern(regexp = "^[A-Za-z0-9]{14}$", message = "Nin must be alpha numeric and 14 characters long")
         String NIN,
 
-        @NotBlank(message = "Last name is required")
+        @NotBlank(message = "Job Title is required")
         String jobTitle,
 
         @Email(message = "Email must be valid")

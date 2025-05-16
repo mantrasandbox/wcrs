@@ -98,7 +98,7 @@ services:
     environment:
       # Configure listeners for both docker and host communication
       KAFKA_LISTENERS: CONTROLLER://0.0.0.0:9091,HOST://0.0.0.0:9092,DOCKER://0.0.0.0:9093
-      KAFKA_ADVERTISED_LISTENERS: HOST://kafka3.localhost:9092,DOCKER://kafka3:9093
+      KAFKA_ADVERTISED_LISTENERS: HOST://localhost:9094,DOCKER://kafka3:9093
       KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: CONTROLLER:PLAINTEXT,DOCKER:PLAINTEXT,HOST:PLAINTEXT
 
       # Settings required for KRaft mode
