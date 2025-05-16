@@ -73,7 +73,7 @@ public class EmployeeApplication {
 
 				kafkaProducer.sendEvent(employee, EventType.CREATED);
 
-				log.info("Employee created: {} " ,employee);
+				log.info("Employee created: {} " ,employee.getFullName());
 			}
 
 		};

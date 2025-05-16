@@ -57,7 +57,7 @@ public class EmployeeService {
 
         kafkaProducer.sendEvent(savedEmployee, EventType.CREATED);
 
-        log.info("Employee created: {} " , savedEmployee);
+        log.info("Employee created: {} " , savedEmployee.getFullName());
 
         // TODO: log postgresql activity
 
