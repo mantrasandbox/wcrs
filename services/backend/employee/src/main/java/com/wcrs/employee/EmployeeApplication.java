@@ -1,12 +1,16 @@
 package com.wcrs.employee;
 
 import com.github.javafaker.Faker;
+import com.wcrs.employee.config.KafkaProducer;
+import com.wcrs.employee.enums.EventType;
 import com.wcrs.employee.enums.Gender;
 import com.wcrs.employee.enums.PhoneCategory;
 import com.wcrs.employee.model.Employee;
 import com.wcrs.employee.model.Phone;
 import com.wcrs.employee.repository.EmployeeRepository;
 import com.wcrs.employee.repository.PhoneRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -25,12 +29,14 @@ import java.util.concurrent.ThreadLocalRandom;
 @EnableJpaAuditing //(auditorAwareRef = "auditorAware")
 public class EmployeeApplication {
 
+	private static final Logger log = LoggerFactory.getLogger(EmployeeApplication.class);
+
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeApplication.class, args);
 	}
 
 	@Bean
-	CommandLineRunner init(EmployeeRepository employeeRepository, PhoneRepository phoneRepository) {
+	CommandLineRunner init(EmployeeRepository employeeRepository, PhoneRepository phoneRepository, KafkaProducer kafkaProducer) {
 		return args -> {
 			var faker = new Faker();
 			Random random = new Random();
@@ -63,8 +69,11 @@ public class EmployeeApplication {
 
 				employee.setPhone(phones);
 				employeeRepository.save(employee); // update with phone list
-				System.out.println("Seeded employee: " + employee.getFullName() + " with " + phones.size() + " phones");
+				System.out.println("Saved employee: " + employee.getFullName() + " with " + phones.size() + " phones");
 
+				kafkaProducer.sendEvent(employee, EventType.CREATED);
+
+				log.info("Employee created: {} " ,employee);
 			}
 
 		};

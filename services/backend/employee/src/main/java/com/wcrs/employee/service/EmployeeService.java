@@ -1,7 +1,9 @@
 package com.wcrs.employee.service;
 
+import com.wcrs.employee.config.KafkaProducer;
 import com.wcrs.employee.dto.EmployeeRequestDTO;
 import com.wcrs.employee.dto.EmployeeResponseDTO;
+import com.wcrs.employee.enums.EventType;
 import com.wcrs.employee.exception.DuplicateNinException;
 import com.wcrs.employee.exception.DuplicateUserNameException;
 import com.wcrs.employee.exception.NonExistentNINException;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,13 +34,16 @@ public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final EmployeeMapper employeeMapper;
-
+    private final KafkaProducer kafkaProducer;
 
     public EmployeeResponseDTO createEmployee(@Valid EmployeeRequestDTO employeeRequestDTO) {
 
         // check if username and nin is taken
         String userName = employeeRequestDTO.userName();
         String nin = employeeRequestDTO.NIN();
+
+
+        // TODO: ensure mobile phonecategory is provided
 
         if (employeeRepository.existsByUserName(userName)) {
             throw new DuplicateUserNameException("This username exists");
@@ -49,9 +55,12 @@ public class EmployeeService {
 
         Employee savedEmployee = employeeRepository.saveAndFlush(employeeMapper.toEmployee(employeeRequestDTO));
 
+        kafkaProducer.sendEvent(savedEmployee, EventType.CREATED);
+
         log.info("Employee created: {} " , savedEmployee);
 
         // TODO: log postgresql activity
+
 
 
         return employeeMapper.toEmployeeResponseDTO(savedEmployee);
