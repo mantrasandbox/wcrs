@@ -50,7 +50,7 @@ public class EmployeeApplication {
 						faker.name().username() + i,
 						faker.regexify("[A-Za-z0-9]{14}"),
 						Gender.valueOf(faker.options().option("MALE", "FEMALE")),
-						faker.internet().emailAddress(),
+						i+faker.internet().emailAddress(),
 						null,
 						faker.job().title(),
 						LocalDateTime.now(),null);
