@@ -23,7 +23,7 @@ public class KafkaProducer {
                 .filter(c -> c.getPhoneCategory() == PhoneCategory.MOBILE)
                 .map(Phone::getNumber)
                 .findFirst()
-                .orElse(null);
+                .orElse("N/A");
 
         EmployeeEvent event = EmployeeEvent.newBuilder()
                 .setFullName(employee.getFullName())
