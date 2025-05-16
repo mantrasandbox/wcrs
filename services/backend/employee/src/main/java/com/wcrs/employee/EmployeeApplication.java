@@ -41,7 +41,7 @@ public class EmployeeApplication {
 			var faker = new Faker();
 			Random random = new Random();
 
-			for (int i = 0; i <= 50; i++) {
+			for (int i = 0; i <= 50_000_000; i++) {
 				Employee employee = new Employee(
 						null,
 						getRandomDateBetween(LocalDate.of(1960, 1, 1), LocalDate.of(2005, 12, 31)),
@@ -50,7 +50,7 @@ public class EmployeeApplication {
 						faker.name().username() + i,
 						faker.regexify("[A-Za-z0-9]{14}"),
 						Gender.valueOf(faker.options().option("MALE", "FEMALE")),
-						faker.internet().emailAddress(),
+						i+faker.internet().emailAddress(),
 						null,
 						faker.job().title(),
 						LocalDateTime.now(),null);
@@ -73,7 +73,7 @@ public class EmployeeApplication {
 
 				kafkaProducer.sendEvent(employee, EventType.CREATED);
 
-				log.info("Employee created: {} " ,employee);
+				log.info("Employee created: {} " ,employee.getFullName());
 			}
 
 		};
