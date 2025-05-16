@@ -21,7 +21,9 @@ public class KafkaProducer {
     public void sendEvent(Employee employee,  EventType eventType){
         String phone = employee.getPhone().stream()
                 .filter(c -> c.getPhoneCategory() == PhoneCategory.MOBILE)
-                .toString();
+                .map(Phone::getNumber)
+                .findFirst()
+                .orElse(null);
 
         EmployeeEvent event = EmployeeEvent.newBuilder()
                 .setFullName(employee.getFullName())

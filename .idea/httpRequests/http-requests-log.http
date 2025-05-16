@@ -9,6 +9,141 @@ Accept: */*
   "dateOfBirth": "1990-05-15",
   "firstName": "John",
   "lastName": "Doe",
+  "userName": "john.doe99",
+  "NIN": "ABC12345678909",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example9.com",
+  "phone": {
+    "countryCode": "UG",
+    "number": "1234567891",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
+}
+
+<> 2025-05-16T142200.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 324
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
+  "userName": "john.doe95",
+  "NIN": "ABC12345678905",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example5.com",
+  "phone": {
+    "countryCode": "UG",
+    "number": "1234567891",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
+}
+
+<> 2025-05-16T134149.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 324
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
+  "userName": "john.doe94",
+  "NIN": "ABC12345678904",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example4.com",
+  "phone": {
+    "countryCode": "UG",
+    "number": "1234567891",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
+}
+
+<> 2025-05-16T133905.409.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 324
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
+  "userName": "john.doe94",
+  "NIN": "ABC12345678904",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example4.com",
+  "phone": {
+    "countryCode": "UG",
+    "number": "1234567891",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
+}
+
+<> 2025-05-16T133715.200.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 324
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
+  "userName": "john.doe92",
+  "NIN": "ABC12345678903",
+  "jobTitle": "Software Engineer",
+  "email": "john.doe@example2.com",
+  "phone": {
+    "countryCode": "UG",
+    "number": "1234567891",
+    "phoneCategory": "Mobile"
+  },
+  "gender": "MALE"
+}
+
+<> 2025-05-16T133655.409.json
+
+###
+
+POST http://localhost:4040/api/v1/employees/create
+Content-Type: application/json
+Content-Length: 324
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2024.3.5
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "dateOfBirth": "1990-05-15",
+  "firstName": "John",
+  "lastName": "Doe",
   "userName": "john.doe92",
   "NIN": "ABC12345678903",
   "jobTitle": "Software Engineer",

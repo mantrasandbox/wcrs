@@ -1,0 +1,17 @@
+{
+  "firstName": "John",
+  "lastName": "Doe",
+  "jobTitle": "Software Engineer",
+  "username": null,
+  "email": "john.doe@example4.com",
+  "NIN": "ABC12345678904",
+  "phone": [
+    {
+      "countryCode": "UG",
+      "number": "1234567891",
+      "phoneCategory": "MOBILE"
+    }
+  ],
+  "gender": "MALE",
+  "age": 35
+}

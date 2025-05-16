@@ -137,12 +137,10 @@ services:
 
     volumes:
     - ./init-scripts/topics.yaml:/topics.yaml
-    - ./init-scripts/create-topics.sh:/create-topics.sh
-    entrypoint: ["/bin/bash", "-c"]
-    command: >
-      "
-          /create-topics.sh; 
-      "
+    entrypoint: ["/bin/bash", "-c", "/create-topics.sh"]
+
+
+
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
