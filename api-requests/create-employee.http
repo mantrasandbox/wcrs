@@ -11,7 +11,7 @@ Content-Type: application/json
   "jobTitle": "Software Engineer",
   "email": "john.doe@example.com",
   "phone": {
-    "countryCode": "+1",
+    "countryCode": "UG",
     "number": "1234567890",
     "phoneCategory": "Mobile"
   },
