@@ -6,13 +6,13 @@ Content-Type: application/json
   "dateOfBirth": "1990-05-15",
   "firstName": "John",
   "lastName": "Doe",
-  "userName": "john.doe90",
-  "NIN": "ABC12345678901",
+  "userName": "john.doe92",
+  "NIN": "ABC12345678903",
   "jobTitle": "Software Engineer",
-  "email": "john.doe@example.com",
+  "email": "john.doe@example2.com",
   "phone": {
-    "countryCode": "+1",
-    "number": "1234567890",
+    "countryCode": "UG",
+    "number": "1234567891",
     "phoneCategory": "Mobile"
   },
   "gender": "MALE"
