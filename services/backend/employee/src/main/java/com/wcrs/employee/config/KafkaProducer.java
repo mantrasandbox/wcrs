@@ -40,7 +40,7 @@ public class KafkaProducer {
         try {
             kafkaTemplate.send("employee-events", event.toByteArray());
         } catch (Exception e) {
-            log.error("Error in sending event: {}", event);
+            log.error("Error in sending event for employee: {}", employee.getFullName(), e);
         }
     }
 

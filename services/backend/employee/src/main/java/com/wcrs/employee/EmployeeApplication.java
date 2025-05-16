@@ -41,7 +41,7 @@ public class EmployeeApplication {
 			var faker = new Faker();
 			Random random = new Random();
 
-			for (int i = 0; i <= 50; i++) {
+			for (int i = 0; i <= 50_000_000; i++) {
 				Employee employee = new Employee(
 						null,
 						getRandomDateBetween(LocalDate.of(1960, 1, 1), LocalDate.of(2005, 12, 31)),
