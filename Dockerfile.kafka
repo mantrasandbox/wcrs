@@ -9,7 +9,7 @@ RUN curl -L https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_a
     && chmod +x /opt/bitnami/jq
 
 # Copy the Kafka topic creation script
-COPY ./init-scripts/create-topics.sh /create-topics.sh
+COPY ./kafka-topics/create-topics.sh /create-topics.sh
 
 # Make the script executable
 RUN chmod +x /create-topics.sh

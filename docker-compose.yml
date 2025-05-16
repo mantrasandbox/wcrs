@@ -139,7 +139,7 @@ services:
       - KAFKA_CFG_CONTROLLER_LISTENER_NAMES=CONTROLLER
 
     volumes:
-    - ./init-scripts/topics.yaml:/topics.yaml
+    - ./kafka-topics/topics.yaml:/topics.yaml
     entrypoint: ["/bin/bash", "-c", "/create-topics.sh"]
 
 

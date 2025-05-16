@@ -11,6 +11,8 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -19,11 +21,11 @@ public class KafkaProducer {
     private final KafkaTemplate<String, byte[]> kafkaTemplate;
 
     public void sendEvent(Employee employee,  EventType eventType){
-        String phone = employee.getPhone().stream()
+        String phone =  employee.getPhone().stream()
                 .filter(c -> c.getPhoneCategory() == PhoneCategory.MOBILE)
-                .map(Phone::getNumber)
-                .findFirst()
-                .orElse(null);
+                .map(Phone::getNumber).toString();
+
+
 
         EmployeeEvent event = EmployeeEvent.newBuilder()
                 .setFullName(employee.getFullName())
