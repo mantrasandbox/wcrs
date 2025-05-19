@@ -197,6 +197,21 @@ services:
     environment:
       SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka1:9093,kafka2:9093,kafka3:9093"
 
+  notification:
+    container_name: notification
+    image: mantrasandbox/notification
+    ports:
+      - 4001
+    networks:
+      - wcrs-net
+    restart: unless-stopped
+    depends_on:
+      - configserver
+      - postgres
+      - kafka-ui
+    environment:
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: "kafka1:9093,kafka2:9093,kafka3:9093"
+
   employee-ui:
     container_name: employee-ui
     image: mantrasandbox/employee-ui
