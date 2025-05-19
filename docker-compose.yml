@@ -169,17 +169,6 @@ services:
       - wcrs-net
     restart: unless-stopped
 
-  discovery:
-    container_name: discovery
-    image: mantrasandbox/discovery
-    ports:
-      - 8761
-    networks:
-      - wcrs-net
-    restart: unless-stopped
-    depends_on:
-      - configserver
-
   api-gateway:
     container_name: api-gateway
     image: mantrasandbox/api-gateway
