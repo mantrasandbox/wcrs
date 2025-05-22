@@ -16,7 +16,7 @@ import java.io.IOException;
 public class SendGridService implements MailSender {
 
 
-    private final String SENDGRID_API_KEY = "J6GJPF97TRWF9Z8BWJ3RD5MR";
+    private final String SENDGRID_API_KEY = "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";
 
     @Override
     public void sendEmail(String recipient, String subject, String body) {

@@ -167,7 +167,7 @@ services:
     networks:
       - kafka-net
       - wcrs-net
-
+    restart: unless-stopped
 
   configserver:
     container_name: config-server
