@@ -142,8 +142,6 @@ services:
     - ./kafka-topics/topics.yaml:/topics.yaml
     entrypoint: ["/bin/bash", "-c", "/create-topics.sh"]
 
-
-
   kafka-ui:
     image: provectuslabs/kafka-ui:latest
     ports:
@@ -159,6 +157,17 @@ services:
       - kafka2
       - kafka3
     restart: unless-stopped
+
+  rabbitMq:
+    container_name: rabbitMq
+    image: rabbitmq:3.9.11-management-alpine
+    ports:
+      - 5672:5672
+      - 15672:15672
+    networks:
+      - kafka-net
+      - wcrs-net
+
 
   configserver:
     container_name: config-server
