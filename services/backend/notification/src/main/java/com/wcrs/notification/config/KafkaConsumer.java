@@ -45,6 +45,33 @@ public class KafkaConsumer {
 
         }
 
+    }
+    @KafkaListener(topics="employee-events", groupId = "employee-historical-events-group",properties = {"auto.offset.reset=earliest"})
+    public void consumeHistoricalEvent(byte[] event) {
+        try {
+            EmployeeEvent employeeEvent = EmployeeEvent.parseFrom(event);
+            log.info("Received historical event: {}", employeeEvent.getFullName());
+
+            Notification notification = Notification.builder()
+                    .id(null)
+                    .recipient(employeeEvent.getEmailAddress())
+                    .subject(employeeEvent.getEventType() + " event for " + employeeEvent.getFullName())
+                    .message("Dear " + employeeEvent.getFullName() + ",\n\n" + " Your account has been successfully created..\n\n")
+                    .status(Status.PENDING)
+                    .build();
+
+            repository.save(notification);
+            log.info(" Historical Notification saved to database");
+
+            rabbitMqPublisher.sendNotification(notification);
+            log.info(" Historical Notification sent to RabbitMQ");
+
+        } catch (InvalidProtocolBufferException e) {
+            log.error("Error in parsing event", e);
+            throw new RuntimeException(e);
+
+        }
 
     }
+
 }
