@@ -8,6 +8,7 @@ import com.sendgrid.helpers.mail.Mail;
 import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 import com.wcrs.notification.config.MailSender;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -15,8 +16,8 @@ import java.io.IOException;
 @Service
 public class SendGridService implements MailSender {
 
-
-    private final String SENDGRID_API_KEY = "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";
+    @Value("${SENDGRID_API_KEY}")
+    private String SENDGRID_API_KEY ;
 
     @Override
     public void sendEmail(String recipient, String subject, String body) {
