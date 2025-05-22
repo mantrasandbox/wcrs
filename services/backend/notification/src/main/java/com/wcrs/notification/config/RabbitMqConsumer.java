@@ -1,6 +1,6 @@
 package com.wcrs.notification.config;
 
-import com.wcrs.notification.NotificationRepository;
+import com.wcrs.notification.repository.NotificationRepository;
 import com.wcrs.notification.enums.Status;
 import com.wcrs.notification.model.Notification;
 import com.wcrs.notification.sendgrid.SendGridService;

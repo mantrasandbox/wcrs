@@ -2,7 +2,7 @@ package com.wcrs.notification.config;
 
 
 import com.google.protobuf.InvalidProtocolBufferException;
-import com.wcrs.notification.NotificationRepository;
+import com.wcrs.notification.repository.NotificationRepository;
 import com.wcrs.notification.enums.Status;
 import com.wcrs.notification.model.Notification;
 import employee.event.EmployeeEvent;
