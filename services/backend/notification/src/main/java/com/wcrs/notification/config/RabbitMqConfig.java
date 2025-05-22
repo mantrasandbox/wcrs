@@ -17,7 +17,6 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @Getter
-@AllArgsConstructor
 public class RabbitMqConfig {
 
     //private final ConnectionFactory connectionFactory;
