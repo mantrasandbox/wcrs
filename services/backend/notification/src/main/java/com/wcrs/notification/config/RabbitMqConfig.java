@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 public class RabbitMqConfig {
 
-    private final ConnectionFactory connectionFactory;
+    //private final ConnectionFactory connectionFactory;
 
     @Value( "${rabbitmq.exchanges.direct}")
     private String EXCHANGE_NAME;
