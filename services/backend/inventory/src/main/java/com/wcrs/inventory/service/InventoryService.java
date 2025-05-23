@@ -2,6 +2,7 @@ package com.wcrs.inventory.service;
 
 import com.wcrs.inventory.dto.MaterialRequestDTO;
 import com.wcrs.inventory.dto.MaterialResponseDTO;
+import com.wcrs.inventory.mapper.InventoryMapper;
 import com.wcrs.inventory.model.Material;
 import com.wcrs.inventory.repository.MaterialRepository;
 import com.wcrs.inventory.repository.SupplierRepository;
@@ -14,10 +15,12 @@ import org.springframework.stereotype.Service;
 public class InventoryService {
     private final MaterialRepository materialRepository;
     private final SupplierRepository supplierRepository;
+    private final InventoryMapper inventoryMapper;
 
     public MaterialResponseDTO createMaterial(@Valid MaterialRequestDTO materialRequestDTO) {
         if (materialRequestDTO != null) {
-         //Material savedMaterial =  materialRepository.saveAndFlush(materialRequestDTO)
+         Material savedMaterial =  materialRepository.saveAndFlush(inventoryMapper.toMaterial(materialRequestDTO));
+         return inventoryMapper.toMaterialResponseDTO(savedMaterial);
         }
         return null;
     }
