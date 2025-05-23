@@ -30,7 +30,7 @@ public class Supplier {
     private String description;
     private String address;
 
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String phoneContact;
 
     private String email;

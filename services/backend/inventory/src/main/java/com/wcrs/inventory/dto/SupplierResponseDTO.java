@@ -1,4 +1,22 @@
 package com.wcrs.inventory.dto;
 
-public record SupplierResponseDTO() {
+
+import java.util.List;
+
+public record SupplierResponseDTO(
+
+        String name,
+
+        String description,
+
+        String address,
+
+        String phoneContact,
+
+        String email,
+
+        String website,
+
+        List<MaterialRequestDTO> material
+) {
 }
