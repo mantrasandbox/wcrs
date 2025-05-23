@@ -1,5 +1,8 @@
 package com.wcrs.inventory.controller;
 
+import com.wcrs.inventory.dto.SupplierRequestDTO;
+import com.wcrs.inventory.dto.SupplierResponseDTO;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,5 +18,5 @@ public class InventoryController {
     public void createMaterial(){}
 
     @PostMapping("/supplier/create")
-    public void createSupplier(){}
+    public ResponseEntity<SupplierResponseDTO> createSupplier(@Valid SupplierRequestDTO supplierRequestDTO){}
 }
