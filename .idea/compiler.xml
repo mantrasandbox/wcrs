@@ -25,6 +25,15 @@
         <module name="employee" />
         <module name="notification" />
       </profile>
+      <profile name="Annotation profile for inventory" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="inventory" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="discovery" target="21" />
@@ -38,6 +47,7 @@
       <module name="discovery" options="-parameters" />
       <module name="employee" options="-parameters" />
       <module name="eureka-server" options="-parameters" />
+      <module name="inventory" options="-parameters" />
       <module name="notification" options="-parameters" />
       <module name="wcrs-admin" options="-parameters" />
     </option>
