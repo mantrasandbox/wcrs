@@ -23,11 +23,22 @@ public class Material {
     @SequenceGenerator(sequenceName = "material_seq",name = "material_seq", allocationSize = 1)
     private Integer id;
 
+    @Column(nullable = false)
     private String name;
+
+    @Column(nullable = false)
     private String description;
+
+    @Column(nullable = false)
     private String unitOfMeasure;
+
+    @Column(nullable = false)
     private Double costPerUnit;
+
+    @Column(nullable = false)
     private Double quantity;
+
+    @Column(insertable = false)
     private Double totalCost;
 
     @ManyToOne
