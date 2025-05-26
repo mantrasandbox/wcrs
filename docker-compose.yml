@@ -225,7 +225,7 @@ services:
     container_name: inventory
     image: mantrasandbox/inventory
     ports:
-      - 4002
+      - 4002:4002
     networks:
       - wcrs-net
     restart: unless-stopped
@@ -262,8 +262,8 @@ services:
     volumes:
       - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
     ports:
-      - 5000
-      - 9600
+      - 5000:5000
+      - 9600:9600
     networks:
       - wcrs-net
       - wcrs-logging
