@@ -6,17 +6,14 @@ import java.util.List;
 public record SupplierResponseDTO(
 
         String name,
-
         String description,
-
         String address,
-
         String phoneContact,
-
         String email,
-
         String website,
-
-        List<MaterialRequestDTO> material
+        String supplierCategory,
+        String nin,
+        String tin,
+        List<MaterialResponseDTO> material
 ) {
 }

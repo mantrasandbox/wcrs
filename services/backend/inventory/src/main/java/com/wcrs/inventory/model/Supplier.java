@@ -1,5 +1,6 @@
 package com.wcrs.inventory.model;
 
+import com.wcrs.inventory.enums.SupplierCategory;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -33,10 +34,19 @@ public class Supplier {
     @Column(nullable = false, unique = true)
     private String phoneContact;
 
+    @Column(unique = true)
     private String email;
     private String website;
     private String logo;
 
+    @Enumerated(EnumType.STRING)
+    private SupplierCategory supplierCategory;
+
+    @Column(unique = true)
+    private Integer tin;
+
+    @Column(unique = true)
+    private String nin;
 
     @OneToMany(mappedBy = "supplier")
     private List<Material> material;
