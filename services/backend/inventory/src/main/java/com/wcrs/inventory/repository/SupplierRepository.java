@@ -1,5 +1,6 @@
 package com.wcrs.inventory.repository;
 
+import com.wcrs.inventory.dto.SupplierResponseDTO;
 import com.wcrs.inventory.model.Supplier;
 import jakarta.validation.constraints.*;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +17,10 @@ public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
     boolean existsSuppliersByTin(Integer tin);
 
     boolean existsSuppliersByNin(String nin);
+
+    Optional<Supplier> findSupplierByNin(String nin);
+
+    Optional<Supplier> findSupplierByTin(Integer tin);
 }
+
+

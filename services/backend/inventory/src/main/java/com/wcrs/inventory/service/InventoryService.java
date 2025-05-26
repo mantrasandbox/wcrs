@@ -7,6 +7,7 @@ import com.wcrs.inventory.exception.DuplicateNinException;
 import com.wcrs.inventory.exception.DuplicateTinException;
 import com.wcrs.inventory.dto.MaterialRequestDTO;
 import com.wcrs.inventory.dto.MaterialResponseDTO;
+import com.wcrs.inventory.exception.SupplierNotFoundException;
 import com.wcrs.inventory.mapper.InventoryMapper;
 import com.wcrs.inventory.model.Material;
 import com.wcrs.inventory.model.Supplier;
@@ -21,6 +22,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -74,5 +76,27 @@ public class InventoryService {
         return suppliers.stream()
                 .map(inventoryMapper::toSupplierResponseDTO)
                 .toList();
+    }
+
+    public SupplierResponseDTO findSupplierByNin(String nin) {
+        Supplier supplier = supplierRepository
+                .findSupplierByNin(nin)
+                .orElseThrow(() -> new SupplierNotFoundException("The Supplier with this nin does not exist"));
+        return inventoryMapper.toSupplierResponseDTO(supplier);
+    }
+
+
+    public SupplierResponseDTO findSupplierByTin(Integer tin) {
+        Supplier supplier = supplierRepository
+                .findSupplierByTin(tin)
+                .orElseThrow(() -> new SupplierNotFoundException("The Supplier with this tin does not exist"));
+        return inventoryMapper.toSupplierResponseDTO(supplier);
+    }
+
+    public SupplierResponseDTO findSupplierByEmail(String email) {
+        Supplier supplier = supplierRepository
+                .findSupplierByEmail(email)
+                .orElseThrow(() -> new SupplierNotFoundException("The Supplier with this email does not exist"));
+        return inventoryMapper.toSupplierResponseDTO(supplier);
     }
 }

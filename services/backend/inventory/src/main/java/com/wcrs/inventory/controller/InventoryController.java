@@ -4,6 +4,7 @@ import com.wcrs.inventory.dto.MaterialRequestDTO;
 import com.wcrs.inventory.dto.MaterialResponseDTO;
 import com.wcrs.inventory.dto.SupplierRequestDTO;
 import com.wcrs.inventory.dto.SupplierResponseDTO;
+import com.wcrs.inventory.model.Supplier;
 import com.wcrs.inventory.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/inventory")
@@ -36,5 +38,20 @@ public class InventoryController {
             @RequestParam(name = "size",defaultValue = "10", required = false) int size
     ) {
         return ResponseEntity.ok(inventoryService.getAllSuppliers(page,size));
+    }
+
+    @GetMapping("/supplier/{nin}")
+    public ResponseEntity<SupplierResponseDTO> getSupplierByNin(@PathVariable String nin){
+        return ResponseEntity.ok(inventoryService.findSupplierByNin(nin));
+    }
+
+    @GetMapping("/supplier/{tin}")
+    public ResponseEntity<SupplierResponseDTO> getSupplierByTin(@PathVariable Integer tin){
+        return ResponseEntity.ok(inventoryService.findSupplierByTin(tin));
+    }
+
+    @GetMapping("/supplier/{email}")
+    public ResponseEntity<SupplierResponseDTO> getSupplierByEmail(@PathVariable String email){
+        return ResponseEntity.ok(inventoryService.findSupplierByEmail(email));
     }
 }
