@@ -14,7 +14,13 @@ import com.wcrs.inventory.repository.MaterialRepository;
 import com.wcrs.inventory.repository.SupplierRepository;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -57,5 +63,16 @@ public class InventoryService {
          return inventoryMapper.toMaterialResponseDTO(savedMaterial);
         }
         return null;
+    }
+
+    public List<SupplierResponseDTO> getAllSuppliers(int page, int size) {
+
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "createdAt"));
+
+        Page<Supplier> suppliers = supplierRepository.findAll(pageRequest);
+
+        return suppliers.stream()
+                .map(inventoryMapper::toSupplierResponseDTO)
+                .toList();
     }
 }

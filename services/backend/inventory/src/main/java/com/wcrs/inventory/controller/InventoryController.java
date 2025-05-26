@@ -8,10 +8,9 @@ import com.wcrs.inventory.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/inventory")
@@ -29,5 +28,13 @@ public class InventoryController {
     @PostMapping("/supplier/create")
     public ResponseEntity<SupplierResponseDTO> createSupplier(@Valid SupplierRequestDTO supplierRequestDTO){
         return ResponseEntity.ok(inventoryService.addSupplier(supplierRequestDTO));
+    }
+
+    @GetMapping("/supplier/viewAll")
+    public ResponseEntity<List<SupplierResponseDTO>> getAllSuppliers(
+            @RequestParam(name = "page",defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size",defaultValue = "10", required = false) int size
+    ) {
+        return ResponseEntity.ok(inventoryService.getAllSuppliers(page,size));
     }
 }
