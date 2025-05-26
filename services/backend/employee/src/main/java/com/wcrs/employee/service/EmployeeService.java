@@ -153,12 +153,12 @@ public class EmployeeService {
     }
 
 
-    public Void removeEmployee(String nin) {
+    public void removeEmployee(String nin) {
         // check whether nin exist
         if(!employeeRepository.existsByNIN(nin)){
             throw new NonExistentNINException("This NIN does not exist");
         }
-        return employeeRepository.deleteByNIN(nin);
+        employeeRepository.deleteByNIN(nin);
 
 
     }

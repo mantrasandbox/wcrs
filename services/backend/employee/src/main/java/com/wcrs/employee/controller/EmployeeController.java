@@ -45,7 +45,8 @@ public class EmployeeController {
 
     @DeleteMapping("/delete/{nin}")
     public ResponseEntity<Void> deleteEmployee(@PathVariable("nin") String nin){
-        return ResponseEntity.ok(employeeService.removeEmployee(nin));
+        employeeService.removeEmployee(nin);
+        return ResponseEntity.noContent().build();
     }
 
 

@@ -22,7 +22,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -41,14 +40,14 @@ public class InventoryService {
 
         if(supplierRequestDTO.supplierCategory().equalsIgnoreCase(("Company"))){
             // check for tin
-            if(supplierRepository.existsSuppliersByTin(supplierRequestDTO.tin())){
+            if(supplierRepository.existsSupplierByTin(supplierRequestDTO.tin())){
                 throw new DuplicateTinException("Supplier with this tin already exists");
             }
         }
 
         if(supplierRequestDTO.supplierCategory().equalsIgnoreCase(("Individual"))){
             // check for nin
-            if(supplierRepository.existsSuppliersByNin(supplierRequestDTO.nin())){
+            if(supplierRepository.existsSupplierByNin(supplierRequestDTO.nin())){
                 throw new DuplicateNinException("Supplier with this nin already exists");
             }
         }
@@ -98,5 +97,22 @@ public class InventoryService {
                 .findSupplierByEmail(email)
                 .orElseThrow(() -> new SupplierNotFoundException("The Supplier with this email does not exist"));
         return inventoryMapper.toSupplierResponseDTO(supplier);
+    }
+
+    public void removeByNin(String nin) {
+        // check if email exists
+       if (!supplierRepository.existsSupplierByNin(nin)){
+           throw new SupplierNotFoundException("The Supplier with this email does not exist");
+       }
+       supplierRepository.deleteSupplierByNin(nin);
+    }
+
+    public void removeByTin(Integer tin) {
+        Supplier supplier = supplierRepository.findSupplierByTin(tin)
+                .orElseThrow(() -> new SupplierNotFoundException("The supplier with this tin does not exist"));
+
+        supplierRepository.delete(supplier);
+
+
     }
 }
