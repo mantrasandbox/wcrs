@@ -4,7 +4,6 @@ import com.wcrs.inventory.dto.MaterialRequestDTO;
 import com.wcrs.inventory.dto.MaterialResponseDTO;
 import com.wcrs.inventory.dto.SupplierRequestDTO;
 import com.wcrs.inventory.dto.SupplierResponseDTO;
-import com.wcrs.inventory.model.Supplier;
 import com.wcrs.inventory.service.InventoryService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/v1/inventory")
@@ -53,5 +51,17 @@ public class InventoryController {
     @GetMapping("/supplier/{email}")
     public ResponseEntity<SupplierResponseDTO> getSupplierByEmail(@PathVariable String email){
         return ResponseEntity.ok(inventoryService.findSupplierByEmail(email));
+    }
+
+    @DeleteMapping("/supplier/delete/{nin}")
+    public ResponseEntity<Void> deleteByNin(@PathVariable("nin") String nin){
+        inventoryService.removeByNin(nin);
+        return ResponseEntity.noContent().build();
+    }
+
+    @DeleteMapping("/supplier/delete/{tin}")
+    public ResponseEntity<Void> deleteByTin(@PathVariable("tin") Integer tin){
+        inventoryService.removeByTin(tin);
+        return ResponseEntity.noContent().build();
     }
 }
