@@ -1,10 +1,13 @@
 package com.wcrs.inventory.dto;
 
 
+import com.wcrs.inventory.dto.validators.CreateSupplierValidationGroup;
 import com.wcrs.inventory.enums.SupplierCategory;
 import com.wcrs.inventory.validator.ValidEnum;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
+
+import java.util.List;
 
 
 public record SupplierRequestDTO(
@@ -24,20 +27,21 @@ public record SupplierRequestDTO(
         String email,
 
         @Size(max = 14,message = "Valid nin is required")
-        @Pattern(regexp = "^[A-Za-z0-9]{14}$", message = "Nin must be alpha numeric and 14 characters long")
+        @Pattern(regexp = "^[A-Za-z0-9]{14}$", message = "Nin must be alpha numeric and 14 characters long",groups = CreateSupplierValidationGroup.class )
         String nin,
 
         @Max(value = 10, message = "Valid tin is required" )
-        @Min(value = 10, message = "Tin should not be less than 10 digits")
+        @Min(value = 10, message = "Tin should not be less than 10 digits",groups = CreateSupplierValidationGroup.class )
         Integer tin,
 
-        @ValidEnum(enumClass = SupplierCategory.class, message = "Supplier Category is not valid")
+        @ValidEnum(enumClass = SupplierCategory.class, message = "Supplier Category is not valid", groups = CreateSupplierValidationGroup.class )
         String supplierCategory,
 
         String website,
         String logo,
 
         @Valid
-        MaterialRequestDTO material
+        @NotEmpty(groups = CreateSupplierValidationGroup.class )
+        List<MaterialRequestDTO> material
 ) {
 }

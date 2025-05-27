@@ -8,13 +8,11 @@ import com.wcrs.inventory.dto.SupplierResponseDTO;
 import com.wcrs.inventory.enums.SupplierCategory;
 import com.wcrs.inventory.model.Material;
 import com.wcrs.inventory.model.Supplier;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.ReportingPolicy;
+import org.mapstruct.*;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface InventoryMapper {
@@ -35,6 +33,15 @@ public interface InventoryMapper {
     SupplierResponseDTO toSupplierResponseDTO(Supplier supplier);
 
 
+    /**
+     *
+     * MappingTarget tells MapStruct to modify the existing object instead of creating a new one.
+
+     * NullValuePropertyMappingStrategy.IGNORE prevents overwriting fields with null values (very useful in PATCH-style updates).
+     */
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateSupplierFromDto(SupplierRequestDTO dto, @MappingTarget Supplier entity);
+
     @Named("stringToSupplierCategory")
     default SupplierCategory stringToSupplierCategory(String supplierCategory) {
         if (supplierCategory == null || supplierCategory.isEmpty())
@@ -47,9 +54,11 @@ public interface InventoryMapper {
     }
 
     @Named("wrapMaterialInList")
-    default List<Material> wrapMaterialInList(MaterialRequestDTO materialRequestDTO) {
+    default List<Material> wrapMaterialInList(List<MaterialRequestDTO> materialRequestDTO) {
         if (materialRequestDTO == null) return Collections.emptyList();
-        return List.of(toMaterial(materialRequestDTO));
+        return materialRequestDTO.stream()
+                .map(this::toMaterial)
+                .collect(Collectors.toList());
     }
 
     @Named("toMaterialDtoList")
@@ -60,6 +69,6 @@ public interface InventoryMapper {
 
     @Named("supplierCategoryToString")
     default String supplierCategoryToString(SupplierCategory supplierCategory) {
-        return supplierCategory != null? supplierCategory.toString():null;
+        return supplierCategory != null ? supplierCategory.toString() : null;
     }
 }

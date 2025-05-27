@@ -20,8 +20,7 @@ public interface SupplierRepository extends JpaRepository<Supplier,Integer> {
 
     Optional<Supplier> findSupplierByTin(Integer tin);
 
-
     void deleteSupplierByNin(String nin);
+
+    Optional<Supplier> findSupplierByPhoneContact(String phoneContact);
 }
-
-

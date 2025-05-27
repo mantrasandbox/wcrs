@@ -115,4 +115,13 @@ public class InventoryService {
 
 
     }
+
+    public SupplierResponseDTO updateSupplier(SupplierRequestDTO supplierRequestDTO, String phoneContact) {
+        Supplier supplier = supplierRepository.findSupplierByPhoneContact(phoneContact)
+                .orElseThrow(() -> new SupplierNotFoundException("The supplier with this phone contact does not exist"));
+
+        inventoryMapper.updateSupplierFromDto(supplierRequestDTO, supplier);
+        supplierRepository.save(supplier);
+        return inventoryMapper.toSupplierResponseDTO(supplier);
+    }
 }

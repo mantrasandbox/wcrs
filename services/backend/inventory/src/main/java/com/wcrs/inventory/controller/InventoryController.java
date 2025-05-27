@@ -4,10 +4,13 @@ import com.wcrs.inventory.dto.MaterialRequestDTO;
 import com.wcrs.inventory.dto.MaterialResponseDTO;
 import com.wcrs.inventory.dto.SupplierRequestDTO;
 import com.wcrs.inventory.dto.SupplierResponseDTO;
+import com.wcrs.inventory.dto.validators.CreateSupplierValidationGroup;
 import com.wcrs.inventory.service.InventoryService;
 import jakarta.validation.Valid;
+import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +29,7 @@ public class InventoryController {
     }
 
     @PostMapping("/supplier/create")
-    public ResponseEntity<SupplierResponseDTO> createSupplier(@Valid SupplierRequestDTO supplierRequestDTO){
+    public ResponseEntity<SupplierResponseDTO> createSupplier(@Validated({Default.class, CreateSupplierValidationGroup.class }) SupplierRequestDTO supplierRequestDTO){
         return ResponseEntity.ok(inventoryService.addSupplier(supplierRequestDTO));
     }
 
@@ -63,5 +66,12 @@ public class InventoryController {
     public ResponseEntity<Void> deleteByTin(@PathVariable("tin") Integer tin){
         inventoryService.removeByTin(tin);
         return ResponseEntity.noContent().build();
+    }
+
+    // Update using the phoneContact
+    @PutMapping("/supplier/update/{phoneContact}")
+    public ResponseEntity<SupplierResponseDTO> updateSupplier(@RequestBody @Validated({Default.class}) SupplierRequestDTO supplierRequestDTO, @PathVariable("phoneContact") String phoneContact){
+        return ResponseEntity.ok(inventoryService.updateSupplier(supplierRequestDTO,phoneContact));
+
     }
 }
