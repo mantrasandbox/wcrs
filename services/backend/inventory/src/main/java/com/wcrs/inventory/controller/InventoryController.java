@@ -1,12 +1,9 @@
 package com.wcrs.inventory.controller;
 
-import com.wcrs.inventory.dto.MaterialRequestDTO;
-import com.wcrs.inventory.dto.MaterialResponseDTO;
-import com.wcrs.inventory.dto.SupplierRequestDTO;
-import com.wcrs.inventory.dto.SupplierResponseDTO;
+import com.wcrs.inventory.dto.*;
+import com.wcrs.inventory.dto.validators.CreateMaterialValidationGroup;
 import com.wcrs.inventory.dto.validators.CreateSupplierValidationGroup;
 import com.wcrs.inventory.service.InventoryService;
-import jakarta.validation.Valid;
 import jakarta.validation.groups.Default;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -23,13 +20,39 @@ public class InventoryController {
     private final InventoryService inventoryService;
 
     @PostMapping("/material/create")
-    public ResponseEntity<MaterialResponseDTO> createMaterial(@RequestBody @Valid MaterialRequestDTO materialRequestDTO){
+    public ResponseEntity<MaterialResponseDTO> createMaterial(@RequestBody @Validated({Default.class, CreateMaterialValidationGroup.class }) MaterialRequestDTO materialRequestDTO){
 
         return ResponseEntity.ok(inventoryService.createMaterial(materialRequestDTO));
     }
 
+    @GetMapping("/material/viewAll")
+    public ResponseEntity<List<MaterialResponseDTO>> getAllMaterials(
+            @RequestParam(name = "page",defaultValue = "0", required = false) int page,
+            @RequestParam(name = "size",defaultValue = "10", required = false) int size
+    ) {
+        return ResponseEntity.ok(inventoryService.getAllMaterials(page,size));
+    }
+
+    @GetMapping("/material/{name}")
+    public ResponseEntity<MaterialResponseDTO> getMaterialByName(@PathVariable String name){
+        return ResponseEntity.ok(inventoryService.findMaterialByName(name));
+    }
+
+    @DeleteMapping("/material/delete/{name}")
+    public ResponseEntity<Void> deleteByName(@PathVariable("name") String name){
+        inventoryService.removeByName(name);
+        return ResponseEntity.noContent().build();
+    }
+
+    // Update using the name
+    @PutMapping("/material/update/{name}")
+    public ResponseEntity<MaterialResponseDTO> updateMaterial(@RequestBody @Validated({Default.class}) MaterialRequestDTO materialRequestDTO, @PathVariable("name") String name){
+        return ResponseEntity.ok(inventoryService.updateMaterial(materialRequestDTO,name));
+
+    }
+
     @PostMapping("/supplier/create")
-    public ResponseEntity<SupplierResponseDTO> createSupplier(@Validated({Default.class, CreateSupplierValidationGroup.class }) SupplierRequestDTO supplierRequestDTO){
+    public ResponseEntity<SupplierResponseDTO> createSupplier(@RequestBody @Validated({Default.class, CreateSupplierValidationGroup.class }) SupplierRequestDTO supplierRequestDTO){
         return ResponseEntity.ok(inventoryService.addSupplier(supplierRequestDTO));
     }
 
