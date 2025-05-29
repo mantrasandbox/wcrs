@@ -25,3 +25,4 @@ public record MaterialRequestDTO (
         @Digits(integer = 10, fraction = 4, message = "Total Cost should be a valid number")
         BigDecimal totalCost
 ){}
+
