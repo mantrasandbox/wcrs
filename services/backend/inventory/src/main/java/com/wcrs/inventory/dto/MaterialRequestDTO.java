@@ -1,7 +1,8 @@
 package com.wcrs.inventory.dto;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
+
+import java.math.BigDecimal;
 
 public record MaterialRequestDTO (
 
@@ -14,11 +15,13 @@ public record MaterialRequestDTO (
         @NotBlank(message = "Unit of Measure is required")
         String unitOfMeasure,
 
-        @NotBlank(message = "Cost per Unit is required")
-        Double costPerUnit,
+        @NotEmpty(message = "Cost per Unit is required")
+        BigDecimal costPerUnit,
 
-        @NotBlank(message = "Quantity is required")
+        @NotEmpty(message = "Quantity is required")
+        @PositiveOrZero(message = "Cost per Unit should be positive or zero")
         Double quantity,
 
-        Double totalCost
+        @Digits(integer = 10, fraction = 4, message = "Total Cost should be a valid number")
+        BigDecimal totalCost
 ){}

@@ -3,6 +3,7 @@ FROM bitnami/kafka:latest
 USER root
 
 # Install yq and jq
+
 RUN curl -L https://github.com/mikefarah/yq/releases/download/v4.34.1/yq_linux_amd64 -o /opt/bitnami/yq \
     && chmod +x /opt/bitnami/yq \
     && curl -L https://github.com/jqlang/jq/releases/download/jq-1.6/jq-linux64 -o /opt/bitnami/jq \

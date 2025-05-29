@@ -32,6 +32,7 @@ public record SupplierRequestDTO(
 
         @Max(value = 10, message = "Valid tin is required" )
         @Min(value = 10, message = "Tin should not be less than 10 digits",groups = CreateSupplierValidationGroup.class )
+        @Pattern(regexp = "^[0-9]{10}$", message = "TIN must be an alpha numeric and 10 characters long",groups = CreateSupplierValidationGroup.class )
         Integer tin,
 
         @ValidEnum(enumClass = SupplierCategory.class, message = "Supplier Category is not valid", groups = CreateSupplierValidationGroup.class )
