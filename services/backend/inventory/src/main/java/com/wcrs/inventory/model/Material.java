@@ -8,6 +8,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -33,13 +34,13 @@ public class Material {
     private String unitOfMeasure;
 
     @Column(nullable = false)
-    private Double costPerUnit;
+    private BigDecimal costPerUnit;
 
     @Column(nullable = false)
     private Double quantity;
 
     @Column(insertable = false)
-    private Double totalCost;
+    private BigDecimal totalCost;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
@@ -57,8 +58,8 @@ public class Material {
     @Column(insertable = false)
     private LocalDateTime modifiedAt;
 
-    public Double setTotalCost(){
-        return quantity * costPerUnit;
+    public BigDecimal setTotalCost(){
+        return BigDecimal.valueOf(quantity).multiply(costPerUnit);
     }
 
 }

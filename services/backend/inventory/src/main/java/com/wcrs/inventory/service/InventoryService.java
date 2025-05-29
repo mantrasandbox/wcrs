@@ -2,12 +2,9 @@ package com.wcrs.inventory.service;
 
 import com.wcrs.inventory.dto.SupplierRequestDTO;
 import com.wcrs.inventory.dto.SupplierResponseDTO;
-import com.wcrs.inventory.exception.DuplicateEmailException;
-import com.wcrs.inventory.exception.DuplicateNinException;
-import com.wcrs.inventory.exception.DuplicateTinException;
+import com.wcrs.inventory.exception.*;
 import com.wcrs.inventory.dto.MaterialRequestDTO;
 import com.wcrs.inventory.dto.MaterialResponseDTO;
-import com.wcrs.inventory.exception.SupplierNotFoundException;
 import com.wcrs.inventory.mapper.InventoryMapper;
 import com.wcrs.inventory.model.Material;
 import com.wcrs.inventory.model.Supplier;
@@ -123,5 +120,41 @@ public class InventoryService {
         inventoryMapper.updateSupplierFromDto(supplierRequestDTO, supplier);
         supplierRepository.save(supplier);
         return inventoryMapper.toSupplierResponseDTO(supplier);
+    }
+
+    public List<MaterialResponseDTO> getAllMaterials(int page, int size) {
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by(Sort.Direction.ASC, "createdAt"));
+
+        Page<Material> materials = materialRepository.findAll(pageRequest);
+
+        return materials.stream()
+                .map(inventoryMapper::toMaterialResponseDTO)
+                .toList();
+    }
+
+    public MaterialResponseDTO findMaterialByName(String name) {
+        // check if material with the name exists
+        Material material = materialRepository
+                .findMaterialByName(name)
+                .orElseThrow(() -> new MaterialNotFoundException("The Material with this name does not exist"));
+        return inventoryMapper.toMaterialResponseDTO(material);
+    }
+
+    public void removeByName(String name) {
+        Material material = materialRepository
+                .findMaterialByName(name)
+                .orElseThrow(() -> new MaterialNotFoundException("The material with this name does not exist"));
+
+        materialRepository.delete(material);
+    }
+
+    public MaterialResponseDTO updateMaterial(MaterialRequestDTO materialRequestDTO, String name) {
+
+        Material material = materialRepository.findMaterialByName(name)
+                .orElseThrow(() -> new MaterialNotFoundException("The material with this name does not exist"));
+
+        inventoryMapper.updateMaterialFromDto(materialRequestDTO, material);
+        materialRepository.save(material);
+        return inventoryMapper.toMaterialResponseDTO(material);
     }
 }

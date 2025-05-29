@@ -71,4 +71,14 @@ public interface InventoryMapper {
     default String supplierCategoryToString(SupplierCategory supplierCategory) {
         return supplierCategory != null ? supplierCategory.toString() : null;
     }
+
+    /**
+     *
+     * MappingTarget tells MapStruct to modify the existing object instead of creating a new one.
+
+     * NullValuePropertyMappingStrategy.IGNORE prevents overwriting fields with null values (very useful in PATCH-style updates).
+     */
+    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+    void updateMaterialFromDto(MaterialRequestDTO dto, @MappingTarget Material entity);
+
 }

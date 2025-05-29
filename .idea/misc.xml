@@ -18,6 +18,7 @@
         <option value="$PROJECT_DIR$/services/backend/notification/pom.xml" />
         <option value="$PROJECT_DIR$/services/backend/proto-shared/pom.xml" />
         <option value="$PROJECT_DIR$/services/backend/inventory/pom.xml" />
+        <option value="$PROJECT_DIR$/services/backend/recipe/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
