@@ -16,6 +16,41 @@ services:
       - wcrs-net
     restart: unless-stopped
 
+  debezium-connect:
+    image: debezium/connect:2.6  # Latest stable Debezium version
+    user: "1000"
+    container_name: debezium-connect
+    networks:
+      - wcrs-net
+      - kafka-net
+    ports:
+      - "8083:8083"  # Kafka Connect REST API
+    environment:
+      BOOTSTRAP_SERVERS: kafka1:9093,kafka2:9093,kafka3:9093
+      GROUP_ID: connect-cluster
+      CONFIG_STORAGE_TOPIC: connect-configs
+      OFFSET_STORAGE_TOPIC: connect-offsets
+      STATUS_STORAGE_TOPIC: connect-status
+      KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      INTERNAL_KEY_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      INTERNAL_VALUE_CONVERTER: org.apache.kafka.connect.json.JsonConverter
+      CONFIG_STORAGE_REPLICATION_FACTOR: 1
+      OFFSET_STORAGE_REPLICATION_FACTOR: 1
+      STATUS_STORAGE_REPLICATION_FACTOR: 1
+      REST_ADVERTISED_HOST_NAME: connect
+      REST_PORT: 8083
+      PLUGIN_PATH: /kafka/connect/debezium-connector-mysql,/kafka/connect/debezium-connector-postgres
+    depends_on:
+      - kafka-ui
+      - postgres
+#    volumes:
+#      - ./debezium/:/kafka/connectors/
+#    entrypoint: [ "/bin/bash", "-c", "
+#        # Make all scripts executable
+#
+#    " ]
+
   pgadmin:
     container_name: pgadmin
     image: dpage/pgadmin4
