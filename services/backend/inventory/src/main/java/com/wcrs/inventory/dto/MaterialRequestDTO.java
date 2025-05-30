@@ -15,10 +15,9 @@ public record MaterialRequestDTO (
         @NotBlank(message = "Unit of Measure is required")
         String unitOfMeasure,
 
-        @NotEmpty(message = "Cost per Unit is required")
+        @Digits(integer = 10, fraction = 4, message = "Cost per Unit should be a valid number")
         BigDecimal costPerUnit,
 
-        @NotEmpty(message = "Quantity is required")
         @PositiveOrZero(message = "Cost per Unit should be positive or zero")
         Double quantity,
 
