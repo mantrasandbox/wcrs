@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface InventoryMapper {
 
-    @Mapping(target = "totalCost", expression = "java(materialRequestDTO.quantity()!=null?BigDecimal.valueOf(materialRequestDTO.quantity()).multiply(materialRequestDTO.costPerUnit()):null)")
+    @Mapping(target = "totalCost", expression = "java(materialRequestDTO.quantity()!=null?new BigDecimal(materialRequestDTO.quantity()).multiply(materialRequestDTO.costPerUnit()):null)")
     Material toMaterial(MaterialRequestDTO materialRequestDTO);
 
     MaterialRequestDTO toMaterialRequestDTO(Material material);
