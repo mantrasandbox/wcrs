@@ -17,10 +17,12 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface InventoryMapper {
 
+    @Mapping(target = "totalCost", expression = "java(material.setTotalCost())")
     Material toMaterial(MaterialRequestDTO materialRequestDTO);
 
     MaterialRequestDTO toMaterialRequestDTO(Material material);
 
+    @Mapping(target = "totalCost", expression = "java(material.getTotalCost())")
     MaterialResponseDTO toMaterialResponseDTO(Material material);
 
     @Mapping(target = "supplierCategory", source = "supplierCategory", qualifiedByName = "stringToSupplierCategory")

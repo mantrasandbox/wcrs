@@ -7,16 +7,20 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
   "config": {
     "connector.class": "io.debezium.connector.postgresql.PostgresConnector",
     "plugin.name": "pgoutput",
+
     "database.hostname": "wcrs-db",
     "database.port": "5432",
     "database.user": "debezium",
     "database.password": "dbz",
     "database.dbname": "inventory",
     "database.server.name": "pg17server",
+
     "slot.name": "debezium_slot",
     "publication.name": "my_publication",
     "publication.autocreate.mode": "disabled",
+
     "topic.prefix": "pg17_inventory",
+    "topic.creation.enable": "true",
 
     "table.include.list": "public.material",
 

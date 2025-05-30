@@ -1,6 +1,6 @@
 package com.wcrs.inventory.dto;
 
-import jakarta.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 
 public record MaterialResponseDTO (
         String name,
@@ -9,9 +9,9 @@ public record MaterialResponseDTO (
 
         String unitOfMeasure,
 
-        Double costPerUnit,
+        BigDecimal costPerUnit,
 
         Double quantity,
 
-        Double totalCost
+        BigDecimal totalCost
 ){}

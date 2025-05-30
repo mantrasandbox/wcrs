@@ -153,8 +153,8 @@ public class InventoryService {
         Material material = materialRepository.findMaterialByName(name)
                 .orElseThrow(() -> new MaterialNotFoundException("The material with this name does not exist"));
 
+        material.setTotalCost();
         inventoryMapper.updateMaterialFromDto(materialRequestDTO, material);
-        materialRepository.save(material);
         return inventoryMapper.toMaterialResponseDTO(material);
     }
 }
