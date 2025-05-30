@@ -44,8 +44,8 @@ services:
     depends_on:
       - kafka-ui
       - postgres
-#    volumes:
-#      - ./debezium/:/kafka/connectors/
+    volumes:
+      - ./debezium/:/kafka/connectors/
 #    entrypoint: [ "/bin/bash", "-c", "
 #        # Make all scripts executable
 #

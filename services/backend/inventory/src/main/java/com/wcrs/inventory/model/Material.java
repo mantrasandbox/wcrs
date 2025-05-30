@@ -39,7 +39,7 @@ public class Material {
     @Column(nullable = false)
     private Double quantity;
 
-    @Column(insertable = false)
+    @Column(nullable = false)
     private BigDecimal totalCost;
 
     @ManyToOne
@@ -58,8 +58,8 @@ public class Material {
     @Column(insertable = false)
     private LocalDateTime modifiedAt;
 
-    public BigDecimal setTotalCost(){
-        return BigDecimal.valueOf(quantity).multiply(costPerUnit);
+    public void setTotalCost(){
+        this.totalCost = BigDecimal.valueOf(quantity).multiply(costPerUnit);
     }
 
 }

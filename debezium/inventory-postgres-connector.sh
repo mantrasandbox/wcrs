@@ -10,8 +10,8 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
 
     "database.hostname": "wcrs-db",
     "database.port": "5432",
-    "database.user": "debezium",
-    "database.password": "dbz",
+    "database.user": "wcrs",
+    "database.password": "wcrs",
     "database.dbname": "inventory",
     "database.server.name": "pg17server",
 
@@ -21,10 +21,12 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
 
     "topic.prefix": "pg17_inventory",
     "topic.creation.enable": "true",
+	"topic.creation.default.replication.factor": -1,
+	"topic.creation.default.partitions": -1,
 
     "table.include.list": "public.material",
 
-    "key.converter.schemas.enable": enable,
+    "key.converter.schemas.enable": false,
     "value.converter.schemas.enable": false,
 
     "database.sslmode": "disable",
